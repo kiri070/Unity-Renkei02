@@ -5,21 +5,31 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameState state; //ゲームの状態
     public enum GameState
     {
         Playing,
         Paused
     };
 
-    //ゲームモード:プレイ中に変更
-    public void ToPlayingState(GameState state)
+    void Start()
     {
+        //初期化
         state = GameState.Playing;
     }
 
+
+    //ゲームモード:プレイ中に変更
+    public static void ToPlayingState()
+    {
+        state = GameState.Playing;
+        Time.timeScale = 1;
+    }
+
     //ゲームモード:ポーズに変更
-    public void ToPausedState(GameState state)
+    public static void ToPausedState()
     {
         state = GameState.Paused;
+        Time.timeScale = 0;
     }
 }

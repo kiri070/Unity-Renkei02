@@ -17,6 +17,9 @@ public class SettingManager : MonoBehaviour
             //カーソルを表示
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
+
+            //ゲームの状態をポーズに変更
+            GameManager.ToPausedState();
         }
     }
 
@@ -28,5 +31,8 @@ public class SettingManager : MonoBehaviour
         //カーソルを非表示
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        //ゲームの状態をプレイ中に変更
+        GameManager.ToPlayingState();
     }
 }
