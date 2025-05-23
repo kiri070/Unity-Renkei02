@@ -17,6 +17,7 @@ public class PlayerCnt : MonoBehaviour
     [SerializeField]
     private float jumpForce; //ジャンプ力
 
+
     void Start()
     {
         

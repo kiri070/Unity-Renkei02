@@ -7,6 +7,13 @@ public class SettingManager : MonoBehaviour
 {
     [Header("設定画面のUIを格納")]
     public GameObject settingUI;
+
+    void Start()
+    {
+        //カーソルを固定して非表示
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
     void Update()
     {
         //設定画面を表示

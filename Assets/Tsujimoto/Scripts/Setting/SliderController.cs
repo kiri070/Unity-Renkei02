@@ -8,15 +8,15 @@ public class SliderController : MonoBehaviour
 {
     [Header("カメラ感度のスライダー")]
     public Slider CameraSensitiveSlider;
-    CameraController cameraController; //CameraContorollerのインスタンス
-    void Start()
-    {
-        cameraController = GameObject.FindObjectOfType<CameraController>(); //CameraControllerのスクリプトを取得
-    }
+    // CameraController cameraController; //CameraContorollerのインスタンス
+    // void Start()
+    // {
+    //     cameraController = GameObject.FindObjectOfType<CameraController>(); //CameraControllerのスクリプトを取得
+    // }
 
-    //カメラ感度を適応
-    public void OnCameraSensitivityChange()
-    {
-        cameraController.sensitivity = CameraSensitiveSlider.value;
-    }
+    // //カメラ感度を適応
+    // public void OnCameraSensitivityChange()
+    // {
+    //     cameraController.sensitivity = CameraSensitiveSlider.value;
+    // }
 }
