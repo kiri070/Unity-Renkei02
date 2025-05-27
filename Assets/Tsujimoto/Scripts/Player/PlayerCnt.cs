@@ -28,17 +28,14 @@ public class PlayerCnt : MonoBehaviour
         if (GameManager.state == GameManager.GameState.Playing)
         {
             // Player1: WASD
-            float x1 = Input.GetAxis("Horizontal");
-            float z1 = Input.GetAxis("Vertical");
+            float x1 = Input.GetAxisRaw("Horizontal");
+            float z1 = Input.GetAxisRaw("Vertical");
             Vector3 input1 = new Vector3(x1, 0, z1) * moveSpeed;
             mover1.Assignment(input1);
 
             // Player2: IJKL
-            float x2 = 0, z2 = 0;
-            if (Input.GetKey(KeyCode.J)) x2 = -1;
-            if (Input.GetKey(KeyCode.L)) x2 = 1;
-            if (Input.GetKey(KeyCode.I)) z2 = 1;
-            if (Input.GetKey(KeyCode.K)) z2 = -1;
+            float x2 = Input.GetAxisRaw("Horizontal_P2");
+            float z2 = Input.GetAxisRaw("Vertical_P2");
             Vector3 input2 = new Vector3(x2, 0, z2) * moveSpeed;
             mover2.Assignment(input2);
 
