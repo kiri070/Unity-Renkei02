@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/GameOverScene.unity
     guid: 14d66d6cbeda240ceabffe29f86866e7
   - enabled: 1
-    path: Assets/Tsujimoto/TestScene_Tsujimoto.unity
+    path: Assets/Scenes/GameScene01.unity
     guid: 6d9359b0d29664fadbd5afc4ab30946f
   - enabled: 1
     path: Assets/Scenes/ClearScene.unity
