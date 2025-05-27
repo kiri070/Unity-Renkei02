@@ -70,11 +70,11 @@ public class PlayerMover : MonoBehaviour
             GameManager.ToGameOverState();
             Debug.Log("ゲームオーバー");
         }
-        //Goalに触れたら
-        else if (other.CompareTag("Goal"))
-        {
-            GameManager.ToClearState();
-            Debug.Log("クリア");
-        }
+    }
+
+    public static void GameClear()
+    {
+        GameManager.ToClearState();
+        Debug.Log("クリア");
     }
 }
