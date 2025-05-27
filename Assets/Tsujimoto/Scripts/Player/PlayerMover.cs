@@ -25,6 +25,11 @@ public class PlayerMover : MonoBehaviour
         move = input;
     }
 
+    void Update()
+    {
+        OffScreen();
+    }
+
     void FixedUpdate()
     {
         Move();
@@ -48,6 +53,23 @@ public class PlayerMover : MonoBehaviour
             rb.AddForce(0f, jumpForce, 0f, ForceMode.Impulse);
             jumping = false;
             canJump = false;
+        }
+    }
+
+    //画面外検知処理
+    void OffScreen()
+    {
+        //このオブジェクトをカメラの画面上での位置に変換
+        Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
+
+        //画面外に出た時
+        if (viewPos.x < 0 || viewPos.x > 1 ||
+           viewPos.y < 0 || viewPos.y > 1 ||
+           viewPos.z < 0)
+        {
+            //ジャンプしていないとき
+            if (canJump)
+                GameManager.ToGameOverState();
         }
     }
 
