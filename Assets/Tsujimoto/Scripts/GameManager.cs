@@ -3,10 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public static GameState state; //ゲームの状態
+
+    [Header("スタート時に表示するカウントダウンテキスト")]
+    public Text countDownText; //最初に表示するカウントダウン
+    public GameObject countDownObject; //上記の親
+
+    [Header("カウントダウンの秒数")]
+    [SerializeField]
+    private float countDown; //カウントダウンの秒数
+
+    //ゲームの状態を管理
     public enum GameState
     {
         Playing,
@@ -18,7 +29,12 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         //初期化
-        state = GameState.Playing;
+        ToPausedState(); //ポーズ状態
+
+        StartCoroutine(CountDown()); //スタートまでのカウントダウン開始
+
+        //コンポーネント取得
+        countDownText = GameObject.FindObjectOfType<Text>();
     }
 
     void Update()
@@ -35,6 +51,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //スタート時カウントダウン
+    IEnumerator CountDown()
+    {
+        countDownText.text = countDown.ToString(); //テキストを表示
+        while (countDown > 0)
+        {
+            yield return new WaitForSecondsRealtime(1f);
+            countDown--;
+            countDownText.text = countDown.ToString(); //テキストを表示
+        }
+        countDownObject.SetActive(false); //テキストを非表示
+        ToPlayingState(); //プレイ開始
+    }
 
     //ゲームモード:プレイ中に変更
     public static void ToPlayingState()

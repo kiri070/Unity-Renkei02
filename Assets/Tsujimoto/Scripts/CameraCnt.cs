@@ -10,7 +10,11 @@ public class CameraCnt : MonoBehaviour
     private float cameraMoveSpeed; //カメラの移動速度
     void Update()
     {
-        //前方に進む
-        transform.position += new Vector3(0f, 0f, cameraMoveSpeed) * Time.deltaTime;
+        if (GameManager.state == GameManager.GameState.Playing)
+        {
+            //前方に進む
+            transform.position += new Vector3(0f, 0f, cameraMoveSpeed) * Time.deltaTime;
+        }
+        
     }
 }
