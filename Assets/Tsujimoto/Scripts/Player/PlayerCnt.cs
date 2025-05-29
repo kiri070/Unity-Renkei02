@@ -1,4 +1,6 @@
 using JetBrains.Annotations;
+using Unity.VisualScripting;
+using UnityEditor.Callbacks;
 using UnityEngine;
 
 public class PlayerCnt : MonoBehaviour
@@ -6,6 +8,13 @@ public class PlayerCnt : MonoBehaviour
     [Header("プレイヤー格納")]
     public PlayerMover mover1;
     public PlayerMover mover2;
+
+    [Header("弾が発射されるエリア")]
+    public GameObject player1BulletArea;
+    public GameObject player2BulletArea;
+    [Header("弾")]
+    public GameObject player1Bullet;
+    public GameObject player2Bullet;
 
     [Header("移動速度")]
     [Range(1f, 10f)]
@@ -17,13 +26,41 @@ public class PlayerCnt : MonoBehaviour
     [SerializeField]
     private float jumpForce; //ジャンプ力
 
+    [Header("弾のクールダウン")]
+    public float player1_BulletCoolDown;
+    public float player2_BulletCoolDown;
+
+    //弾のクールダウンを計算するための変数
+    private float player1CurrentCoolDown;
+    private float player2CurrentCoolDown;
+
+    //弾を発射できるかどうか
+    private bool canPlayer1Bullet = true;
+    private bool canPlayer2Bullet = true;
+
+    SoundManager soundManager; //SoundManagerのインスタンス
+    SoundsList soundsList; //SoundsListのインスタンス
+
 
     void Start()
     {
-        
+        //コンポーネント取得
+        soundManager = GameObject.FindObjectOfType<SoundManager>();
+        soundsList = GameObject.FindObjectOfType<SoundsList>();
     }
 
     void Update()
+    {
+        PlayerControlle();
+
+        //弾を発射したらクールタイム処理
+        if (!canPlayer1Bullet)
+            Player1_BulletCoolDown();
+        if (!canPlayer2Bullet)
+            Player2_BulletCoolDown();
+    }
+
+    void PlayerControlle()
     {
         if (GameManager.state == GameManager.GameState.Playing)
         {
@@ -47,8 +84,56 @@ public class PlayerCnt : MonoBehaviour
 
                 mover2.jumpForce = this.jumpForce;
                 mover2.jumping = true;
+
+                //ジャンプSE
+                soundManager.OnPlaySE(soundsList.jumpSE);
+            }
+
+            //Shiftを押している時はスライディング開始
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                mover1.StartSliding();
+                mover2.StartSliding();
+            }
+            //Shiftを離したらスライディング終了
+            else if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                mover1.EndSliding();
+                mover2.EndSliding();
+            }
+
+            //弾を発射
+            if (Input.GetKeyDown(KeyCode.F) && canPlayer1Bullet)
+            {
+                Instantiate(player1Bullet, player1BulletArea.transform.position, Quaternion.identity);
+                canPlayer1Bullet = false; //クールタイム処理を走らせる
+            }
+            if (Input.GetKeyDown(KeyCode.H) && canPlayer2Bullet)
+            {
+                Instantiate(player2Bullet, player2BulletArea.transform.position, Quaternion.identity);
+                canPlayer2Bullet = false; //クールタイム処理を走らせる
             }
         }
-        
+    }
+
+    //Player1の弾発射クールタイム計算
+    void Player1_BulletCoolDown()
+    {
+        player1CurrentCoolDown += Time.deltaTime;
+        if (player1_BulletCoolDown <= player1CurrentCoolDown)
+        {
+            canPlayer1Bullet = true;
+            player1CurrentCoolDown = 0f;
+        }
+    }
+    //Player2の弾発射クールタイム計算
+    void Player2_BulletCoolDown()
+    {
+        player2CurrentCoolDown += Time.deltaTime;
+        if (player2_BulletCoolDown <= player2CurrentCoolDown)
+        {
+            canPlayer2Bullet = true;
+            player2CurrentCoolDown = 0f;
+        }
     }
 }

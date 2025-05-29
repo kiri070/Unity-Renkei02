@@ -9,6 +9,7 @@ TagManager:
   - Goal
   - Player1
   - Player2
+  - FireArea
   layers:
   - Default
   - TransparentFX

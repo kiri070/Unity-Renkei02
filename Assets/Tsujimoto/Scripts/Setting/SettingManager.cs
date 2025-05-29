@@ -17,7 +17,7 @@ public class SettingManager : MonoBehaviour
     void Update()
     {
         //設定画面を表示
-        if (Input.GetKey(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !settingUI.activeSelf)
         {
             settingUI.SetActive(true); //設定画面を表示
 
@@ -27,6 +27,17 @@ public class SettingManager : MonoBehaviour
 
             //ゲームの状態をポーズに変更
             GameManager.ToPausedState();
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape) && settingUI.activeSelf)
+        {
+            settingUI.SetActive(false); //設定画面を非表示
+
+            //カーソルを非表示
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+
+            //ゲームの状態をプレイ中に変更
+            GameManager.ToPlayingState();
         }
     }
 

@@ -53,7 +53,22 @@ public class PlayerMover : MonoBehaviour
             rb.AddForce(0f, jumpForce, 0f, ForceMode.Impulse);
             jumping = false;
             canJump = false;
-        }
+        }        
+    }
+
+    //スライディング開始:大きさを小さく
+    public void StartSliding()
+    {
+        Vector3 player1Scale = transform.localScale;
+        player1Scale.y = 0.5f;
+        transform.localScale = player1Scale;
+    }
+    //スライディング終了:大きさを戻す
+    public void EndSliding()
+    {
+        Vector3 player1Scale = transform.localScale;
+        player1Scale.y = 1f;
+        transform.localScale = player1Scale;
     }
 
     //画面外検知処理
