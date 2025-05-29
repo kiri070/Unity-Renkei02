@@ -24,7 +24,7 @@ public class Bullet2 : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         //床に落ちたら
-        if (other.CompareTag("Floor"))
+        if (other.CompareTag("Floor") || other.CompareTag("Wall"))
         {
             //エフェクトを展開
             Quaternion rotation = Quaternion.Euler(90, 0, 0); //角度を調整
