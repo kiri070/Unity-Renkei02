@@ -18,8 +18,7 @@ public class PlayerCnt : MonoBehaviour
 
     [Header("移動速度")]
     [Range(1f, 10f)]
-    [SerializeField]
-    private float moveSpeed = 5f; //移動速度
+    public float moveSpeed = 5f; //移動速度
 
     [Header("ジャンプ力")]
     [Range(1f, 50f)]

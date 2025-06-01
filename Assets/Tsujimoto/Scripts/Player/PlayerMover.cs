@@ -13,6 +13,10 @@ public class PlayerMover : MonoBehaviour
     public bool jumping; //ジャンプをするか
     [HideInInspector]
     public bool canJump; //ジャンプが可能か
+
+    //氷関連
+    bool onIce; //氷の上にいるか
+    Vector3 slideVelocity; //滑り中の速度
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -38,7 +42,27 @@ public class PlayerMover : MonoBehaviour
     //移動処理
     void Move()
     {
-        rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
+        //氷の上の場合
+        if (onIce)
+        {
+            //入力がある場合
+            if (move.magnitude > 0.1f)
+            {
+                slideVelocity = move;
+            }
+            //入力がない場合
+            else
+            {
+                slideVelocity *= 0.96f; //少し滑らせる
+            }
+
+            rb.velocity = new Vector3(slideVelocity.x, rb.velocity.y, slideVelocity.z);
+        }
+        //通常の移動
+        else
+        {
+            rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
+        }
 
         // 向き変更（移動中のみ）
         if (move.magnitude > 0.1f)
@@ -106,6 +130,27 @@ public class PlayerMover : MonoBehaviour
         {
             GameManager.ToGameOverState();
             Debug.Log("ゲームオーバー");
+        }
+    }
+
+    //OnTriggerStay
+    void OnTriggerStay(Collider other)
+    {
+        //氷に触れている場合
+        if (other.CompareTag("FrozenArea"))
+        {
+            onIce = true;
+        }
+    }
+
+    //OnTriggerExit
+    void OnTriggerExit(Collider other)
+    {
+        //氷から出たら
+        if (other.CompareTag("FrozenArea"))
+        {
+            onIce = false;
+            slideVelocity = Vector3.zero; //滑りをリセット
         }
     }
 

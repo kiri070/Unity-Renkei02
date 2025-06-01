@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SettingManager : MonoBehaviour
@@ -11,10 +12,19 @@ public class SettingManager : MonoBehaviour
     void Start()
     {
         //カーソルを固定して非表示
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        if (SceneManager.GetActiveScene().name != "Title" && SceneManager.GetActiveScene().name != "StageSelect")
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
     void Update()
+    {
+        OnOffSettingUI();
+    }
+
+    //設定画面を表示,非表示管理する関数
+    void OnOffSettingUI()
     {
         //設定画面を表示
         if (Input.GetKeyDown(KeyCode.Escape) && !settingUI.activeSelf)
@@ -32,10 +42,13 @@ public class SettingManager : MonoBehaviour
         {
             settingUI.SetActive(false); //設定画面を非表示
 
-            //カーソルを非表示
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-
+            //タイトル,ステージ選択シーン以外なら
+            if (SceneManager.GetActiveScene().name != "Title" && SceneManager.GetActiveScene().name != "StageSelect")
+            {
+                //カーソルを非表示
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
+            }
             //ゲームの状態をプレイ中に変更
             GameManager.ToPlayingState();
         }
@@ -46,11 +59,21 @@ public class SettingManager : MonoBehaviour
     {
         settingUI.SetActive(false); //設定画面を非表示
 
-        //カーソルを非表示
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        //タイトル,ステージ選択シーン以外なら
+        if (SceneManager.GetActiveScene().name != "Title" && SceneManager.GetActiveScene().name != "StageSelect")
+        {
+            //カーソルを非表示
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
 
         //ゲームの状態をプレイ中に変更
         GameManager.ToPlayingState();
+    }
+
+    //タイトルへ戻るボタン
+    public void OnBackTitleButton()
+    {
+        SceneManager.LoadScene("Title");
     }
 }

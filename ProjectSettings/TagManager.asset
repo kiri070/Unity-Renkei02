@@ -11,6 +11,7 @@ TagManager:
   - Player2
   - FireArea
   - Wall
+  - FrozenArea
   layers:
   - Default
   - TransparentFX
