@@ -74,6 +74,16 @@ public class SettingManager : MonoBehaviour
     //タイトルへ戻るボタン
     public void OnBackTitleButton()
     {
+        //ゲームの状態をプレイ中に変更
+        GameManager.ToPlayingState();
         SceneManager.LoadScene("Title");
+    }
+
+    //ステージ選択へ戻るボタン
+    public void OnBackStageSelectButton()
+    {
+        //ゲームの状態をプレイ中に変更
+        GameManager.ToPlayingState();
+        SceneManager.LoadScene("StageSelect");
     }
 }
