@@ -1,3 +1,4 @@
+using System.Collections;
 using JetBrains.Annotations;
 using Unity.VisualScripting;
 using UnityEditor.Callbacks;
@@ -29,10 +30,6 @@ public class PlayerCnt : MonoBehaviour
     public float player1_BulletCoolDown;
     public float player2_BulletCoolDown;
 
-    //弾のクールダウンを計算するための変数
-    private float player1CurrentCoolDown;
-    private float player2CurrentCoolDown;
-
     //弾を発射できるかどうか
     private bool canPlayer1Bullet = true;
     private bool canPlayer2Bullet = true;
@@ -51,12 +48,6 @@ public class PlayerCnt : MonoBehaviour
     void Update()
     {
         PlayerControlle();
-
-        //弾を発射したらクールタイム処理
-        if (!canPlayer1Bullet)
-            Player1_BulletCoolDown();
-        if (!canPlayer2Bullet)
-            Player2_BulletCoolDown();
     }
 
     void PlayerControlle()
@@ -105,34 +96,28 @@ public class PlayerCnt : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.F) && canPlayer1Bullet)
             {
                 Instantiate(player1Bullet, player1BulletArea.transform.position, Quaternion.identity);
-                canPlayer1Bullet = false; //クールタイム処理を走らせる
+                StartCoroutine(Player1_BulletCoolDown()); //クールダウン開始
             }
             if (Input.GetKeyDown(KeyCode.H) && canPlayer2Bullet)
             {
                 Instantiate(player2Bullet, player2BulletArea.transform.position, Quaternion.identity);
-                canPlayer2Bullet = false; //クールタイム処理を走らせる
+                StartCoroutine(Player2_BulletCoolDown()); //クールダウン開始
             }
         }
     }
 
-    //Player1の弾発射クールタイム計算
-    void Player1_BulletCoolDown()
+    //Player1:弾クールダウン
+    IEnumerator Player1_BulletCoolDown()
     {
-        player1CurrentCoolDown += Time.deltaTime;
-        if (player1_BulletCoolDown <= player1CurrentCoolDown)
-        {
-            canPlayer1Bullet = true;
-            player1CurrentCoolDown = 0f;
-        }
+        canPlayer1Bullet = false; //クールタイム処理を走らせる
+        yield return new WaitForSeconds(player1_BulletCoolDown);
+        canPlayer1Bullet = true;
     }
-    //Player2の弾発射クールタイム計算
-    void Player2_BulletCoolDown()
+    //Player2:弾クールダウン
+    IEnumerator Player2_BulletCoolDown()
     {
-        player2CurrentCoolDown += Time.deltaTime;
-        if (player2_BulletCoolDown <= player2CurrentCoolDown)
-        {
-            canPlayer2Bullet = true;
-            player2CurrentCoolDown = 0f;
-        }
+        canPlayer2Bullet = false; //クールタイム処理を走らせる
+        yield return new WaitForSeconds(player2_BulletCoolDown);
+        canPlayer2Bullet = true;
     }
 }

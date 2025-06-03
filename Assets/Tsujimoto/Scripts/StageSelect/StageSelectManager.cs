@@ -38,7 +38,7 @@ public class StageSelectManager : MonoBehaviour
             loadingSlider.value = async.progress; //スライダーに表示
             yield return null;
         }
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         async.allowSceneActivation = true; //シーン切り替え
     }
 }
