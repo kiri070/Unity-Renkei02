@@ -14,6 +14,9 @@ public class PlayerMover : MonoBehaviour
     [HideInInspector]
     public bool canJump; //ジャンプが可能か
 
+    [Header("各カメラを格納")]
+    public Camera gameCamera;
+
     //氷関連
     bool onIce; //氷の上にいるか
     Vector3 slideVelocity; //滑り中の速度
@@ -99,7 +102,8 @@ public class PlayerMover : MonoBehaviour
     void OffScreen()
     {
         //このオブジェクトをカメラの画面上での位置に変換
-        Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
+        Vector3 viewPos = gameCamera.WorldToViewportPoint(transform.position);
+        // Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
 
         //画面外に出た時
         if (viewPos.x < 0 || viewPos.x > 1 ||

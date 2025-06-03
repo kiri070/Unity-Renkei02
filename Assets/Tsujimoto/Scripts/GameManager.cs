@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
     public Text countDownText; //最初に表示するカウントダウン
     public GameObject countDownObject; //上記の親
 
+    [Header("ゲーム中にUI")]
+    public GameObject GameUI;
+
     [Header("カウントダウンの秒数")]
     [SerializeField]
     private float countDown; //カウントダウンの秒数
