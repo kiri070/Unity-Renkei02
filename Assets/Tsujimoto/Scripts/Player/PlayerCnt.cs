@@ -37,6 +37,8 @@ public class PlayerCnt : MonoBehaviour
     SoundManager soundManager; //SoundManagerのインスタンス
     SoundsList soundsList; //SoundsListのインスタンス
 
+    public Camera[] targetCameras; //カメラの対象設定用の配列 *追加部分
+
 
     void Start()
     {
@@ -103,8 +105,39 @@ public class PlayerCnt : MonoBehaviour
                 Instantiate(player2Bullet, player2BulletArea.transform.position, Quaternion.identity);
                 StartCoroutine(Player2_BulletCoolDown()); //クールダウン開始
             }
+
+            //*追加部分
+            if (Input.GetKeyDown(KeyCode.Z)) //のちのちギミックで動かすトリガー
+            {
+                SwapPlayerControl(); //反転処理実行 
+            }
+            if (Input.GetKeyDown(KeyCode.C)) //のちのちギミックで動かすトリガー
+            {
+                RotateCamera(); //反転処理実行
+            }
         }
     }
+
+    void SwapPlayerControl() //*追加部分
+    {
+        //mover1とmover2の中身を入れ替え
+        (mover1, mover2) = (mover2, mover1);
+        Debug.Log("トリガー検知、プレイヤー操作を反転します");
+    }
+
+    void RotateCamera() //*追加部分
+    {
+        foreach (Camera cam in targetCameras)
+        {
+            Transform camTransform = cam.transform;
+
+            //X軸に180度回転
+            Vector3 currentRotation = camTransform.eulerAngles;
+            camTransform.eulerAngles = new Vector3(currentRotation.x, currentRotation.y, currentRotation.z + 180f);
+            Debug.Log("トリガー検知、カメラを反転します");
+        }
+    }
+
 
     //Player1:弾クールダウン
     IEnumerator Player1_BulletCoolDown()
