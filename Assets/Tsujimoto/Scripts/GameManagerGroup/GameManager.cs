@@ -85,12 +85,26 @@ public class GameManager : MonoBehaviour
     //ゲームモード:ゲームオーバーに変更
     public static void ToGameOverState()
     {
+        //現在のシーン名を保存
+        Data.Instance.referer = SceneManager.GetActiveScene().name;
         state = GameState.GameOver;
     }
 
     //ゲームモード:クリアに変更
     public static void ToClearState()
     {
+        //現在のシーン名を保存
+        Data.Instance.referer = SceneManager.GetActiveScene().name;
         state = GameState.Clear;
     }
+}
+
+//シーンを格納するクラス
+public class Data
+{
+    //Dataクラスのインスタンスを作成
+    public readonly static Data Instance = new Data();
+
+    //シーン名を代入する変数
+    public string referer = string.Empty;
 }

@@ -12,7 +12,8 @@ public class SettingManager : MonoBehaviour
     void Start()
     {
         //カーソルを固定して非表示
-        if (SceneManager.GetActiveScene().name != "Title" && SceneManager.GetActiveScene().name != "StageSelect")
+        if (SceneManager.GetActiveScene().name != "Title" && SceneManager.GetActiveScene().name != "StageSelect" &&
+        SceneManager.GetActiveScene().name != "ClearScene" && SceneManager.GetActiveScene().name != "GameOver")
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;

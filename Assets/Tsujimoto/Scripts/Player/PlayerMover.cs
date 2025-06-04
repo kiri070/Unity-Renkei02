@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Video;
 
@@ -17,6 +18,14 @@ public class PlayerMover : MonoBehaviour
     [Header("各カメラを格納")]
     public Camera gameCamera;
 
+    [Header("各プレイヤーのオブジェクトを格納")]
+    public GameObject player;
+
+    [Header("マテリアル")]
+    public Material defaultMaterial, hideMaterial;
+
+    Renderer renderer;
+
     //氷関連
     bool onIce; //氷の上にいるか
     Vector3 slideVelocity; //滑り中の速度
@@ -24,6 +33,7 @@ public class PlayerMover : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         playerCnt = GameObject.FindObjectOfType<PlayerCnt>();
+        renderer = GetComponent<Renderer>();
     }
 
     //移動ベクトルをこのキャラのベクトルに代入
@@ -35,6 +45,7 @@ public class PlayerMover : MonoBehaviour
     void Update()
     {
         OffScreen();
+        WallChecker();
     }
 
     void FixedUpdate()
@@ -116,6 +127,31 @@ public class PlayerMover : MonoBehaviour
         }
     }
 
+    //壁などに隠れている時
+    void WallChecker()
+    {
+        Vector3 camPos = gameCamera.transform.position;
+        Vector3 targetPos = player.transform.position;
+        Vector3 direction = targetPos - camPos;
+
+        //カメラからプレイヤーまでの直線上にRayを飛ばす
+        if (Physics.Raycast(camPos, direction.normalized, out RaycastHit hit, direction.magnitude))
+        {
+            //隠れていたら
+            if (hit.collider.gameObject != player)
+            {
+                if (hit.collider.CompareTag("Wall") || hit.collider.CompareTag("Floor"))
+                {
+                    renderer.material = hideMaterial; //ハイライト表示のマテリアルに変更
+                }
+            }
+            else if (hit.collider.gameObject == player)
+            {
+                renderer.material = defaultMaterial; //デフォルトのマテリアルに戻す
+            }
+        }
+
+    }
     //CollisionEnter
     void OnCollisionEnter(Collision other)
     {
