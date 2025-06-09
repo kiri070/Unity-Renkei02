@@ -33,7 +33,10 @@ public class PlayerMover : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         playerCnt = GameObject.FindObjectOfType<PlayerCnt>();
+
+        //マテリアルを初期化
         renderer = GetComponent<Renderer>();
+        renderer.material = defaultMaterial;
     }
 
     //移動ベクトルをこのキャラのベクトルに代入
@@ -109,12 +112,11 @@ public class PlayerMover : MonoBehaviour
         transform.localScale = player1Scale;
     }
 
-    //画面外検知処理
+    //画面外検知処理(保留)
     void OffScreen()
     {
         //このオブジェクトをカメラの画面上での位置に変換
         Vector3 viewPos = gameCamera.WorldToViewportPoint(transform.position);
-        // Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
 
         //画面外に出た時
         if (viewPos.x < 0 || viewPos.x > 1 ||
@@ -123,7 +125,11 @@ public class PlayerMover : MonoBehaviour
         {
             //ジャンプしていないとき
             if (canJump)
+            {
+                GameOverManager.becauseGameOver = "画面外に出てしまった!!"; //死因
                 GameManager.ToGameOverState();
+            }
+                
         }
     }
 
@@ -165,11 +171,11 @@ public class PlayerMover : MonoBehaviour
     //TriggerEnter
     void OnTriggerEnter(Collider other)
     {
-        //GameOverWallに触れたら
-        if (other.CompareTag("GameOverWall"))
+        //落下したら
+        if (other.CompareTag("DeathArea"))
         {
+            GameOverManager.becauseGameOver = "落下してしまった!!"; //死因
             GameManager.ToGameOverState();
-            Debug.Log("ゲームオーバー");
         }
     }
 

@@ -12,6 +12,7 @@ TagManager:
   - FireArea
   - Wall
   - FrozenArea
+  - DeathArea
   layers:
   - Default
   - TransparentFX

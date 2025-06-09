@@ -10,17 +10,36 @@ public class StageSelectManager : MonoBehaviour
     public GameObject loadingPanel;
     public Slider loadingSlider;
 
+    [Header("ヒントを表示するテキスト")]
+    public Text tipsText;
+
+    //ヒントの内容
+    [Header("ローディング画面に表示するヒント")]
+    [Tooltip("ヒントの内容を入力してください")]
+    public string[] tips;
+
     void Start()
     {
+        //初期化
         loadingPanel.SetActive(false);
         loadingSlider.value = 0f;
+
+        //ヒントをランダムに表示
+        RandomTips();
+    }
+
+    //ヒントをランダムに抽出して表示
+    void RandomTips()
+    {
+        int rnd = Random.Range(0, tips.Length);
+        tipsText.text = "Tips:" + "<color=yellow>" + tips[rnd] + "</color>";
     }
 
 
-    //ステージ1に変遷するボタン
+    //チュートリアルに変遷するボタン
     public void OnStartStage1Button()
     {
-        StartCoroutine(SceneLoading("GameScene01"));
+        StartCoroutine(SceneLoading("TutorialScene"));
     }
 
     //ロード画面を表示するこるーちん
@@ -38,7 +57,7 @@ public class StageSelectManager : MonoBehaviour
             loadingSlider.value = async.progress; //スライダーに表示
             yield return null;
         }
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.7f);
         async.allowSceneActivation = true; //シーン切り替え
     }
 }

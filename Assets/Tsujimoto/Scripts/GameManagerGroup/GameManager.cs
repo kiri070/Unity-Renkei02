@@ -35,9 +35,6 @@ public class GameManager : MonoBehaviour
         ToPausedState(); //ポーズ状態
 
         StartCoroutine(CountDown()); //スタートまでのカウントダウン開始
-
-        //コンポーネント取得
-        countDownText = GameObject.FindObjectOfType<Text>();
     }
 
     void Update()
