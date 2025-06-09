@@ -166,6 +166,12 @@ public class PlayerMover : MonoBehaviour
         {
             canJump = true;
         }
+        //敵に触れたら
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            GameOverManager.becauseGameOver = "敵に接触してしまった!!"; //死因
+            GameManager.ToGameOverState();
+        }
     }
 
     //TriggerEnter
