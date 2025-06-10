@@ -14,6 +14,7 @@ TagManager:
   - FrozenArea
   - DeathArea
   - Enemy
+  - Majic
   layers:
   - Default
   - TransparentFX

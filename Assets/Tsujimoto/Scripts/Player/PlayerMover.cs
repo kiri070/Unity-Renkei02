@@ -212,6 +212,12 @@ public class PlayerMover : MonoBehaviour
             GameOverManager.becauseGameOver = "落下してしまった!!"; //死因
             GameManager.ToGameOverState();
         }
+        //魔法に当たったら
+        if (other.CompareTag("Majic"))
+        {
+            GameOverManager.becauseGameOver = "魔法で黒焦げにされた..."; //死因
+            GameManager.ToGameOverState();
+        }
     }
 
     //OnTriggerStay

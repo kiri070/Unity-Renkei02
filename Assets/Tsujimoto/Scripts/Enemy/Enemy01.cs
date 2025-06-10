@@ -60,11 +60,6 @@ public class Enemy01 : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    void Update()
-    {
-        Debug.Log(enemyState);
-    }
-
     void FixedUpdate()
     {
         switch (enemyState)
