@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Video;
@@ -169,6 +170,9 @@ public class PlayerMover : MonoBehaviour
         //敵に触れたら
         if (other.gameObject.CompareTag("Enemy"))
         {
+            // Vector3 nockBaack = other.transform.position - transform.position;
+            // nockBaack = nockBaack.normalized; //方向だけを取得
+
             GameOverManager.becauseGameOver = "敵に接触してしまった!!"; //死因
             GameManager.ToGameOverState();
         }

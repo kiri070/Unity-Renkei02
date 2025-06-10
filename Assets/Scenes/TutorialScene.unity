@@ -5810,7 +5810,7 @@ MonoBehaviour:
   player1Bullet: {fileID: 2203308906420047698, guid: f2f8ed0d8cf0c474086487c8a9e8a640, type: 3}
   player2Bullet: {fileID: 2203308906420047698, guid: 3e91217ad25064587a25a5c433c8f915, type: 3}
   moveSpeed: 10
-  jumpForce: 30
+  jumpForce: 35.7
   player1_BulletCoolDown: 5
   player2_BulletCoolDown: 5
   targetCameras:
