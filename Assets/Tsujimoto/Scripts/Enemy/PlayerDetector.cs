@@ -9,11 +9,11 @@ public class PlayerDetector : MonoBehaviour
     void Start()
     {
         //コンポーネント取得
-        enemy01 = GetComponent<Enemy01>();
+        enemy01 = GetComponentInParent<Enemy01>();
     }
 
     //範囲内処理
-    void OnTriggerStay(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         //プレイヤーが範囲内に入ったら
         if (other.CompareTag("Player1") || other.CompareTag("Player2"))
@@ -32,7 +32,7 @@ public class PlayerDetector : MonoBehaviour
         if (other.CompareTag("Player1") || other.CompareTag("Player2"))
         {
             //敵の状態をIdleに変更
-            enemy01.ToEnemyIdle();
+            enemy01.ToEnemyIdle();    
         }
     }
 }
