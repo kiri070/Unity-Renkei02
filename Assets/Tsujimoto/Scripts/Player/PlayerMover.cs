@@ -2,6 +2,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Video;
+using System.Collections.Generic;
 
 public class PlayerMover : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class PlayerMover : MonoBehaviour
     [HideInInspector]
     public bool canJump; //ジャンプが可能か
 
+    Vector3 originalScale; //プレイヤーの大きさ
+
     [Header("各カメラを格納")]
     public Camera gameCamera;
 
@@ -23,9 +26,10 @@ public class PlayerMover : MonoBehaviour
     public GameObject player;
 
     [Header("マテリアル")]
-    public Material defaultMaterial, hideMaterial;
+    public Material hideMaterial;
 
-    Renderer renderer;
+    Renderer[] renderers; // 複数のRenderer（子オブジェクト含む）を管理
+    List<Material[]> defaultMaterials = new List<Material[]>(); // 各Rendererの初期マテリアルを保存
 
     //氷関連
     bool onIce; //氷の上にいるか
@@ -35,9 +39,23 @@ public class PlayerMover : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         playerCnt = GameObject.FindObjectOfType<PlayerCnt>();
 
-        //マテリアルを初期化
-        renderer = GetComponent<Renderer>();
-        renderer.material = defaultMaterial;
+        originalScale = transform.localScale; //初期の大きさを保存
+
+        // 子を含むRendererをすべて取得
+        renderers = GetComponentsInChildren<Renderer>();
+
+        // 初期マテリアルを保存
+        foreach (Renderer r in renderers)
+        {
+            // マテリアルのコピーを保存
+            Material[] mats = r.materials;
+            Material[] copied = new Material[mats.Length];
+            for (int i = 0; i < mats.Length; i++)
+            {
+                copied[i] = mats[i];
+            }
+            defaultMaterials.Add(copied);
+        }
     }
 
     //移動ベクトルをこのキャラのベクトルに代入
@@ -95,22 +113,18 @@ public class PlayerMover : MonoBehaviour
             rb.AddForce(0f, jumpForce, 0f, ForceMode.Impulse);
             jumping = false;
             canJump = false;
-        }        
+        }
     }
 
     //スライディング開始:大きさを小さく
     public void StartSliding()
     {
-        Vector3 player1Scale = transform.localScale;
-        player1Scale.y = 0.5f;
-        transform.localScale = player1Scale;
+        transform.localScale = originalScale * 0.5f;
     }
     //スライディング終了:大きさを戻す
     public void EndSliding()
     {
-        Vector3 player1Scale = transform.localScale;
-        player1Scale.y = 1f;
-        transform.localScale = player1Scale;
+        transform.localScale = originalScale;
     }
 
     //画面外検知処理(保留)
@@ -130,7 +144,7 @@ public class PlayerMover : MonoBehaviour
                 GameOverManager.becauseGameOver = "画面外に出てしまった!!"; //死因
                 GameManager.ToGameOverState();
             }
-                
+
         }
     }
 
@@ -149,12 +163,12 @@ public class PlayerMover : MonoBehaviour
             {
                 if (hit.collider.CompareTag("Wall") || hit.collider.CompareTag("Floor"))
                 {
-                    renderer.material = hideMaterial; //ハイライト表示のマテリアルに変更
+                    SetAllMaterialsToHide(); //Hideマテリアルに変更
                 }
             }
             else if (hit.collider.gameObject == player)
             {
-                renderer.material = defaultMaterial; //デフォルトのマテリアルに戻す
+                RestoreAllMaterials(); //デフォルトマテリアルに変更
             }
         }
 
@@ -170,11 +184,22 @@ public class PlayerMover : MonoBehaviour
         //敵に触れたら
         if (other.gameObject.CompareTag("Enemy"))
         {
-            // Vector3 nockBaack = other.transform.position - transform.position;
-            // nockBaack = nockBaack.normalized; //方向だけを取得
+            //水平方向の力
+            Vector3 horizontal = (transform.position - other.transform.position).normalized;
+            horizontal.y = 0f;
+            horizontal = horizontal * 300f;
 
-            GameOverManager.becauseGameOver = "敵に接触してしまった!!"; //死因
-            GameManager.ToGameOverState();
+            // 上方向の力
+            Vector3 vertical = Vector3.up * 20f; // ジャンプの高さ
+
+            //二つをまとめる
+            Vector3 nockBack = horizontal + vertical;
+
+
+            //ノックバック
+            rb.AddForce(nockBack, ForceMode.Impulse);
+            // GameOverManager.becauseGameOver = "敵に接触してしまった!!"; //死因
+            // GameManager.ToGameOverState();
         }
     }
 
@@ -214,5 +239,28 @@ public class PlayerMover : MonoBehaviour
     {
         GameManager.ToClearState();
         Debug.Log("クリア");
+    }
+
+    //Hideマテリアルに変更する関数
+    void SetAllMaterialsToHide()
+    {
+        foreach (Renderer r in renderers)
+        {
+            Material[] newMats = new Material[r.materials.Length];
+            for (int i = 0; i < newMats.Length; i++)
+            {
+                newMats[i] = hideMaterial;
+            }
+            r.materials = newMats;
+        }
+    }
+
+    //初期のマテリアルに戻す関数
+    void RestoreAllMaterials()
+    {
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            renderers[i].materials = defaultMaterials[i];
+        }
     }
 }

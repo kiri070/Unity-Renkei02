@@ -5,34 +5,45 @@ using UnityEngine;
 
 public class PlayerDetector : MonoBehaviour
 {
-    Enemy01 enemy01; //Enemy01のインスタンス
+
+    [Header("追従範囲の半径")][SerializeField] private float detectionRadius = 5f; // 追従開始の半径
+    [Header("プレイヤーのレイヤー")][SerializeField] private LayerMask playerLayer; // Playerレイヤーを指定（推奨）
+
+    Enemy01 enemy01;
+
+    public Collider[] hits; //hitしたコライダーを格納する配列
+
     void Start()
     {
-        //コンポーネント取得
-        enemy01 = GetComponentInParent<Enemy01>();
+        enemy01 = GetComponent<Enemy01>();
     }
 
-    //範囲内処理
-    void OnTriggerEnter(Collider other)
+    void Update()
     {
-        //プレイヤーが範囲内に入ったら
-        if (other.CompareTag("Player1") || other.CompareTag("Player2"))
+        if (enemy01.enemyState != Enemy01.EnemyState.JumpAttack)
         {
-            //敵の状態をMoveに変更
-            enemy01.ToEnemyMove();
+            // 指定した範囲内にプレイヤーがいるか調べる
+            hits = Physics.OverlapSphere(transform.position, detectionRadius, playerLayer);
 
-            //当たったプレイヤーを参照先に渡す
-            enemy01.player = other.gameObject;
+            //範囲内なら
+            if (hits.Length > 0)
+            {
+                enemy01.ToEnemyMove();
+                enemy01.player = hits[0].gameObject;
+            }
+            //範囲外なら
+            else
+            {
+                enemy01.ToEnemyIdle();
+            }
         }
+        
     }
-    //範囲外処理
-    void OnTriggerExit(Collider other)
+
+    //範囲を描画(※開発中のみ)
+    void OnDrawGizmosSelected()
     {
-        //プレイヤーが範囲外なら
-        if (other.CompareTag("Player1") || other.CompareTag("Player2"))
-        {
-            //敵の状態をIdleに変更
-            enemy01.ToEnemyIdle();    
-        }
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, detectionRadius);
     }
 }

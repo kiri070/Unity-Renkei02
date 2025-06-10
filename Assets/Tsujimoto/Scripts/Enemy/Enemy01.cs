@@ -46,6 +46,12 @@ public class Enemy01 : MonoBehaviour
         renderer.material = moveMaterial; //マテリアルを動いている状態
         enemyState = EnemyState.Move;
     }
+    //状態をJumpAttackにする関数
+    public void ToEnemyJumpAttack()
+    {
+        renderer.material = moveMaterial; //マテリアルを動いている状態
+        enemyState = EnemyState.JumpAttack;
+    }
 
     void Start()
     {
@@ -54,14 +60,25 @@ public class Enemy01 : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+    void Update()
+    {
+        Debug.Log(enemyState);
+    }
+
     void FixedUpdate()
     {
-        //アイドル
-        Idle();
-        //移動
-        Moving();
-        //ジャンプ攻撃
-        JumpAttack();
+        switch (enemyState)
+        {
+            case EnemyState.Idle:
+                Idle();
+                break;
+            case EnemyState.Move:
+                Moving();
+                break;
+            case EnemyState.JumpAttack:
+                JumpAttack(); 
+                break;
+        }
     }
 
     //アイドル処理関数
@@ -73,7 +90,7 @@ public class Enemy01 : MonoBehaviour
     //移動処理関数
     void Moving()
     {
-        if (enemyState == EnemyState.Move)
+        if (enemyState == EnemyState.Move && player != null)
         {
             //移動処理
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
@@ -97,12 +114,6 @@ public class Enemy01 : MonoBehaviour
         if (enemyState == EnemyState.JumpAttack && !isJumping)
         {
             isJumping = true;
-
-            // //プレイヤーの方向へジャンプ
-            // Vector3 jumpDirection = (player.transform.position - transform.position).normalized;
-            // jumpDirection.y = 5f; //上方向に跳ねる力
-
-            // rb.AddForce(jumpDirection * 10f, ForceMode.Impulse);
 
             // 水平方向への力
             Vector3 horizontal = (player.transform.position - transform.position);
