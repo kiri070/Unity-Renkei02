@@ -34,6 +34,11 @@ public class PlayerMover : MonoBehaviour
     //氷関連
     bool onIce; //氷の上にいるか
     Vector3 slideVelocity; //滑り中の速度
+
+    bool canMove = true; //動けるかどうか
+    [Header("敵衝突時のノックバック:水平方向")][SerializeField] float nockBack_Horizontal = 30f;
+    [Header("敵衝突時のノックバック:垂直方向")][SerializeField] float nockBack_Vertical = 10f;
+    [Header("ノックバック時の操作不能から回復する時間")][SerializeField] float recoveryKnockbackTime = 0.7f; //ノックバックの操作の操作不能から回復する時間
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -72,7 +77,8 @@ public class PlayerMover : MonoBehaviour
 
     void FixedUpdate()
     {
-        Move();
+        if (canMove)
+            Move();
     }
 
     //移動処理
@@ -184,13 +190,16 @@ public class PlayerMover : MonoBehaviour
         //敵に触れたら
         if (other.gameObject.CompareTag("Enemy"))
         {
+            canMove = false;
+            StartCoroutine(RecoveryKnockback(recoveryKnockbackTime));
+
             //水平方向の力
             Vector3 horizontal = (transform.position - other.transform.position).normalized;
             horizontal.y = 0f;
-            horizontal = horizontal * 300f;
+            horizontal = horizontal * nockBack_Horizontal;
 
             // 上方向の力
-            Vector3 vertical = Vector3.up * 20f; // ジャンプの高さ
+            Vector3 vertical = Vector3.up * nockBack_Vertical; // ジャンプの高さ
 
             //二つをまとめる
             Vector3 nockBack = horizontal + vertical;
@@ -217,6 +226,12 @@ public class PlayerMover : MonoBehaviour
         {
             GameOverManager.becauseGameOver = "魔法で黒焦げにされた..."; //死因
             GameManager.ToGameOverState();
+        }
+        //Bombに触れたら
+        if (other.CompareTag("Bomb"))
+        {
+            canMove = false;
+            StartCoroutine(RecoveryKnockback(recoveryKnockbackTime));
         }
     }
 
@@ -268,5 +283,12 @@ public class PlayerMover : MonoBehaviour
         {
             renderers[i].materials = defaultMaterials[i];
         }
+    }
+
+    //ノックバック時間を計測
+    IEnumerator RecoveryKnockback(float time)
+    {
+        yield return new WaitForSeconds(time);
+        canMove = true;
     }
 }

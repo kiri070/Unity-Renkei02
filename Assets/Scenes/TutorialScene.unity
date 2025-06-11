@@ -2601,6 +2601,7 @@ MonoBehaviour:
   gameCamera: {fileID: 1969709953}
   player: {fileID: 444388508}
   hideMaterial: {fileID: 2100000, guid: baa9f0eee006743b2a4d731dd4203e5d, type: 2}
+  recoveryKnockbackTime: 0.7
 --- !u!1 &450326364
 GameObject:
   m_ObjectHideFlags: 0
@@ -4755,7 +4756,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f7715467ae214546bd52e02f90c7394, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionRadius: 15
+  detectionRadius: 28.2
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -4777,6 +4778,7 @@ MonoBehaviour:
   lastPlayerPosition: {x: 0, y: 0, z: 0}
   majicObj: {fileID: 6597564248310378079, guid: 8d61092033fbd40e0bf1e261d98380a6, type: 3}
   majicAttackCooltime: 5
+  speed: 50
   defaultMaterial: {fileID: 2100000, guid: d64d3bef3b15c4406a83f0432716abd4, type: 2}
   attackMaterial: {fileID: 2100000, guid: b25143f58aad3466c97fb1df0051ad75, type: 2}
   bodyCollider: {fileID: 1144763234}
@@ -6589,6 +6591,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1593340478}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1493435922
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2931450142277743288, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.43990183
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931450142277743288, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8.485598
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931450142277743288, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -32.28645
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931450142277743288, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931450142277743288, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931450142277743288, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931450142277743288, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931450142277743288, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931450142277743288, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931450142277743288, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8584120100493248403, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
+      propertyPath: m_Name
+      value: Bomb
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
 --- !u!1 &1507966975
 GameObject:
   m_ObjectHideFlags: 0
@@ -7598,6 +7657,7 @@ MonoBehaviour:
   gameCamera: {fileID: 1969709953}
   player: {fileID: 1560484234}
   hideMaterial: {fileID: 2100000, guid: baa9f0eee006743b2a4d731dd4203e5d, type: 2}
+  recoveryKnockbackTime: 0.7
 --- !u!1001 &1586110312
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10157,3 +10217,4 @@ SceneRoots:
   - {fileID: 587248287}
   - {fileID: 1776776642}
   - {fileID: 1144763237}
+  - {fileID: 1493435922}

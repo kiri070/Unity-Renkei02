@@ -15,6 +15,7 @@ TagManager:
   - DeathArea
   - Enemy
   - Majic
+  - Bomb
   layers:
   - Default
   - TransparentFX

@@ -11,6 +11,7 @@ public class Mimic : MonoBehaviour
     [Header("魔法で飛ばすオブジェクト")] public GameObject majicObj;
     [Header("魔法攻撃のクールタイム")][SerializeField] int majicAttackCooltime;
     bool canMajicAttack = true; //魔法を放てるかどうか
+    [Header("魔法の速度")][SerializeField] float speed;
 
     Renderer renderer;
 
@@ -75,7 +76,6 @@ public class Mimic : MonoBehaviour
         Vector3 direction = (player.transform.position - transform.position).normalized;
         direction.y = 0f; // 上下回転しないように
 
-        Debug.Log(player.transform.position);
         //回転処理
         if (direction != Vector3.zero)
         {
@@ -89,7 +89,9 @@ public class Mimic : MonoBehaviour
             //魔法を召喚
             GameObject magic = Instantiate(majicObj,transform.position + Vector3.up * 2f,Quaternion.identity);
             // ターゲット座標を渡す
-            magic.GetComponent<MajicCnt>().Init(lastPlayerPosition); //関数呼び出して位置を渡す使用
+            magic.GetComponent<MagicCnt>().Init(lastPlayerPosition); //関数呼び出し
+            //魔法の速度を渡す
+            magic.GetComponent<MagicCnt>().SetSpeed(speed); //関数呼び出し
 
             canMajicAttack = false;
 

@@ -1173,6 +1173,7 @@ MonoBehaviour:
   gameCamera: {fileID: 1087136704}
   player: {fileID: 122357486}
   hideMaterial: {fileID: 2100000, guid: baa9f0eee006743b2a4d731dd4203e5d, type: 2}
+  recoveryKnockbackTime: 0.7
 --- !u!54 &122357489
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2585,6 +2586,7 @@ MonoBehaviour:
   gameCamera: {fileID: 1087136704}
   player: {fileID: 449948676}
   hideMaterial: {fileID: 2100000, guid: baa9f0eee006743b2a4d731dd4203e5d, type: 2}
+  recoveryKnockbackTime: 0.7
 --- !u!54 &449948679
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3627,6 +3629,7 @@ MonoBehaviour:
   gameCamera: {fileID: 1087136704}
   player: {fileID: 509192871}
   hideMaterial: {fileID: 2100000, guid: baa9f0eee006743b2a4d731dd4203e5d, type: 2}
+  recoveryKnockbackTime: 0.7
 --- !u!136 &509192873
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7054,6 +7057,7 @@ MonoBehaviour:
   lastPlayerPosition: {x: 0, y: 0, z: 0}
   majicObj: {fileID: 6597564248310378079, guid: 8d61092033fbd40e0bf1e261d98380a6, type: 3}
   majicAttackCooltime: 5
+  speed: 20
   defaultMaterial: {fileID: 2100000, guid: d64d3bef3b15c4406a83f0432716abd4, type: 2}
   attackMaterial: {fileID: 2100000, guid: b25143f58aad3466c97fb1df0051ad75, type: 2}
   bodyCollider: {fileID: 1246526899}
@@ -9858,6 +9862,7 @@ MonoBehaviour:
   gameCamera: {fileID: 1087136704}
   player: {fileID: 2134469145}
   hideMaterial: {fileID: 2100000, guid: baa9f0eee006743b2a4d731dd4203e5d, type: 2}
+  recoveryKnockbackTime: 0.7
 --- !u!54 &2134469148
 Rigidbody:
   m_ObjectHideFlags: 0

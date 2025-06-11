@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MajicCnt : MonoBehaviour
+public class MagicCnt : MonoBehaviour
 {
 
-    [Header("魔法のスピード")]public float speed = 10f;
+    [Header("魔法のスピード")][HideInInspector] public float speed = 10f;
     private Vector3 targetPos;
 
     Rigidbody rb;
@@ -19,6 +19,11 @@ public class MajicCnt : MonoBehaviour
     public void Init(Vector3 targetPosition)
     {
         targetPos = targetPosition;
+    }
+    //速度を取得
+    public void SetSpeed(float x)
+    {
+        speed = x;
     }
     void Update()
     {
