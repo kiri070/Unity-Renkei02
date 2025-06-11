@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 2203308906420047698}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.842309, y: 1.1838148, z: -34.509}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -147,4 +147,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 20
-  hitEffectPrefab: {fileID: 7795347777186797157, guid: 968d0b9dc59ad485b972e096ac4b8c74, type: 3}
+  hitEffectPrefab: {fileID: 8040016319972623215, guid: 968d0b9dc59ad485b972e096ac4b8c74, type: 3}
