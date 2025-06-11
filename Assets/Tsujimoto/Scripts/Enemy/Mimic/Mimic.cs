@@ -23,6 +23,9 @@ public class Mimic : MonoBehaviour
     [Header("敵本体のコライダー")]
     public Collider bodyCollider;
 
+    SoundManager soundManager; //SoundManagerのインスタンス
+    SoundsList soundsList; //SoundListのインスタンス
+
     //敵の状態を管理
     public enum EnemyState
     {
@@ -47,6 +50,8 @@ public class Mimic : MonoBehaviour
     {
         //コンポーネント取得
         renderer = GetComponent<Renderer>();
+        soundManager = FindObjectOfType<SoundManager>();
+        soundsList = FindObjectOfType<SoundsList>();
 
     }
 
@@ -93,6 +98,9 @@ public class Mimic : MonoBehaviour
             //魔法の速度を渡す
             magic.GetComponent<MagicCnt>().SetSpeed(speed); //関数呼び出し
 
+            //効果音再生
+            soundManager.OnPlaySE(soundsList.mimicMagicSE);
+
             canMajicAttack = false;
 
             //クールタイム処理開始
@@ -113,6 +121,9 @@ public class Mimic : MonoBehaviour
         //ファイヤーに当たったら  //敵本体に当たった場合だけ
         if (other.gameObject.CompareTag("FireArea") && bodyCollider.bounds.Intersects(other.bounds))
         {
+            //効果音再生
+            soundManager.OnPlaySE(soundsList.killEnemySE);
+            
             Destroy(gameObject);
         }
         //落下したら

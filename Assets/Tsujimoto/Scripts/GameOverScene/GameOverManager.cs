@@ -13,11 +13,17 @@ public class GameOverManager : MonoBehaviour
     [HideInInspector]
     public static string becauseGameOver; //死因メッセを格納する変数
 
+    SoundManager soundManager;
+    SoundsList soundsList;
     void Start()
     {
         //カーソルを使えるように
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
+        //コンポーネント取得
+        soundManager = FindObjectOfType<SoundManager>();
+        soundsList = FindObjectOfType<SoundsList>();
 
         //死因を表示
         becauseGameOverText.text = "<color=red>" + "死因:" + "</color>" + becauseGameOver;

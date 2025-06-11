@@ -38,6 +38,7 @@ public class PlayerCnt : MonoBehaviour
     SoundsList soundsList; //SoundsListのインスタンス
 
     public Camera[] targetCameras; //カメラの対象設定用の配列 *追加部分
+    
 
 
     void Start()
@@ -69,7 +70,7 @@ public class PlayerCnt : MonoBehaviour
             mover2.Assignment(input2);
 
             //ジャンプ(共通)
-            if (Input.GetKey(KeyCode.Space) && mover1.canJump && mover2.canJump)
+            if (Input.GetKeyDown(KeyCode.Space) && mover1.canJump && mover2.canJump)
             {
                 mover1.jumpForce = this.jumpForce;
                 mover1.jumping = true;
@@ -98,11 +99,16 @@ public class PlayerCnt : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.F) && canPlayer1Bullet)
             {
                 Instantiate(player1Bullet, player1BulletArea.transform.position, Quaternion.identity);
+                //効果音再生
+                soundManager.OnPlaySE(soundsList.shotSE);
+
                 StartCoroutine(Player1_BulletCoolDown()); //クールダウン開始
             }
             if (Input.GetKeyDown(KeyCode.H) && canPlayer2Bullet)
             {
                 Instantiate(player2Bullet, player2BulletArea.transform.position, Quaternion.identity);
+                //効果音再生
+                soundManager.OnPlaySE(soundsList.shotSE);
                 StartCoroutine(Player2_BulletCoolDown()); //クールダウン開始
             }
 

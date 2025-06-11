@@ -15,6 +15,8 @@ public class SoundManager : MonoBehaviour
     public Slider seVolumeSlider;
 
     SoundsList soundsList; //SoundsListのインスタンス
+    float lastPlayedTime = 0f; //前回の音から何秒たったかを記録
+    float minInterval = 0.05f; //音の重複を消す(指定の秒数に一回まで)
     void Start()
     {
         //コンポーネント取得
@@ -27,19 +29,15 @@ public class SoundManager : MonoBehaviour
         seVolumeSlider.value = PlayerPrefs.GetFloat("SEVolume");
     }
 
-    //効果音を鳴らす関数
-    public void OnPlaySE(AudioClip audioClip)
+    //効果音を鳴らす関数(呼び出し時volumeは省略可)
+    public void OnPlaySE(AudioClip audioClip, float volume = 1f)
     {
-        //音がなっていた場合
-        if (seAudioSource.isPlaying)
-            seAudioSource.Stop();
-
-        seAudioSource.clip = audioClip;
-        seAudioSource.Play();
+        seAudioSource.PlayOneShot(audioClip, volume);
     }
 
     public void OnPlayBGM(AudioClip audioClip)
     {
+        //BGMが複数再生されないように
         if (bgmAudioSource.isPlaying)
             bgmAudioSource.Stop();
 

@@ -18,11 +18,17 @@ public class StageSelectManager : MonoBehaviour
     [Tooltip("ヒントの内容を入力してください")]
     public string[] tips;
 
+    SoundManager soundManager;
+    SoundsList soundsList;
+
     void Start()
     {
         //初期化
         loadingPanel.SetActive(false);
         loadingSlider.value = 0f;
+
+        soundManager = FindObjectOfType<SoundManager>();
+        soundsList = FindObjectOfType<SoundsList>();
 
         //ヒントをランダムに表示
         RandomTips();
@@ -39,6 +45,9 @@ public class StageSelectManager : MonoBehaviour
     //チュートリアルに変遷するボタン
     public void OnStartStage1Button()
     {
+        //効果音を再生
+        soundManager.OnPlaySE(soundsList.clickButton);
+        
         StartCoroutine(SceneLoading("TutorialScene"));
     }
 

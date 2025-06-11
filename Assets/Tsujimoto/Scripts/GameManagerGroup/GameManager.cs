@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float countDown; //カウントダウンの秒数
 
+    SoundManager soundManager;
+    SoundsList soundsList;
     //ゲームの状態を管理
     public enum GameState
     {
@@ -31,6 +33,10 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        soundManager = FindObjectOfType<SoundManager>();
+        soundsList = FindObjectOfType<SoundsList>();
+        
+
         //初期化
         ToPausedState(); //ポーズ状態
 

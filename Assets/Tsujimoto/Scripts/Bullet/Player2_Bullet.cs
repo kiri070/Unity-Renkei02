@@ -12,6 +12,9 @@ public class Bullet2 : MonoBehaviour
 
     [Header("ファイヤーのエフェクト")]
     public GameObject hitEffectPrefab;
+
+    SoundManager soundManager; //SoundManagerのインスタンス
+    SoundsList soundsList; //SoundsListのインスタンス
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -19,6 +22,9 @@ public class Bullet2 : MonoBehaviour
         //放物線上に飛ばす
         Vector3 direction = (player2.transform.forward + player2.transform.up).normalized;
         rb.AddForce(direction * speed, ForceMode.Impulse);
+
+        soundManager = GameObject.FindObjectOfType<SoundManager>();
+        soundsList = GameObject.FindObjectOfType<SoundsList>();
     }
 
     void OnTriggerEnter(Collider other)
@@ -30,6 +36,9 @@ public class Bullet2 : MonoBehaviour
             Quaternion rotation = Quaternion.Euler(90, 0, 0); //角度を調整
             Instantiate(hitEffectPrefab, new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z),
              rotation);
+
+            //効果音再生
+            soundManager.OnPlaySE(soundsList.hitShotSE);
             Destroy(gameObject); //弾を削除
         }
     }

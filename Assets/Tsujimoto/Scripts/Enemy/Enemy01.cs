@@ -26,6 +26,10 @@ public class Enemy01 : MonoBehaviour
     [Header("敵本体のコライダー")]
     public Collider bodyCollider;
 
+    bool jumpAttackToFloor = false; //ジャンプ攻撃後、地面に触れたか
+    SoundManager soundManager; //SoundManagerのインスタンス
+    SoundsList soundsList; //SoundsListのインスタンス
+
     //敵の状態を管理
     public enum EnemyState
     {
@@ -58,6 +62,8 @@ public class Enemy01 : MonoBehaviour
         //コンポーネント取得
         renderer = GetComponent<Renderer>();
         rb = GetComponent<Rigidbody>();
+        soundManager = GameObject.FindObjectOfType<SoundManager>();
+        soundsList = GameObject.FindObjectOfType<SoundsList>();
     }
 
     void FixedUpdate()
@@ -71,7 +77,7 @@ public class Enemy01 : MonoBehaviour
                 Moving();
                 break;
             case EnemyState.JumpAttack:
-                JumpAttack(); 
+                JumpAttack();
                 break;
         }
     }
@@ -79,7 +85,7 @@ public class Enemy01 : MonoBehaviour
     //アイドル処理関数
     void Idle()
     {
-        
+
     }
 
     //移動処理関数
@@ -109,7 +115,7 @@ public class Enemy01 : MonoBehaviour
         if (enemyState == EnemyState.JumpAttack && !isJumping)
         {
             isJumping = true;
-
+            jumpAttackToFloor = true; //着地した時に効果音を再生する用
             // 水平方向への力
             Vector3 horizontal = (player.transform.position - transform.position);
             horizontal.y = 0f; // 水平成分だけ取り出す
@@ -144,12 +150,25 @@ public class Enemy01 : MonoBehaviour
         //ファイヤーに当たったら  //敵本体に当たった場合だけ
         if (other.gameObject.CompareTag("FireArea") && bodyCollider.bounds.Intersects(other.bounds))
         {
+            //効果音再生
+            soundManager.OnPlaySE(soundsList.killEnemySE);
             Destroy(gameObject);
         }
         //落下したら
         if (other.CompareTag("DeathArea"))
         {
             Destroy(gameObject);
+        }
+    }
+
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Floor") && jumpAttackToFloor)
+        {
+            //効果音再生
+            soundManager.OnPlaySE(soundsList.jumpAttack);
+
+            jumpAttackToFloor = false;
         }
     }
 }

@@ -21,8 +21,8 @@ public class TitleManager : MonoBehaviour
         //初期化
         keyText_color = 1f;     
         flag_alpha = false;     
-        completeFadeOut = false; 
-        
+        completeFadeOut = false;
+
         StartCoroutine(FadeOutEffect(fadeOutImage)); //画像をフェードアウト
     }
     void Update()

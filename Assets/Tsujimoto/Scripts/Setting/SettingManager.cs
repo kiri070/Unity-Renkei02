@@ -9,6 +9,11 @@ public class SettingManager : MonoBehaviour
     [Header("設定画面のUIを格納")]
     public GameObject settingUI;
 
+    SoundManager soundManager;
+    SoundsList soundsList;
+
+
+
     void Start()
     {
         //カーソルを固定して非表示
@@ -18,6 +23,10 @@ public class SettingManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
+
+        //コンポーネント取得
+        soundManager = FindObjectOfType<SoundManager>();
+        soundsList = FindObjectOfType<SoundsList>();
     }
     void Update()
     {
@@ -31,6 +40,9 @@ public class SettingManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape) && !settingUI.activeSelf)
         {
             settingUI.SetActive(true); //設定画面を表示
+
+            //効果音を再生
+            soundManager.OnPlaySE(soundsList.openSetting);
 
             //カーソルを表示
             Cursor.visible = true;

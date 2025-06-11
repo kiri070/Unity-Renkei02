@@ -2601,7 +2601,9 @@ MonoBehaviour:
   gameCamera: {fileID: 1969709953}
   player: {fileID: 444388508}
   hideMaterial: {fileID: 2100000, guid: baa9f0eee006743b2a4d731dd4203e5d, type: 2}
-  recoveryKnockbackTime: 0.7
+  nockBack_Horizontal: 30
+  nockBack_Vertical: 10
+  recoveryKnockbackTime: 0.5
 --- !u!1 &450326364
 GameObject:
   m_ObjectHideFlags: 0
@@ -7657,7 +7659,9 @@ MonoBehaviour:
   gameCamera: {fileID: 1969709953}
   player: {fileID: 1560484234}
   hideMaterial: {fileID: 2100000, guid: baa9f0eee006743b2a4d731dd4203e5d, type: 2}
-  recoveryKnockbackTime: 0.7
+  nockBack_Horizontal: 30
+  nockBack_Vertical: 10
+  recoveryKnockbackTime: 0.5
 --- !u!1001 &1586110312
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7786,7 +7790,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5903cb34cfc24a1c8efb91fccdbb610, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpSE: {fileID: 8300000, guid: a787fd61dc3254e4a9eb25dd2bebe7db, type: 3}
+  jumpSE: {fileID: 8300000, guid: adec11aa237bb4496b59469159f1bc17, type: 3}
+  shotSE: {fileID: 8300000, guid: 87519f8d9799e4de5bbbd13af94eb078, type: 3}
+  hitShotSE: {fileID: 8300000, guid: 6922be4d7a3c741beacab11a662459d6, type: 3}
+  nockBackSE: {fileID: 8300000, guid: 759c21b72aa954ab69cf2ac9257dee3b, type: 3}
+  explosionSE: {fileID: 8300000, guid: 4a7cab11d13c84ea4b90b4fec0912027, type: 3}
+  mimicMagicSE: {fileID: 8300000, guid: 529cf6a5611cf4622884583f7494ef3a, type: 3}
+  killEnemySE: {fileID: 8300000, guid: f67eb3e22aa4b40868d536d0fd6d380d, type: 3}
+  jumpAttack: {fileID: 8300000, guid: f3483f99b9d0f4369a44ed8ad8f18267, type: 3}
+  openSetting: {fileID: 8300000, guid: 05f14398df1ab47f38dc59919ebd82fb, type: 3}
+  clickButton: {fileID: 8300000, guid: 13e8d7a012c384713a2f61d0f369ce49, type: 3}
   gameBGM: {fileID: 8300000, guid: 8dd6cc80ecd8d4ffe9d59658b2e962d9, type: 3}
 --- !u!114 &1593340476
 MonoBehaviour:

@@ -11,9 +11,14 @@ public class Bomb : MonoBehaviour
 
     [Header("爆発のエフェクト")] public GameObject explosionEffect;
 
+    SoundManager soundManager; //SoundManagerのインスタンス
+    SoundsList soundsList; //SoundListのインスタンス
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        soundManager = FindObjectOfType<SoundManager>();
+        soundsList = FindObjectOfType<SoundsList>();
     }
     void OnTriggerEnter(Collider other)
     {
@@ -33,6 +38,9 @@ public class Bomb : MonoBehaviour
 
                     //エフェクト再生
                     Instantiate(explosionEffect, transform.position, Quaternion.identity);
+
+                    //SE再生
+                    soundManager.OnPlaySE(soundsList.explosionSE);
                 }
             }
 

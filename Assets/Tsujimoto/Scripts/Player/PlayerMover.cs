@@ -39,10 +39,15 @@ public class PlayerMover : MonoBehaviour
     [Header("敵衝突時のノックバック:水平方向")][SerializeField] float nockBack_Horizontal = 30f;
     [Header("敵衝突時のノックバック:垂直方向")][SerializeField] float nockBack_Vertical = 10f;
     [Header("ノックバック時の操作不能から回復する時間")][SerializeField] float recoveryKnockbackTime = 0.7f; //ノックバックの操作の操作不能から回復する時間
+
+    SoundManager soundManager;
+    SoundsList soundsList;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         playerCnt = GameObject.FindObjectOfType<PlayerCnt>();
+        soundManager = FindObjectOfType<SoundManager>();
+        soundsList = FindObjectOfType<SoundsList>();
 
         originalScale = transform.localScale; //初期の大きさを保存
 
@@ -190,6 +195,9 @@ public class PlayerMover : MonoBehaviour
         //敵に触れたら
         if (other.gameObject.CompareTag("Enemy"))
         {
+            //効果音再生
+            soundManager.OnPlaySE(soundsList.nockBackSE);
+
             canMove = false;
             StartCoroutine(RecoveryKnockback(recoveryKnockbackTime));
 
