@@ -20,6 +20,9 @@ public class PlayerDetector : MonoBehaviour
 
     void Update()
     {
+        //攻撃をしていたら何もしない
+        if (enemy01.enemyState == Enemy01.EnemyState.JumpAttack || enemy01.enemyState == Enemy01.EnemyState.pushAttack) return;
+
         if (enemy01.enemyState != Enemy01.EnemyState.JumpAttack)
         {
             // 指定した範囲内にプレイヤーがいるか調べる

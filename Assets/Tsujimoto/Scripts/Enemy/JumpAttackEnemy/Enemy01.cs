@@ -21,7 +21,7 @@ public class Enemy01 : MonoBehaviour
 
     [Header("ジャンプ攻撃のクールタイム")]
     [SerializeField] int jumpAttackCoolTime;
-    bool isJumping = false; //ジャンプ攻撃をするかどうか
+    [HideInInspector] public bool isJumping = false; //ジャンプ攻撃をするかどうか
 
     [Header("敵本体のコライダー")]
     public Collider bodyCollider;
@@ -30,12 +30,19 @@ public class Enemy01 : MonoBehaviour
     SoundManager soundManager; //SoundManagerのインスタンス
     SoundsList soundsList; //SoundsListのインスタンス
 
+    [Header("エフェクト")]
+    [Tooltip("ジャンプ攻撃の着地時")] public GameObject smork;
+
+    [HideInInspector] public bool canJumpAttack = true;
+
+
     //敵の状態を管理
     public enum EnemyState
     {
         Idle,
         Move,
         JumpAttack,
+        pushAttack,
     };
 
     //状態をIdleにする関数
@@ -53,8 +60,19 @@ public class Enemy01 : MonoBehaviour
     //状態をJumpAttackにする関数
     public void ToEnemyJumpAttack()
     {
-        renderer.material = moveMaterial; //マテリアルを動いている状態
+        if (!canJumpAttack) return;
+
+        renderer.material = moveMaterial;
         enemyState = EnemyState.JumpAttack;
+        canJumpAttack = false;
+        StartCoroutine(ResetJumpAttackCoolDown());
+    }
+
+    //状態をPushAttackにする関数
+    public void ToEnemyPushAttack()
+    {
+        renderer.material = moveMaterial; //マテリアルを動いている状態
+        enemyState = EnemyState.pushAttack;
     }
 
     void Start()
@@ -68,6 +86,7 @@ public class Enemy01 : MonoBehaviour
 
     void FixedUpdate()
     {
+        Debug.Log("敵の状態:" + enemyState);
         switch (enemyState)
         {
             case EnemyState.Idle:
@@ -78,6 +97,9 @@ public class Enemy01 : MonoBehaviour
                 break;
             case EnemyState.JumpAttack:
                 JumpAttack();
+                break;
+            case EnemyState.pushAttack:
+                PushAttack();
                 break;
         }
     }
@@ -138,13 +160,13 @@ public class Enemy01 : MonoBehaviour
         }
     }
 
-    //ジャンプ攻撃が終了したら
-    IEnumerator EndJumpAttack()
+    //プッシュ攻撃
+    void PushAttack()
     {
-        yield return new WaitForSeconds(jumpAttackCoolTime);
-        //クールタイムが終了したら
-        isJumping = false; //ジャンプフラグをfalse
+        Debug.Log("PushAttak!!!!");
+        StartCoroutine(EndPushAttack());
     }
+
     void OnTriggerEnter(Collider other)
     {
         //ファイヤーに当たったら  //敵本体に当たった場合だけ
@@ -168,7 +190,40 @@ public class Enemy01 : MonoBehaviour
             //効果音再生
             soundManager.OnPlaySE(soundsList.jumpAttack);
 
+            //エフェクト再生
+            Instantiate(smork, transform.position, Quaternion.identity);
+
             jumpAttackToFloor = false;
         }
+    }
+
+    //ジャンプ攻撃が可能になるまで
+    IEnumerator ResetJumpAttackCoolDown()
+    {
+        yield return new WaitForSeconds(jumpAttackCoolTime);
+        canJumpAttack = true;
+
+        // プレイヤーが範囲内に残っていたら状態をMoveに戻す
+        if (player != null)
+        {
+            ToEnemyMove();
+        }
+    }
+
+    //ジャンプ攻撃が終了したら
+    IEnumerator EndJumpAttack()
+    {
+        yield return new WaitForSeconds(jumpAttackCoolTime);
+        //クールタイムが終了したら
+        isJumping = false; //ジャンプフラグをfalse
+
+        ToEnemyMove();
+    }
+
+    //プッシュ攻撃が終了したら
+    IEnumerator EndPushAttack()
+    {
+        ToEnemyMove();
+        yield return new WaitForSeconds(5f);
     }
 }
