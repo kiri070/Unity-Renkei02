@@ -4779,8 +4779,8 @@ MonoBehaviour:
   player: {fileID: 0}
   lastPlayerPosition: {x: 0, y: 0, z: 0}
   majicObj: {fileID: 6597564248310378079, guid: 8d61092033fbd40e0bf1e261d98380a6, type: 3}
-  majicAttackCooltime: 5
-  speed: 50
+  majicAttackCooltime: 3
+  speed: 10
   defaultMaterial: {fileID: 2100000, guid: d64d3bef3b15c4406a83f0432716abd4, type: 2}
   attackMaterial: {fileID: 2100000, guid: b25143f58aad3466c97fb1df0051ad75, type: 2}
   bodyCollider: {fileID: 1144763234}
@@ -6641,6 +6641,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3947226818154045902, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
+      propertyPath: explosionEffect
+      value: 
+      objectReference: {fileID: 5558654489048702744, guid: f737e373efa05469babf85f808aa1865, type: 3}
     - target: {fileID: 8584120100493248403, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
       propertyPath: m_Name
       value: Bomb
