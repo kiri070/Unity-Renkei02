@@ -9468,7 +9468,7 @@ Transform:
   m_GameObject: {fileID: 2127510469}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -21.01, y: 6.3752904, z: -15.092644}
+  m_LocalPosition: {x: -20.89, y: 6.3752904, z: -15.092644}
   m_LocalScale: {x: 17, y: 0.3, z: 7.63708}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9702,6 +9702,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8653407204027291559, guid: 95ad295c2a5814107a0cf19d01e6b8ee, type: 3}
+      propertyPath: pushPower
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653407204027291559, guid: 95ad295c2a5814107a0cf19d01e6b8ee, type: 3}
+      propertyPath: jumpAttackCoolTime
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653407204027291559, guid: 95ad295c2a5814107a0cf19d01e6b8ee, type: 3}
+      propertyPath: pushAttackCoolTime
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8762609024574626207, guid: 95ad295c2a5814107a0cf19d01e6b8ee, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: badf154d77f9c4f6ca5dcd14722f732c, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

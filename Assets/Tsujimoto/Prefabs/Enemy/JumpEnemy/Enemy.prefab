@@ -96,7 +96,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 277933743040150222}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: badf154d77f9c4f6ca5dcd14722f732c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -127,8 +127,11 @@ MonoBehaviour:
   defaultMaterial: {fileID: 2100000, guid: 0889b1a233b924894ad8ca15ad04a7e3, type: 2}
   moveMaterial: {fileID: 2100000, guid: 67a3580eb0f044102803c6ca3f844596, type: 2}
   speed: 7
-  jumpAttackCoolTime: 3
+  jumpAttackCoolTime: 5
   isJumping: 0
+  pushAttackCoolTime: 5
+  pushPower: 50
+  isPushAttack: 0
   bodyCollider: {fileID: 8762609024574626207}
   smork: {fileID: 4016476391329389970, guid: a84ecb46783ae41909af93d04c3d3bf2, type: 3}
   canJumpAttack: 1

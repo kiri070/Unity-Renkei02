@@ -24,7 +24,7 @@ public class AttackRange : MonoBehaviour
     void Update()
     {
         // 移動 or 攻撃中どちらでも判定できるようにする（ただしIdleは除外）
-        if (enemy01.enemyState == Enemy01.EnemyState.Idle) return;
+        if (enemy01.enemyState == Enemy01.EnemyState.Idle || enemy01.enemyState == Enemy01.EnemyState.pushAttack) return;
 
         Vector3 center = transform.position + transform.forward * boxForwardOffset;
         Quaternion rotation = transform.rotation;

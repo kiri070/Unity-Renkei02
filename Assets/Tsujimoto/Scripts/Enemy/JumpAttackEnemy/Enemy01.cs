@@ -23,6 +23,11 @@ public class Enemy01 : MonoBehaviour
     [SerializeField] int jumpAttackCoolTime;
     [HideInInspector] public bool isJumping = false; //ジャンプ攻撃をするかどうか
 
+    [Header("プッシュ攻撃ステータス")]
+    [SerializeField] int pushAttackCoolTime;
+    [SerializeField] float pushPower = 70f;
+    [HideInInspector] public bool isPushAttack = false; //プッシュ攻撃をするかどうか
+
     [Header("敵本体のコライダー")]
     public Collider bodyCollider;
 
@@ -66,6 +71,7 @@ public class Enemy01 : MonoBehaviour
         enemyState = EnemyState.JumpAttack;
         canJumpAttack = false;
         StartCoroutine(ResetJumpAttackCoolDown());
+        // StartCoroutine(ResetJumpAttackCoolDown());
     }
 
     //状態をPushAttackにする関数
@@ -163,8 +169,10 @@ public class Enemy01 : MonoBehaviour
     //プッシュ攻撃
     void PushAttack()
     {
-        Debug.Log("PushAttak!!!!");
-        StartCoroutine(EndPushAttack());
+        if (!isPushAttack)
+        {
+            StartCoroutine(PreparePushAttack(1f, 0.3f));
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -197,17 +205,49 @@ public class Enemy01 : MonoBehaviour
         }
     }
 
-    //ジャンプ攻撃が可能になるまで
+    //ジャンプ攻撃のクールタイム
     IEnumerator ResetJumpAttackCoolDown()
     {
         yield return new WaitForSeconds(jumpAttackCoolTime);
         canJumpAttack = true;
+    }
 
-        // プレイヤーが範囲内に残っていたら状態をMoveに戻す
-        if (player != null)
+    //Push攻撃の準備
+    IEnumerator PreparePushAttack(float duration, float magnitude)
+    {
+        isPushAttack = true;
+        float elapsed = 0f;
+        Vector3 originalPos = transform.position;
+
+        //指定の秒数左右に振動
+        while (elapsed < duration)
         {
-            ToEnemyMove();
+            float offsetX = UnityEngine.Random.Range(-1f, 1f) * magnitude;
+            transform.position = originalPos + new Vector3(offsetX, 0, 0);
+
+            //方向を取得
+            Vector3 direction1 = (player.transform.position - transform.position).normalized;
+            direction1.y = 0f; // 上下回転しないように
+
+            //回転処理
+            if (direction1 != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(direction1);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5f * Time.deltaTime);
+            }
+
+            elapsed += Time.deltaTime;
+            yield return null;
         }
+        transform.position = originalPos;
+
+        //方向を取得
+        Vector3 direction2 = (player.transform.position - transform.position).normalized;
+        direction2.y = 0f; //上には飛ばないように
+
+        rb.AddForce(direction2 * pushPower, ForceMode.Impulse); //プッシュ攻撃
+        StartCoroutine(EndPushAttack()); //プッシュ攻撃終了後の処理
+        StartCoroutine(WaitToMove(2f)); //指定秒数止まる
     }
 
     //ジャンプ攻撃が終了したら
@@ -216,14 +256,21 @@ public class Enemy01 : MonoBehaviour
         yield return new WaitForSeconds(jumpAttackCoolTime);
         //クールタイムが終了したら
         isJumping = false; //ジャンプフラグをfalse
-
-        ToEnemyMove();
+        canJumpAttack = true;
+        // ToEnemyMove();
     }
 
     //プッシュ攻撃が終了したら
     IEnumerator EndPushAttack()
     {
+        yield return new WaitForSeconds(pushAttackCoolTime);
+        isPushAttack = false;
+    }
+
+    //攻撃の後、秒数指定でMove状態に戻す(何もしない時間を作る)
+    IEnumerator WaitToMove(float time)
+    {
+        yield return new WaitForSeconds(time);
         ToEnemyMove();
-        yield return new WaitForSeconds(5f);
     }
 }
