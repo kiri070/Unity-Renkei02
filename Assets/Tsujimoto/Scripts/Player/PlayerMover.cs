@@ -21,12 +21,16 @@ public class PlayerMover : MonoBehaviour
 
     [Header("各カメラを格納")]
     public Camera gameCamera;
+    CameraCnt cameraCnt;
 
     [Header("各プレイヤーのオブジェクトを格納")]
     public GameObject player;
 
     [Header("マテリアル")]
     public Material hideMaterial;
+
+    [Header("エフェクト")]
+    [Tooltip("敵と衝突")] public GameObject nockBackEffect;
 
     Renderer[] renderers; // 複数のRenderer（子オブジェクト含む）を管理
     List<Material[]> defaultMaterials = new List<Material[]>(); // 各Rendererの初期マテリアルを保存
@@ -48,6 +52,7 @@ public class PlayerMover : MonoBehaviour
         playerCnt = GameObject.FindObjectOfType<PlayerCnt>();
         soundManager = FindObjectOfType<SoundManager>();
         soundsList = FindObjectOfType<SoundsList>();
+        cameraCnt = FindObjectOfType<CameraCnt>();
 
         originalScale = transform.localScale; //初期の大きさを保存
 
@@ -198,6 +203,9 @@ public class PlayerMover : MonoBehaviour
             //効果音再生
             soundManager.OnPlaySE(soundsList.nockBackSE);
 
+            //エフェクト再生
+            Instantiate(nockBackEffect, transform.position, Quaternion.identity);
+
             canMove = false;
             StartCoroutine(RecoveryKnockback(recoveryKnockbackTime));
 
@@ -238,6 +246,7 @@ public class PlayerMover : MonoBehaviour
         //Bombに触れたら
         if (other.CompareTag("Bomb"))
         {
+            StartCoroutine(cameraCnt.ShakeCamera(0.7f, 0.3f)); //カメラを揺らす
             canMove = false;
             StartCoroutine(RecoveryKnockback(recoveryKnockbackTime));
         }

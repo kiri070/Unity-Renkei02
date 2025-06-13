@@ -107,7 +107,7 @@ public class Enemy01 : MonoBehaviour
     //アイドル処理関数
     void Idle()
     {
-
+        Debug.Log("Idle状態");
     }
 
     //移動処理関数

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Bullet2 : MonoBehaviour
+public class Player2_Bullet : MonoBehaviour
 {
     Rigidbody rb;
     GameObject player2;

@@ -38,7 +38,7 @@ public class Mimic_PlayerDetector : MonoBehaviour
         }
     }
 
-    //範囲を描画(※開発中のみ)
+    //範囲を描画(開発中のみ)
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;

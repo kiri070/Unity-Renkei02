@@ -44,4 +44,18 @@ public class CameraCnt : MonoBehaviour
         transform.position = center + baseOffset + zoomOffset;
         transform.rotation = baseRotation;
     }
+
+    //カメラを揺らす(揺れ時間, 揺れの大きさ)
+    public IEnumerator ShakeCamera(float duration, float magnitude)
+    {
+        float elapsed = 0f; //経過時間
+
+        while (elapsed < duration)
+        {
+            //球体の中でランダムに点を発生させて移動
+            transform.position = transform.position + Random.insideUnitSphere * magnitude;
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+    }
 }

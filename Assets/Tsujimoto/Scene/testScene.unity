@@ -3969,6 +3969,7 @@ MonoBehaviour:
   gameCamera: {fileID: 51061009}
   player: {fileID: 838964295}
   hideMaterial: {fileID: 2100000, guid: baa9f0eee006743b2a4d731dd4203e5d, type: 2}
+  nockBackEffect: {fileID: 3342264271403622667, guid: 22f9c3e8141d94239b9f581787ce2342, type: 3}
   nockBack_Horizontal: 30
   nockBack_Vertical: 10
   recoveryKnockbackTime: 0.5
@@ -9227,6 +9228,7 @@ MonoBehaviour:
   gameCamera: {fileID: 51061009}
   player: {fileID: 2097858282}
   hideMaterial: {fileID: 2100000, guid: baa9f0eee006743b2a4d731dd4203e5d, type: 2}
+  nockBackEffect: {fileID: 3342264271403622667, guid: 22f9c3e8141d94239b9f581787ce2342, type: 3}
   nockBack_Horizontal: 30
   nockBack_Vertical: 10
   recoveryKnockbackTime: 0.5
@@ -9719,7 +9721,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 87077412003603604, guid: 6f637dc57c32943b4adb4a5a0a085c5a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 512749011021022593, guid: 6f637dc57c32943b4adb4a5a0a085c5a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9778,20 +9780,20 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 735732352}
+  - {fileID: 712770320}
+  - {fileID: 1484231369}
   - {fileID: 51061012}
   - {fileID: 192306235}
-  - {fileID: 454594724335826808}
-  - {fileID: 712770320}
   - {fileID: 838964293}
+  - {fileID: 2097858281}
+  - {fileID: 454594724335826808}
   - {fileID: 1012830341}
   - {fileID: 1972533836002441866}
-  - {fileID: 735732352}
-  - {fileID: 1484231369}
   - {fileID: 446942671}
   - {fileID: 1936042297}
   - {fileID: 521445416}
   - {fileID: 125935082}
-  - {fileID: 2097858281}
   - {fileID: 1426517547}
   - {fileID: 287433613}
   - {fileID: 1019552558}

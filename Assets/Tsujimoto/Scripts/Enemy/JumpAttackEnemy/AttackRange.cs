@@ -56,18 +56,7 @@ public class AttackRange : MonoBehaviour
         }
     }
 
-    //
-    void RandomAction()
-    {
-        int action = UnityEngine.Random.Range(0, 3);
-
-        switch (action)
-        {
-            
-        }
-    }
-
-    //範囲を描画(※開発中のみ)
+    //範囲を描画(開発中のみ)
     void OnDrawGizmosSelected()
     {
         Vector3 center = transform.position + transform.forward * boxForwardOffset;

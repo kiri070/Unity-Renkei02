@@ -2391,6 +2391,7 @@ MonoBehaviour:
   gameCamera: {fileID: 1969709953}
   player: {fileID: 444388508}
   hideMaterial: {fileID: 2100000, guid: baa9f0eee006743b2a4d731dd4203e5d, type: 2}
+  nockBackEffect: {fileID: 3342264271403622667, guid: 22f9c3e8141d94239b9f581787ce2342, type: 3}
   nockBack_Horizontal: 30
   nockBack_Vertical: 10
   recoveryKnockbackTime: 0.5
@@ -4040,6 +4041,67 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &931688067
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2931450142277743288, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.0951414
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931450142277743288, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8.51
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931450142277743288, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -32.67229
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931450142277743288, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931450142277743288, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931450142277743288, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931450142277743288, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931450142277743288, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931450142277743288, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2931450142277743288, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3947226818154045902, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
+      propertyPath: explosionForce
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8584120100493248403, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
+      propertyPath: m_Name
+      value: Bomb
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ed5c38f8011e641d9838151b1ced8674, type: 3}
 --- !u!1001 &950844340
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7332,6 +7394,7 @@ MonoBehaviour:
   gameCamera: {fileID: 1969709953}
   player: {fileID: 1560484234}
   hideMaterial: {fileID: 2100000, guid: baa9f0eee006743b2a4d731dd4203e5d, type: 2}
+  nockBackEffect: {fileID: 3342264271403622667, guid: 22f9c3e8141d94239b9f581787ce2342, type: 3}
   nockBack_Horizontal: 30
   nockBack_Vertical: 10
   recoveryKnockbackTime: 0.5
@@ -9849,3 +9912,4 @@ SceneRoots:
   - {fileID: 950844340}
   - {fileID: 1647747971}
   - {fileID: 1992827050}
+  - {fileID: 931688067}

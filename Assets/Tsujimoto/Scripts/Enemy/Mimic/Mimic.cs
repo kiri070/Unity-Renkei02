@@ -71,7 +71,7 @@ public class Mimic : MonoBehaviour
     //アイドル処理関数
     void Idle()
     {
-
+        Debug.Log("Idle状態");
     }
 
     //魔法攻撃
