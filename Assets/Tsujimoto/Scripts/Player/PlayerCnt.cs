@@ -38,7 +38,11 @@ public class PlayerCnt : MonoBehaviour
     SoundsList soundsList; //SoundsListのインスタンス
 
     public Camera[] targetCameras; //カメラの対象設定用の配列 *追加部分
-    
+
+    [Header("弾の着弾地点")]
+    [Tooltip("プレイヤー子オブジェクトの着弾地点(状態Hide)")] public GameObject playerFirePoint1;
+    [Tooltip("プレイヤー子オブジェクトの着弾地点(状態Hide)")] public GameObject playerFirePoint2;
+
 
 
     void Start()
@@ -95,22 +99,52 @@ public class PlayerCnt : MonoBehaviour
                 mover2.EndSliding();
             }
 
-            //弾を発射
-            if (Input.GetKeyDown(KeyCode.F) && canPlayer1Bullet)
+            //弾を発射(長押し:着弾地点表示)
+            if (Input.GetKey(KeyCode.F) && canPlayer1Bullet)
             {
+                playerFirePoint1.SetActive(true);
+            }
+            //(離す:発射)
+            else if (Input.GetKeyUp(KeyCode.F) && canPlayer1Bullet)
+            {
+                playerFirePoint1.SetActive(false);
                 Instantiate(player1Bullet, player1BulletArea.transform.position, Quaternion.identity);
                 //効果音再生
                 soundManager.OnPlaySE(soundsList.shotSE);
-
                 StartCoroutine(Player1_BulletCoolDown()); //クールダウン開始
             }
-            if (Input.GetKeyDown(KeyCode.H) && canPlayer2Bullet)
+
+            //弾を発射(長押し:着弾地点表示)
+            if (Input.GetKey(KeyCode.H) && canPlayer2Bullet)
             {
+                playerFirePoint2.SetActive(true);
+            }
+            //(離す:発射)
+            else if (Input.GetKeyUp(KeyCode.H) && canPlayer2Bullet)
+            {
+                playerFirePoint2.SetActive(false);
                 Instantiate(player2Bullet, player2BulletArea.transform.position, Quaternion.identity);
                 //効果音再生
                 soundManager.OnPlaySE(soundsList.shotSE);
                 StartCoroutine(Player2_BulletCoolDown()); //クールダウン開始
             }
+
+            // //弾を発射
+            // if (Input.GetKeyDown(KeyCode.F) && canPlayer1Bullet)
+            // {
+            //     Instantiate(player1Bullet, player1BulletArea.transform.position, Quaternion.identity);
+            //     //効果音再生
+            //     soundManager.OnPlaySE(soundsList.shotSE);
+
+            //     StartCoroutine(Player1_BulletCoolDown()); //クールダウン開始
+            // }
+            // if (Input.GetKeyDown(KeyCode.H) && canPlayer2Bullet)
+            // {
+            //     Instantiate(player2Bullet, player2BulletArea.transform.position, Quaternion.identity);
+            //     //効果音再生
+            //     soundManager.OnPlaySE(soundsList.shotSE);
+            //     StartCoroutine(Player2_BulletCoolDown()); //クールダウン開始
+            // }
 
             //*追加部分
             if (Input.GetKeyDown(KeyCode.Z)) //のちのちギミックで動かすトリガー
