@@ -4063,6 +4063,8 @@ MonoBehaviour:
   player: {fileID: 838964295}
   hideMaterial: {fileID: 2100000, guid: baa9f0eee006743b2a4d731dd4203e5d, type: 2}
   nockBackEffect: {fileID: 3342264271403622667, guid: 22f9c3e8141d94239b9f581787ce2342, type: 3}
+  jumpEffect: {fileID: 4016476391329389970, guid: f254194f388dd44b7bda1eeab23ef957, type: 3}
+  frozenEffect: {fileID: 8181396932745774138, guid: fbe4c939d632e459ba44bd93dae32381, type: 3}
   nockBack_Horizontal: 30
   nockBack_Vertical: 10
   recoveryKnockbackTime: 0.5
@@ -4276,6 +4278,67 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 847741390}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &865721839
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1436639669582930652, guid: e9529a70b42fd4834be68f1aabb22fdb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.3342857
+      objectReference: {fileID: 0}
+    - target: {fileID: 1436639669582930652, guid: e9529a70b42fd4834be68f1aabb22fdb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 7.7999983
+      objectReference: {fileID: 0}
+    - target: {fileID: 1436639669582930652, guid: e9529a70b42fd4834be68f1aabb22fdb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -35.78229
+      objectReference: {fileID: 0}
+    - target: {fileID: 1436639669582930652, guid: e9529a70b42fd4834be68f1aabb22fdb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1436639669582930652, guid: e9529a70b42fd4834be68f1aabb22fdb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1436639669582930652, guid: e9529a70b42fd4834be68f1aabb22fdb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1436639669582930652, guid: e9529a70b42fd4834be68f1aabb22fdb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1436639669582930652, guid: e9529a70b42fd4834be68f1aabb22fdb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1436639669582930652, guid: e9529a70b42fd4834be68f1aabb22fdb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1436639669582930652, guid: e9529a70b42fd4834be68f1aabb22fdb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2986132851415874449, guid: e9529a70b42fd4834be68f1aabb22fdb, type: 3}
+      propertyPath: m_Name
+      value: FrozenArea
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776726972097081864, guid: e9529a70b42fd4834be68f1aabb22fdb, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b9740d2496d0740b0b02059b57a68e28, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e9529a70b42fd4834be68f1aabb22fdb, type: 3}
 --- !u!1 &888261004
 GameObject:
   m_ObjectHideFlags: 0
@@ -9403,6 +9466,8 @@ MonoBehaviour:
   player: {fileID: 2097858282}
   hideMaterial: {fileID: 2100000, guid: baa9f0eee006743b2a4d731dd4203e5d, type: 2}
   nockBackEffect: {fileID: 3342264271403622667, guid: 22f9c3e8141d94239b9f581787ce2342, type: 3}
+  jumpEffect: {fileID: 4016476391329389970, guid: f254194f388dd44b7bda1eeab23ef957, type: 3}
+  frozenEffect: {fileID: 8181396932745774138, guid: fbe4c939d632e459ba44bd93dae32381, type: 3}
   nockBack_Horizontal: 30
   nockBack_Vertical: 10
   recoveryKnockbackTime: 0.5
@@ -9987,3 +10052,4 @@ SceneRoots:
   - {fileID: 1426517547}
   - {fileID: 287433613}
   - {fileID: 1019552558}
+  - {fileID: 865721839}

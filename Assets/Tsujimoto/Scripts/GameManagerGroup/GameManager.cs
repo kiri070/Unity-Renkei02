@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     {
         soundManager = FindObjectOfType<SoundManager>();
         soundsList = FindObjectOfType<SoundsList>();
-        
+
 
         //初期化
         ToPausedState(); //ポーズ状態

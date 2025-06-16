@@ -31,6 +31,8 @@ public class PlayerMover : MonoBehaviour
 
     [Header("エフェクト")]
     [Tooltip("敵と衝突")] public GameObject nockBackEffect;
+    [Tooltip("ジャンプ")] public GameObject jumpEffect;
+    [Tooltip("氷の床")] public GameObject frozenEffect;
 
     Renderer[] renderers; // 複数のRenderer（子オブジェクト含む）を管理
     List<Material[]> defaultMaterials = new List<Material[]>(); // 各Rendererの初期マテリアルを保存
@@ -38,6 +40,8 @@ public class PlayerMover : MonoBehaviour
     //氷関連
     bool onIce; //氷の上にいるか
     Vector3 slideVelocity; //滑り中の速度
+    float frozenEffectTime; //エフェクトの生成時間
+    Queue<GameObject> effectPool = new Queue<GameObject>(); //キュー
 
     bool canMove = true; //動けるかどうか
     [Header("敵衝突時のノックバック:水平方向")][SerializeField] float nockBack_Horizontal = 30f;
@@ -53,7 +57,6 @@ public class PlayerMover : MonoBehaviour
         soundManager = FindObjectOfType<SoundManager>();
         soundsList = FindObjectOfType<SoundsList>();
         cameraCnt = FindObjectOfType<CameraCnt>();
-
         originalScale = transform.localScale; //初期の大きさを保存
 
         // 子を含むRendererをすべて取得
@@ -193,9 +196,10 @@ public class PlayerMover : MonoBehaviour
     void OnCollisionEnter(Collision other)
     {
         //地面に触れたら
-        if (other.gameObject.CompareTag("Floor"))
+        if (other.gameObject.CompareTag("Floor") && !canJump)
         {
             canJump = true;
+            Instantiate(jumpEffect, transform.position, Quaternion.identity);
         }
         //敵に触れたら
         if (other.gameObject.CompareTag("Enemy"))
@@ -259,6 +263,21 @@ public class PlayerMover : MonoBehaviour
         if (other.CompareTag("FrozenArea"))
         {
             onIce = true;
+            //エフェクト
+            frozenEffectTime += Time.deltaTime;
+            if (frozenEffectTime > 0.01f)
+            {
+                GameObject effect = Instantiate(frozenEffect, transform.position, Quaternion.identity);
+                effectPool.Enqueue(effect); //キューに入れる
+                if (effectPool.Count > 30)
+                {
+                    GameObject old = effectPool.Dequeue(); //古いものを取り出す
+                    Destroy(old);
+                }
+                frozenEffectTime = 0f;
+            }
+
+            
         }
     }
 
