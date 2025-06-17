@@ -13,6 +13,9 @@ public class Mimic : MonoBehaviour
     bool canMajicAttack = true; //魔法を放てるかどうか
     [Header("魔法の速度")][SerializeField] float speed;
 
+    [Header("エフェクト")]
+    [Tooltip("死んだ時")] public GameObject killedEffect;
+
     Renderer renderer;
 
     [Header("マテリアル")]
@@ -123,7 +126,9 @@ public class Mimic : MonoBehaviour
         {
             //効果音再生
             soundManager.OnPlaySE(soundsList.killEnemySE);
-            
+
+            //エフェクト再生
+            Instantiate(killedEffect, transform.position, killedEffect.transform.rotation);
             Destroy(gameObject);
         }
         //落下したら

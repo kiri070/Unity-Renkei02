@@ -43,6 +43,7 @@ public class Enemy01 : MonoBehaviour
     [Header("エフェクト")]
     [Tooltip("ジャンプ攻撃の着地時")] public GameObject smork;
     [Tooltip("踏まれた時")] public GameObject step;
+    [Tooltip("死んだ時")] public GameObject killed;
 
     [HideInInspector] public bool canJumpAttack = true;
 
@@ -203,6 +204,8 @@ public class Enemy01 : MonoBehaviour
             pm.OnStepEnemy(); //音をプレイヤー側で鳴らす
             soundManager.OnPlaySE(soundsList.stepOnPlayer);
             Instantiate(step, transform.position, step.transform.rotation); //エフェクト再生
+            //キルエフェクト再生
+            Instantiate(killed, transform.position, killed.transform.rotation);
             hits[0].gameObject.GetComponent<Rigidbody>().AddForce(0f, 50f, 0f, ForceMode.Impulse); //プレイヤーを跳ねさせる
             Destroy(gameObject);
         }
@@ -222,6 +225,8 @@ public class Enemy01 : MonoBehaviour
         {
             //効果音再生
             soundManager.OnPlaySE(soundsList.killEnemySE);
+            //エフェクト再生
+            Instantiate(killed, transform.position, killed.transform.rotation);
             Destroy(gameObject);
         }
         //落下したら
