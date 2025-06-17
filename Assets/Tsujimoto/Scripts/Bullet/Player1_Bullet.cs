@@ -21,7 +21,8 @@ public class Player1_Bullet : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         player1 = GameObject.Find("Player1");
         //放物線上に飛ばす
-        Vector3 direction = (player1.transform.forward + player1.transform.up).normalized;
+        // Vector3 direction = (player1.transform.forward + player1.transform.up).normalized;
+        Vector3 direction = (player1.transform.forward).normalized;
         rb.AddForce(direction * speed, ForceMode.Impulse);
 
         soundManager = GameObject.FindObjectOfType<SoundManager>();

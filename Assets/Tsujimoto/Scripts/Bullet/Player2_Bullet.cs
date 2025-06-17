@@ -20,7 +20,8 @@ public class Player2_Bullet : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         player2 = GameObject.Find("Player2");
         //放物線上に飛ばす
-        Vector3 direction = (player2.transform.forward + player2.transform.up).normalized;
+        // Vector3 direction = (player2.transform.forward + player2.transform.up).normalized;
+        Vector3 direction = (player2.transform.forward).normalized;
         rb.AddForce(direction * speed, ForceMode.Impulse);
 
         soundManager = GameObject.FindObjectOfType<SoundManager>();
