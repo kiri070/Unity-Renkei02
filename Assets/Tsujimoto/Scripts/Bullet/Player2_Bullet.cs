@@ -34,7 +34,7 @@ public class Player2_Bullet : MonoBehaviour
         {
             //エフェクトを展開
             Quaternion rotation = Quaternion.Euler(90, 0, 0); //角度を調整
-            Instantiate(hitEffectPrefab, new Vector3(transform.position.x, transform.position.y + 2f, transform.position.z),
+            Instantiate(hitEffectPrefab, new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z),
              rotation);
 
             //効果音再生
