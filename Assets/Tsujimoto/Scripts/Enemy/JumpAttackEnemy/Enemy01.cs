@@ -42,6 +42,7 @@ public class Enemy01 : MonoBehaviour
 
     [Header("エフェクト")]
     [Tooltip("ジャンプ攻撃の着地時")] public GameObject smork;
+    [Tooltip("踏まれた時")] public GameObject step;
 
     [HideInInspector] public bool canJumpAttack = true;
 
@@ -201,6 +202,7 @@ public class Enemy01 : MonoBehaviour
             PlayerMover pm = FindObjectOfType<PlayerMover>();
             pm.OnStepEnemy(); //音をプレイヤー側で鳴らす
             soundManager.OnPlaySE(soundsList.stepOnPlayer);
+            Instantiate(step, transform.position, step.transform.rotation); //エフェクト再生
             hits[0].gameObject.GetComponent<Rigidbody>().AddForce(0f, 50f, 0f, ForceMode.Impulse); //プレイヤーを跳ねさせる
             Destroy(gameObject);
         }

@@ -138,6 +138,7 @@ MonoBehaviour:
   isPushAttack: 0
   bodyCollider: {fileID: 8762609024574626207}
   smork: {fileID: 4016476391329389970, guid: a84ecb46783ae41909af93d04c3d3bf2, type: 3}
+  step: {fileID: 1335740066564347515, guid: e0f6c4eef073b4fa7867d666c7d18e60, type: 3}
   canJumpAttack: 1
 --- !u!54 &4409954863105377101
 Rigidbody:
