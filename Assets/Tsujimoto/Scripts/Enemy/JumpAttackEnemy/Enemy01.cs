@@ -9,6 +9,11 @@ public class Enemy01 : MonoBehaviour
     [HideInInspector] public EnemyState enemyState; //敵の状態を管理する変数
     [HideInInspector] public GameObject player; //どのプレイヤーが範囲内に入ったか
 
+    //踏みつけ判定
+    [SerializeField] Vector3 boxSize = new Vector3(1f, 0.2f, 1f);
+    [SerializeField] LayerMask playerLayer;
+    bool stepOnEnemyCollider = true; //踏むつけ判定のコライダーのオンオフ
+
     Renderer renderer;
 
     [Header("マテリアル")]
@@ -88,6 +93,17 @@ public class Enemy01 : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         soundManager = GameObject.FindObjectOfType<SoundManager>();
         soundsList = GameObject.FindObjectOfType<SoundsList>();
+    }
+
+    void Update()
+    {
+        StepOnEnemy();
+
+        //プッシュ攻撃が終了したら踏みつけ判定をアクティブ
+        if (!stepOnEnemyCollider && rb.velocity == Vector3.zero)
+        {
+            stepOnEnemyCollider = true;
+        }
     }
 
     void FixedUpdate()
@@ -175,6 +191,28 @@ public class Enemy01 : MonoBehaviour
         }
     }
 
+    //プレイヤーに触れまれたら
+    void StepOnEnemy()
+    {
+        Vector3 center = transform.position + Vector3.up * 1f;
+        Collider[] hits = Physics.OverlapBox(center, boxSize / 2, Quaternion.identity, playerLayer);
+        if (hits.Length > 0 && stepOnEnemyCollider)
+        {
+            PlayerMover pm = FindObjectOfType<PlayerMover>();
+            pm.OnStepEnemy(); //音をプレイヤー側で鳴らす
+            soundManager.OnPlaySE(soundsList.stepOnPlayer);
+            hits[0].gameObject.GetComponent<Rigidbody>().AddForce(0f, 50f, 0f, ForceMode.Impulse); //プレイヤーを跳ねさせる
+            Destroy(gameObject);
+        }
+        
+    }
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Vector3 center = transform.position + Vector3.up * 1f;
+        Gizmos.DrawWireCube(center, boxSize);
+    }
+
     void OnTriggerEnter(Collider other)
     {
         //ファイヤーに当たったら  //敵本体に当たった場合だけ
@@ -246,6 +284,7 @@ public class Enemy01 : MonoBehaviour
         direction2.y = 0f; //上には飛ばないように
 
         rb.AddForce(direction2 * pushPower, ForceMode.Impulse); //プッシュ攻撃
+        stepOnEnemyCollider = false; //一時、踏みつけ判定をオフ
         StartCoroutine(EndPushAttack()); //プッシュ攻撃終了後の処理
         StartCoroutine(WaitToMove(2f)); //指定秒数止まる
     }

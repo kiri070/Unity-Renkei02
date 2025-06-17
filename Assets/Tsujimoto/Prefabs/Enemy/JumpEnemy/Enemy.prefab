@@ -124,6 +124,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyState: 0
   player: {fileID: 0}
+  boxSize: {x: 0.7, y: 0.3, z: 0.7}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
   defaultMaterial: {fileID: 2100000, guid: 0889b1a233b924894ad8ca15ad04a7e3, type: 2}
   moveMaterial: {fileID: 2100000, guid: 67a3580eb0f044102803c6ca3f844596, type: 2}
   speed: 7

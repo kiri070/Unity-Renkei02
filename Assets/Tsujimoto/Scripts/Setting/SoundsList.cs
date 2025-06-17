@@ -19,6 +19,7 @@ public class SoundsList : MonoBehaviour
     [Tooltip("効果音:ミミックの魔法")] public AudioClip mimicMagicSE;
     [Tooltip("効果音:敵の死亡")] public AudioClip killEnemySE;
     [Tooltip("効果音:敵のジャンプ攻撃")] public AudioClip jumpAttack;
+    [Tooltip("効果音:踏まれた時")] public AudioClip stepOnPlayer;
 
     [Header("システム関連")]
     [Tooltip("効果音:設定画面を開く")] public AudioClip openSetting;

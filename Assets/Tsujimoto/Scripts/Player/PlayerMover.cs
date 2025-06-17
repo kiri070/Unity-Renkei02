@@ -16,6 +16,7 @@ public class PlayerMover : MonoBehaviour
     public bool jumping; //ジャンプをするか
     [HideInInspector]
     public bool canJump; //ジャンプが可能か
+    bool touchDeathArea = false; //DeathAreaに触れたか
 
     Vector3 originalScale; //プレイヤーの大きさ
 
@@ -158,7 +159,7 @@ public class PlayerMover : MonoBehaviour
            viewPos.z < 0)
         {
             //ジャンプしていないとき
-            if (canJump)
+            if (canJump && !touchDeathArea)
             {
                 GameOverManager.becauseGameOver = "画面外に出てしまった!!"; //死因
                 GameManager.ToGameOverState();
@@ -238,8 +239,11 @@ public class PlayerMover : MonoBehaviour
         //落下したら
         if (other.CompareTag("DeathArea"))
         {
+            touchDeathArea = true;
             GameOverManager.becauseGameOver = "落下してしまった!!"; //死因
-            GameManager.ToGameOverState();
+            soundManager.OnPlaySE(soundsList.explosionSE);
+            StartCoroutine(DelayLoadScene2(1.5f)); //遅延してシーン変遷
+            // GameManager.ToGameOverState();
         }
         //魔法に当たったら
         if (other.CompareTag("Majic"))
@@ -254,6 +258,19 @@ public class PlayerMover : MonoBehaviour
             canMove = false;
             StartCoroutine(RecoveryKnockback(recoveryKnockbackTime));
         }
+    }
+
+    //遅延させてゲームオーバーシーンに変遷
+    IEnumerator DelayLoadScene(AudioClip audioClip)
+    {
+        yield return new WaitForSeconds(audioClip.length);
+        GameManager.ToGameOverState();
+    }
+    //時間時程してゲームオーバーシーンに変遷
+    IEnumerator DelayLoadScene2(float time)
+    {
+        yield return new WaitForSeconds(time);
+        GameManager.ToGameOverState();
     }
 
     //OnTriggerStay
@@ -276,8 +293,6 @@ public class PlayerMover : MonoBehaviour
                 }
                 frozenEffectTime = 0f;
             }
-
-            
         }
     }
 
@@ -326,5 +341,11 @@ public class PlayerMover : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         canMove = true;
+    }
+
+    //敵側から呼び出して踏みつけ音を鳴らす関数
+    public void OnStepEnemy()
+    {
+        soundManager.OnPlaySE(soundsList.stepOnPlayer);
     }
 }
