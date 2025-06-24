@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 769707483271398938}
   - component: {fileID: 7542159309807520234}
   m_Layer: 0
-  m_Name: ColorCheckerP1
+  m_Name: ColorCheckerP1Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
