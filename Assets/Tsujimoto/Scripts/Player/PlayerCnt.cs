@@ -37,7 +37,7 @@ public class PlayerCnt : MonoBehaviour
     [Header("エフェクト")]
     [Tooltip("スポーンエフェクト")][SerializeField] GameObject spawnEffect;
     GameObject player1_SpawnEffectPoint, player2_SpawnEffectPoint; //スポーンエフェクトの発生位置
-
+    [HideInInspector] public GameObject currentCheckPoint; //最新のチェックポイント
     public bool invincible;//プレイヤーが無敵時間かどうか
 
 
@@ -218,6 +218,21 @@ public class PlayerCnt : MonoBehaviour
         
         mover1.transform.position = player1_StartPoint.transform.position;
         mover2.transform.position = player2_StartPoint.transform.position;
+        StartCoroutine(InvincibleTimer());
+    }
+    //チェックポイントにスポーンさせる関数
+    public void SpawnCheckPoint()
+    {
+        //スポーンポイントを格納
+        GameObject spawn1 = currentCheckPoint.transform.Find("Player1_Spawn").gameObject; 
+        GameObject spawn2 = currentCheckPoint.transform.Find("Player2_Spawn").gameObject;
+        //スポーンエフェクト再生
+        Instantiate(spawnEffect, spawn1.transform.position, spawnEffect.transform.rotation);
+        Instantiate(spawnEffect, spawn2.transform.position, spawnEffect.transform.rotation);
+
+        mover1.transform.position = spawn1.transform.position;
+        mover2.transform.position = spawn2.transform.position;
+
         StartCoroutine(InvincibleTimer());
     }
     //無敵時間管理

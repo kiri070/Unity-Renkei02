@@ -163,11 +163,23 @@ public class PlayerMover : MonoBehaviour
 
             if (canJump && !touchDeathArea)
             {
-                //タイマー減少
-                gameManager.DecreaseTimer(gameManager.decreaseFallTimer);
+                if (!playerCnt.currentCheckPoint)
+                {
+                    //タイマー減少
+                    gameManager.DecreaseTimer(gameManager.decreaseFallTimer);
 
-                //スタート地点に戻る
-                playerCnt.SpwanStartPoint();
+                    //スタート地点に戻る
+                    playerCnt.SpwanStartPoint();
+                }
+                //チェックポイントがあったら
+                else
+                {
+                    //タイマー減少
+                    gameManager.DecreaseTimer(gameManager.decreaseFallTimer);
+
+                    playerCnt.SpawnCheckPoint();
+                }
+                
             }
 
             //ジャンプしていないとき
@@ -251,12 +263,23 @@ public class PlayerMover : MonoBehaviour
         //落下したら
         if (other.CompareTag("DeathArea"))
         {
-            touchDeathArea = true;
-            //タイマー減少
-            gameManager.DecreaseTimer(gameManager.decreaseFallTimer);
+            if (!playerCnt.currentCheckPoint)
+            {
+                touchDeathArea = true;
+                //タイマー減少
+                gameManager.DecreaseTimer(gameManager.decreaseFallTimer);
 
-            //スタート地点に戻る
-            playerCnt.SpwanStartPoint();
+                //スタート地点に戻る
+                playerCnt.SpwanStartPoint();
+            }
+            else
+            {
+                touchDeathArea = true;
+                //タイマー減少
+                gameManager.DecreaseTimer(gameManager.decreaseFallTimer);
+                playerCnt.SpawnCheckPoint();
+            }
+            
 
             // GameOverManager.becauseGameOver = "落下してしまった!!"; //死因
             // soundManager.OnPlaySE(soundsList.explosionSE);
@@ -269,11 +292,23 @@ public class PlayerMover : MonoBehaviour
             //無敵時間ではなかったら
             if (!playerCnt.invincible)
             {
-                //タイマー減少
-                gameManager.DecreaseTimer(gameManager.decreaseMimicTimer);
+                //チェックポイントがない場合
+                if (!playerCnt.currentCheckPoint)
+                {
+                    //タイマー減少
+                    gameManager.DecreaseTimer(gameManager.decreaseMimicTimer);
 
-                //スタート地点に戻る
-                playerCnt.SpwanStartPoint();
+                    //スタート地点に戻る
+                    playerCnt.SpwanStartPoint();
+                }
+                //チェックポイントがある場合
+                else
+                {
+                    //タイマー減少
+                    gameManager.DecreaseTimer(gameManager.decreaseMimicTimer);
+                    playerCnt.SpawnCheckPoint();
+                }
+                
             }
             // GameOverManager.becauseGameOver = "魔法で黒焦げにされた..."; //死因
             // GameManager.ToGameOverState();
@@ -284,6 +319,12 @@ public class PlayerMover : MonoBehaviour
             StartCoroutine(cameraCnt.ShakeCamera(0.7f, 0.3f)); //カメラを揺らす
             canMove = false;
             StartCoroutine(RecoveryKnockback(recoveryKnockbackTime));
+        }
+        //チェックポイントに触れたら
+        if (other.CompareTag("CheckPoint"))
+        {
+            //チェックポイントを保存
+            playerCnt.currentCheckPoint = other.gameObject;
         }
     }
 

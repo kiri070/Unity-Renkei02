@@ -16,6 +16,7 @@ TagManager:
   - Enemy
   - Majic
   - Bomb
+  - CheckPoint
   layers:
   - Default
   - TransparentFX
