@@ -323,8 +323,10 @@ public class PlayerMover : MonoBehaviour
         //チェックポイントに触れたら
         if (other.CompareTag("CheckPoint"))
         {
-            //チェックポイントを保存
+            //最新チェックポイントを保存
             playerCnt.currentCheckPoint = other.gameObject;
+            //チェックポイントのエフェクトを再生
+            playerCnt.currentCheckPoint.transform.Find("CheckPointEffect").gameObject.SetActive(true);
         }
     }
 
