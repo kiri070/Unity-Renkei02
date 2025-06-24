@@ -34,6 +34,10 @@ public class PlayerCnt : MonoBehaviour
     public GameObject player1_StartPoint;
     public GameObject player2_StartPoint;
 
+    [Header("エフェクト")]
+    [Tooltip("スポーンエフェクト")][SerializeField] GameObject spawnEffect;
+    GameObject player1_SpawnEffectPoint, player2_SpawnEffectPoint; //スポーンエフェクトの発生位置
+
     public bool invincible;//プレイヤーが無敵時間かどうか
 
 
@@ -57,6 +61,10 @@ public class PlayerCnt : MonoBehaviour
         //コンポーネント取得
         soundManager = GameObject.FindObjectOfType<SoundManager>();
         soundsList = GameObject.FindObjectOfType<SoundsList>();
+
+        //エフェクトの位置を取得
+        player1_SpawnEffectPoint = GameObject.Find("Player1_SpawnEffectPoint");
+        player2_SpawnEffectPoint = GameObject.Find("Player2_SpawnEffectPoint");
     }
 
     void Update()
@@ -204,6 +212,10 @@ public class PlayerCnt : MonoBehaviour
     //スタート地点にスポーンさせる関数
     public void SpwanStartPoint()
     {
+        //スポーンエフェクト再生
+        Instantiate(spawnEffect, player1_SpawnEffectPoint.transform.position, spawnEffect.transform.rotation);
+        Instantiate(spawnEffect, player2_SpawnEffectPoint.transform.position, spawnEffect.transform.rotation);
+        
         mover1.transform.position = player1_StartPoint.transform.position;
         mover2.transform.position = player2_StartPoint.transform.position;
         StartCoroutine(InvincibleTimer());
