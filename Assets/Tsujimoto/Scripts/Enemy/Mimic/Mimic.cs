@@ -8,13 +8,17 @@ public class Mimic : MonoBehaviour
     [HideInInspector] public GameObject player; //どのプレイヤーが範囲内に入ったか
     [HideInInspector] public Vector3 lastPlayerPosition; //攻撃範囲内に入ったプレイヤーの位置を記録
 
+    [Header("踏みつけ判定")][SerializeField] Vector3 boxSize = new Vector3(1f, 0.2f, 1f);
+    [SerializeField] LayerMask playerLayer;
+
     [Header("魔法で飛ばすオブジェクト")] public GameObject majicObj;
     [Header("魔法攻撃のクールタイム")][SerializeField] int majicAttackCooltime;
     bool canMajicAttack = true; //魔法を放てるかどうか
     [Header("魔法の速度")][SerializeField] float speed;
 
     [Header("エフェクト")]
-    [Tooltip("死んだ時")] public GameObject killedEffect;
+    [Tooltip("死んだ時")] public GameObject killed;
+    [Tooltip("踏まれた時")] public GameObject step;
 
     Renderer renderer;
 
@@ -60,6 +64,8 @@ public class Mimic : MonoBehaviour
 
     void FixedUpdate()
     {
+        StepOnEnemy();
+        
         switch (enemyState)
         {
             case EnemyState.Idle:
@@ -118,6 +124,32 @@ public class Mimic : MonoBehaviour
         canMajicAttack = true;
     }
 
+    //プレイヤーに触れまれたら
+    void StepOnEnemy()
+    {
+        Vector3 center = transform.position + Vector3.up * 1f;
+        Collider[] hits = Physics.OverlapBox(center, boxSize / 2, transform.rotation, playerLayer);
+        if (hits.Length > 0)
+        {
+            PlayerMover pm = FindObjectOfType<PlayerMover>();
+            pm.OnStepEnemy(); //音をプレイヤー側で鳴らす
+            soundManager.OnPlaySE(soundsList.stepOnPlayer);
+            Instantiate(step, transform.position, step.transform.rotation); //エフェクト再生
+            //キルエフェクト再生
+            Instantiate(killed, transform.position, killed.transform.rotation);
+            hits[0].gameObject.GetComponent<Rigidbody>().AddForce(0f, 50f, 0f, ForceMode.Impulse); //プレイヤーを跳ねさせる
+            Destroy(gameObject);
+        }
+
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Vector3 center = transform.position + transform.up * 1f;
+        Gizmos.matrix = Matrix4x4.TRS(center, transform.rotation, Vector3.one);
+        Gizmos.DrawWireCube(Vector3.zero, boxSize);
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -128,7 +160,7 @@ public class Mimic : MonoBehaviour
             soundManager.OnPlaySE(soundsList.killEnemySE);
 
             //エフェクト再生
-            Instantiate(killedEffect, transform.position, killedEffect.transform.rotation);
+            Instantiate(killed, transform.position, killed.transform.rotation);
             Destroy(gameObject);
         }
         //落下したら

@@ -30,6 +30,13 @@ public class PlayerCnt : MonoBehaviour
     public float player1_BulletCoolDown;
     public float player2_BulletCoolDown;
 
+    [Header("スタート地点")]
+    public GameObject player1_StartPoint;
+    public GameObject player2_StartPoint;
+
+    public bool invincible;//プレイヤーが無敵時間かどうか
+
+
     //弾を発射できるかどうか
     private bool canPlayer1Bullet = true;
     private bool canPlayer2Bullet = true;
@@ -192,5 +199,20 @@ public class PlayerCnt : MonoBehaviour
         canPlayer2Bullet = false; //クールタイム処理を走らせる
         yield return new WaitForSeconds(player2_BulletCoolDown);
         canPlayer2Bullet = true;
+    }
+
+    //スタート地点にスポーンさせる関数
+    public void SpwanStartPoint()
+    {
+        mover1.transform.position = player1_StartPoint.transform.position;
+        mover2.transform.position = player2_StartPoint.transform.position;
+        StartCoroutine(InvincibleTimer());
+    }
+    //無敵時間管理
+    IEnumerator InvincibleTimer()
+    {
+        invincible = true; //無敵状態に
+        yield return new WaitForSeconds(1f);
+        invincible = false; //解除
     }
 }

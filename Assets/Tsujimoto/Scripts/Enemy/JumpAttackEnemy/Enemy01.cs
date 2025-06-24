@@ -10,7 +10,7 @@ public class Enemy01 : MonoBehaviour
     [HideInInspector] public GameObject player; //どのプレイヤーが範囲内に入ったか
 
     //踏みつけ判定
-    [SerializeField] Vector3 boxSize = new Vector3(1f, 0.2f, 1f);
+    [Header("踏みつけ判定")][SerializeField] Vector3 boxSize = new Vector3(1f, 0.2f, 1f);
     [SerializeField] LayerMask playerLayer;
     bool stepOnEnemyCollider = true; //踏むつけ判定のコライダーのオンオフ
 

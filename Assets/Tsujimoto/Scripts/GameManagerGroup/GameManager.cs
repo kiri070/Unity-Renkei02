@@ -20,6 +20,16 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float countDown; //カウントダウンの秒数
 
+
+
+    [Header("タイマー")]
+    public float timerValue = 180f;
+    [Tooltip("タイマーのテキスト")] public Text timerText;
+    [SerializeField][Tooltip("タイマー減少テキスト")] GameObject decreaseTextPrefab;
+    [SerializeField][Tooltip("タイマー減少テキストのスポーン位置(RectTransform)")] Transform spawnPoint;
+    [Tooltip("タイム減少:ミミックの魔法を受けた時")] public float decreaseMimicTimer = 5f;
+    [Tooltip("タイム減少:落下時")] public float decreaseFallTimer = 10f;
+
     SoundManager soundManager;
     SoundsList soundsList;
     //ゲームの状態を管理
@@ -55,6 +65,60 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene("ClearScene");
         }
+
+        //タイマー更新
+        timerValue -= Time.deltaTime;
+        timerText.text = "残り時間:" + Mathf.Floor(timerValue).ToString();
+        //タイマーが0になったら
+        if (timerValue <= 0)
+        {
+            GameOverManager.becauseGameOver = "タイムアップ!";
+            ToGameOverState();
+        }
+    }
+
+    //タイマーを減らす関数
+    public void DecreaseTimer(float time)
+    {
+        timerValue -= time; //タイマーを減少
+        GameObject obj = Instantiate(decreaseTextPrefab, spawnPoint); //テキストを生成
+        obj.transform.localScale = Vector3.one; //スケールを等倍に
+        obj.transform.localPosition = Vector3.zero; //親オブジェクトの原点
+
+        Text text = obj.GetComponent<Text>();
+        if (text != null)
+        {
+            text.text = "-" + time.ToString();
+            StartCoroutine(AnimateAndDestroyText(obj, text));
+        }
+    }
+    //タイマー減少テキストをフェードアウトさせる
+    IEnumerator AnimateAndDestroyText(GameObject obj, Text text)
+    {
+        float duration = 1f;
+        float time = 0f;
+        Vector3 startPos = obj.transform.localPosition;
+        Vector3 endPos = startPos + new Vector3(0, 50f, 0); // 上に50動く
+
+        Color startColor = text.color;
+
+        while (time < duration)
+        {
+            float t = time / duration;
+
+            // 上に移動
+            obj.transform.localPosition = Vector3.Lerp(startPos, endPos, t);
+
+            // フェードアウト
+            Color c = startColor;
+            c.a = Mathf.Lerp(1f, 0f, t);
+            text.color = c;
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        Destroy(obj); // 最後に削除
     }
 
     //スタート時カウントダウン

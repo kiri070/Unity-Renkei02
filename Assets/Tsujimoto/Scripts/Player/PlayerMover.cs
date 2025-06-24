@@ -9,6 +9,7 @@ public class PlayerMover : MonoBehaviour
     Rigidbody rb;
     Vector3 move; //移動するためのベクトル
     PlayerCnt playerCnt;
+    GameManager gameManager;
 
     [HideInInspector]
     public float jumpForce; //ジャンプ力
@@ -59,6 +60,7 @@ public class PlayerMover : MonoBehaviour
         soundsList = FindObjectOfType<SoundsList>();
         cameraCnt = FindObjectOfType<CameraCnt>();
         originalScale = transform.localScale; //初期の大きさを保存
+        gameManager = FindObjectOfType<GameManager>();
 
         // 子を含むRendererをすべて取得
         renderers = GetComponentsInChildren<Renderer>();
@@ -158,13 +160,22 @@ public class PlayerMover : MonoBehaviour
            viewPos.y < 0 || viewPos.y > 1 ||
            viewPos.z < 0)
         {
-            //ジャンプしていないとき
+
             if (canJump && !touchDeathArea)
             {
-                GameOverManager.becauseGameOver = "画面外に出てしまった!!"; //死因
-                GameManager.ToGameOverState();
+                //タイマー減少
+                gameManager.DecreaseTimer(gameManager.decreaseFallTimer);
+
+                //スタート地点に戻る
+                playerCnt.SpwanStartPoint();
             }
 
+            //ジャンプしていないとき
+            // if (canJump && !touchDeathArea)
+            // {
+            //     GameOverManager.becauseGameOver = "画面外に出てしまった!!"; //死因
+            //     GameManager.ToGameOverState();
+            // }
         }
     }
 
@@ -200,6 +211,7 @@ public class PlayerMover : MonoBehaviour
         if (other.gameObject.CompareTag("Floor") && !canJump)
         {
             canJump = true;
+            touchDeathArea = false;
             Instantiate(jumpEffect, transform.position, Quaternion.identity);
         }
         //敵に触れたら
@@ -240,16 +252,31 @@ public class PlayerMover : MonoBehaviour
         if (other.CompareTag("DeathArea"))
         {
             touchDeathArea = true;
-            GameOverManager.becauseGameOver = "落下してしまった!!"; //死因
-            soundManager.OnPlaySE(soundsList.explosionSE);
-            StartCoroutine(DelayLoadScene2(1.5f)); //遅延してシーン変遷
+            //タイマー減少
+            gameManager.DecreaseTimer(gameManager.decreaseFallTimer);
+
+            //スタート地点に戻る
+            playerCnt.SpwanStartPoint();
+
+            // GameOverManager.becauseGameOver = "落下してしまった!!"; //死因
+            // soundManager.OnPlaySE(soundsList.explosionSE);
+            // StartCoroutine(DelayLoadScene2(1.5f)); //遅延してシーン変遷
             // GameManager.ToGameOverState();
         }
         //魔法に当たったら
         if (other.CompareTag("Majic"))
         {
-            GameOverManager.becauseGameOver = "魔法で黒焦げにされた..."; //死因
-            GameManager.ToGameOverState();
+            //無敵時間ではなかったら
+            if (!playerCnt.invincible)
+            {
+                //タイマー減少
+                gameManager.DecreaseTimer(gameManager.decreaseMimicTimer);
+
+                //スタート地点に戻る
+                playerCnt.SpwanStartPoint();
+            }
+            // GameOverManager.becauseGameOver = "魔法で黒焦げにされた..."; //死因
+            // GameManager.ToGameOverState();
         }
         //Bombに触れたら
         if (other.CompareTag("Bomb"))
