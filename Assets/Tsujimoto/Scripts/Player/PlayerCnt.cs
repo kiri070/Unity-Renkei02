@@ -192,18 +192,25 @@ public class PlayerCnt : MonoBehaviour
     //Player1:ジャンプ(マルチ用)
     void OnPlayer1Jump(InputAction.CallbackContext ctx)
     {
-        if (mover1 != null && mover1.canJump)
+        if (mover1 != null && mover1.canJump && mover2 != null && mover2.canJump)
         {
             mover1.jumpForce = jumpForce;
             mover1.jumping = true;
+
+            mover2.jumpForce = jumpForce;
+            mover2.jumping = true;
+
             soundManager.OnPlaySE(soundsList.jumpSE);
         }
     }
     //Player2:ジャンプ(マルチ用)
     void OnPlayer2Jump(InputAction.CallbackContext ctx)
     {
-        if (mover2 != null && mover2.canJump)
+        if (mover2 != null && mover2.canJump && mover1 != null && mover1.canJump)
         {
+            mover1.jumpForce = jumpForce;
+            mover1.jumping = true;
+
             mover2.jumpForce = jumpForce;
             mover2.jumping = true;
             soundManager.OnPlaySE(soundsList.jumpSE);
