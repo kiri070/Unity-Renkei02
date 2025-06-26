@@ -141,12 +141,12 @@ public class PlayerMover : MonoBehaviour
     //スライディング開始:大きさを小さく
     public void StartSliding()
     {
-        transform.localScale = originalScale * 0.5f;
+         transform.localScale = originalScale * 0.5f;
     }
     //スライディング終了:大きさを戻す
     public void EndSliding()
     {
-        transform.localScale = originalScale;
+         transform.localScale = originalScale;
     }
 
     //画面外検知処理(保留)

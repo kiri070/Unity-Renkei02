@@ -12,7 +12,7 @@ public class SettingManager : MonoBehaviour
     SoundManager soundManager;
     SoundsList soundsList;
 
-
+    PlayerCnt playerCnt;
 
     void Start()
     {
@@ -27,6 +27,7 @@ public class SettingManager : MonoBehaviour
         //コンポーネント取得
         soundManager = FindObjectOfType<SoundManager>();
         soundsList = FindObjectOfType<SoundsList>();
+        playerCnt = FindObjectOfType<PlayerCnt>();
     }
     void Update()
     {
@@ -97,6 +98,7 @@ public class SettingManager : MonoBehaviour
     {
         //ゲームの状態をプレイ中に変更
         GameManager.ToPlayingState();
+        playerCnt.OnDestroyEvents(); //シーン変遷前に入力イベントを削除
         SceneManager.LoadScene("StageSelect");
     }
 }

@@ -18,7 +18,7 @@ public class GoalScr : MonoBehaviour
     {
         if (GoalOne && GoalTwo)
         {
-            PlayerMover.GameClear();
+           PlayerMover.GameClear();
         }
     }
 

@@ -4,9 +4,14 @@ using JetBrains.Annotations;
 using Unity.VisualScripting;
 using UnityEditor.Callbacks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerCnt : MonoBehaviour
 {
+    InputCnt controls; //入力を受け取るためのもの
+    InputCnt controls1; // Player1用
+    InputCnt controls2; // Player2用
+
     [Header("プレイヤー格納")]
     public PlayerMover mover1;
     public PlayerMover mover2;
@@ -55,8 +60,6 @@ public class PlayerCnt : MonoBehaviour
     [Tooltip("プレイヤー子オブジェクトの着弾地点(状態Hide)")] public GameObject playerFirePoint1;
     [Tooltip("プレイヤー子オブジェクトの着弾地点(状態Hide)")] public GameObject playerFirePoint2;
 
-
-
     void Start()
     {
         //コンポーネント取得
@@ -66,101 +69,299 @@ public class PlayerCnt : MonoBehaviour
         //エフェクトの位置を取得
         player1_SpawnEffectPoint = GameObject.Find("Player1_SpawnEffectPoint");
         player2_SpawnEffectPoint = GameObject.Find("Player2_SpawnEffectPoint");
+
+        //シングルプレイ用
+        controls = new InputCnt(); 
+        //マルチプレイ用
+        controls1 = new InputCnt();
+        controls2 = new InputCnt();
+
+        //一部の入力イベントを登録
+        RegisterEvents();
+
+        //コントローラーのみ
+        //if (gamepads.Count >= 2)
+        //{
+        //    controls1.devices = new InputDevice[] { gamepads[0] };
+        //    controls2.devices = new InputDevice[] { gamepads[1] };
+        //}
+        //キーボード + コントローラー
+        if (Gamepad.all.Count >= 1)
+        {
+            controls1.devices = new InputDevice[] { Gamepad.all[0] };
+            controls2.devices = new InputDevice[] { Keyboard.current };
+        }
     }
 
     void Update()
     {
-        PlayerControlle();
+        //ゲームモードがシングルなら
+        if (GameManager.gameMode == GameManager.GameMode.SinglePlayer)
+        {
+            controls.Enable(); // 入力を有効にする
+            controls1.Player1.Disable();
+            controls2.Player2.Disable();
+        }
+        //ゲームモードがマルチプレイヤーなら
+        else if (GameManager.gameMode == GameManager.GameMode.MultiPlayer)
+        {
+            controls.Disable();
+            controls1.Player1.Enable();
+            controls2.Player2.Enable();
+        }
+
+        //操作
+        if (GameManager.gameMode == GameManager.GameMode.SinglePlayer) //シングルプレイ時
+            PlayerControlle();
+        else if (GameManager.gameMode == GameManager.GameMode.MultiPlayer) //マルチプレイ時
+            MultiPlayerControlle();
+
+    }
+    void RegisterEvents()
+    {
+        //ジャンプ
+        controls1.Player1.Jump.performed += OnPlayer1Jump;
+        controls2.Player2.Jump.performed += OnPlayer2Jump;
+
+        //Player1:攻撃
+        controls1.Player1.Attack1.started += ctx =>
+        {
+            if (GameManager.state != GameManager.GameState.Playing) return;
+            if (canPlayer1Bullet)
+                playerFirePoint1.SetActive(true);
+        };
+        controls1.Player1.Attack1.canceled += ctx =>
+        {
+            if (GameManager.state != GameManager.GameState.Playing) return;
+            if (canPlayer1Bullet)
+            {
+                playerFirePoint1.SetActive(false);
+                Instantiate(player1Bullet, player1BulletArea.transform.position, Quaternion.identity);
+                soundManager.OnPlaySE(soundsList.shotSE);
+                StartCoroutine(Player1_BulletCoolDown());
+            }
+        };
+        //Player2:攻撃
+        controls2.Player2.Attack1.started += ctx =>
+        {
+            if (GameManager.state != GameManager.GameState.Playing) return;
+            if (canPlayer2Bullet)
+                playerFirePoint2.SetActive(true);
+        };
+        controls2.Player2.Attack1.canceled += ctx =>
+        {
+            if (GameManager.state != GameManager.GameState.Playing) return;
+            if (canPlayer2Bullet)
+            {
+                playerFirePoint2.SetActive(false);
+                Instantiate(player2Bullet, player2BulletArea.transform.position, Quaternion.identity);
+                soundManager.OnPlaySE(soundsList.shotSE);
+                StartCoroutine(Player2_BulletCoolDown());
+            }
+        };
+
+        //Player1:スライディング開始
+        controls1.Player1.Sliding.started += ctx =>
+        {
+            if (GameManager.state != GameManager.GameState.Playing) return;
+            mover1.StartSliding();
+            mover2.StartSliding();
+        };
+        //Player1:スライディング終了
+        controls1.Player1.Sliding.canceled += ctx =>
+        {
+            if (GameManager.state != GameManager.GameState.Playing) return;
+            mover1.EndSliding();
+            mover2.EndSliding();
+        };
+        //Player2:スライディング開始
+        controls2.Player2.Sliding.started += ctx =>
+        {
+            if (GameManager.state != GameManager.GameState.Playing) return;
+            mover1.StartSliding();
+            mover2.StartSliding();
+        };
+        //Player2:スライディング終了
+        controls2.Player2.Sliding.canceled += ctx =>
+        {
+            if (GameManager.state != GameManager.GameState.Playing) return;
+            mover1.EndSliding();
+            mover2.EndSliding();
+        };
+    }
+    //Player1:ジャンプ(マルチ用)
+    void OnPlayer1Jump(InputAction.CallbackContext ctx)
+    {
+        if (mover1 != null && mover1.canJump)
+        {
+            mover1.jumpForce = jumpForce;
+            mover1.jumping = true;
+            soundManager.OnPlaySE(soundsList.jumpSE);
+        }
+    }
+    //Player2:ジャンプ(マルチ用)
+    void OnPlayer2Jump(InputAction.CallbackContext ctx)
+    {
+        if (mover2 != null && mover2.canJump)
+        {
+            mover2.jumpForce = jumpForce;
+            mover2.jumping = true;
+            soundManager.OnPlaySE(soundsList.jumpSE);
+        }
     }
 
+    //シングルプレイ用
     void PlayerControlle()
     {
         if (GameManager.state == GameManager.GameState.Playing)
         {
-            // Player1: WASD
-            float x1 = Input.GetAxisRaw("Horizontal");
-            float z1 = Input.GetAxisRaw("Vertical");
-            Vector3 input1 = new Vector3(x1, 0, z1) * moveSpeed;
-            mover1.Assignment(input1);
+            //Player1:移動(キーボードとコントローラー対応)
+            Vector2 input1 = controls.Player.Move1.ReadValue<Vector2>();
+            Vector3 moveDir1 = new Vector3(input1.x, 0f, input1.y); // y→Z軸へ
+            mover1.Assignment(moveDir1 * moveSpeed);
 
-            // Player2: IJKL
-            float x2 = Input.GetAxisRaw("Horizontal_P2");
-            float z2 = Input.GetAxisRaw("Vertical_P2");
-            Vector3 input2 = new Vector3(x2, 0, z2) * moveSpeed;
-            mover2.Assignment(input2);
+            //Player2:移動(キーボードとコントローラー対応)
+            Vector2 input2 = controls.Player.Move2.ReadValue<Vector2>();
+            Vector3 moveDir2 = new Vector3(input2.x, 0f, input2.y); // y→Z軸へ
+            mover2.Assignment(moveDir2 * moveSpeed);
 
-            //ジャンプ(共通)
-            if (Input.GetKeyDown(KeyCode.Space) && mover1.canJump && mover2.canJump)
-            {
-                mover1.jumpForce = this.jumpForce;
-                mover1.jumping = true;
 
-                mover2.jumpForce = this.jumpForce;
-                mover2.jumping = true;
-
-                //ジャンプSE
-                soundManager.OnPlaySE(soundsList.jumpSE);
-            }
-
-            //Shiftを押している時はスライディング開始
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            //スライディング開始
+            controls.Player.Sliding.started += ctx =>
             {
                 mover1.StartSliding();
                 mover2.StartSliding();
-            }
-            //Shiftを離したらスライディング終了
-            else if (Input.GetKeyUp(KeyCode.LeftShift))
+            };
+            //スライディング終了
+            controls.Player.Sliding.canceled += ctx =>
             {
                 mover1.EndSliding();
                 mover2.EndSliding();
-            }
+            };
 
-            //弾を発射(長押し:着弾地点表示)
-            if (Input.GetKey(KeyCode.F) && canPlayer1Bullet)
+            //ジャンプ入力
+            controls.Player.Jump.performed += ctx =>
             {
-                playerFirePoint1.SetActive(true);
-            }
-            //(離す:発射)
-            else if (Input.GetKeyUp(KeyCode.F) && canPlayer1Bullet)
-            {
-                playerFirePoint1.SetActive(false);
-                Instantiate(player1Bullet, player1BulletArea.transform.position, Quaternion.identity);
-                //効果音再生
-                soundManager.OnPlaySE(soundsList.shotSE);
-                StartCoroutine(Player1_BulletCoolDown()); //クールダウン開始
-            }
+                if (mover1.canJump && mover2.canJump)
+                {
+                    mover1.jumpForce = this.jumpForce;
+                    mover1.jumping = true;
 
-            //弾を発射(長押し:着弾地点表示)
-            if (Input.GetKey(KeyCode.H) && canPlayer2Bullet)
-            {
-                playerFirePoint2.SetActive(true);
-            }
-            //(離す:発射)
-            else if (Input.GetKeyUp(KeyCode.H) && canPlayer2Bullet)
-            {
-                playerFirePoint2.SetActive(false);
-                Instantiate(player2Bullet, player2BulletArea.transform.position, Quaternion.identity);
-                //効果音再生
-                soundManager.OnPlaySE(soundsList.shotSE);
-                StartCoroutine(Player2_BulletCoolDown()); //クールダウン開始
-            }
+                    mover2.jumpForce = this.jumpForce;
+                    mover2.jumping = true;
 
-            // //弾を発射
-            // if (Input.GetKeyDown(KeyCode.F) && canPlayer1Bullet)
-            // {
-            //     Instantiate(player1Bullet, player1BulletArea.transform.position, Quaternion.identity);
-            //     //効果音再生
-            //     soundManager.OnPlaySE(soundsList.shotSE);
+                    soundManager.OnPlaySE(soundsList.jumpSE);
+                }
+            };
 
-            //     StartCoroutine(Player1_BulletCoolDown()); //クールダウン開始
-            // }
-            // if (Input.GetKeyDown(KeyCode.H) && canPlayer2Bullet)
-            // {
-            //     Instantiate(player2Bullet, player2BulletArea.transform.position, Quaternion.identity);
-            //     //効果音再生
-            //     soundManager.OnPlaySE(soundsList.shotSE);
-            //     StartCoroutine(Player2_BulletCoolDown()); //クールダウン開始
-            // }
+            //Player1:弾を発射
+            controls.Player.Attack1.started += ctx =>
+            {
+                if (canPlayer1Bullet)
+                {
+                    playerFirePoint1.SetActive(true);
+                }
+            };
+            controls.Player.Attack1.canceled += ctx =>
+            {
+                if (canPlayer1Bullet)
+                {
+                    playerFirePoint1.SetActive(false);
+                    Instantiate(player1Bullet, player1BulletArea.transform.position, Quaternion.identity);
+                    //効果音再生
+                    soundManager.OnPlaySE(soundsList.shotSE);
+                    StartCoroutine(Player1_BulletCoolDown()); //クールダウン開始
+                }
+            };    
+            //Player2:弾を発射
+            controls.Player.Attack2.started += ctx =>
+            {
+                if (canPlayer2Bullet)
+                {
+                    playerFirePoint2.SetActive(true);
+                }
+            };
+            controls.Player.Attack2.canceled += ctx =>
+            {
+                if (canPlayer2Bullet)
+                {
+                    playerFirePoint2.SetActive(false);
+                    Instantiate(player2Bullet, player2BulletArea.transform.position, Quaternion.identity);
+                    //効果音再生
+                    soundManager.OnPlaySE(soundsList.shotSE);
+                    StartCoroutine(Player2_BulletCoolDown()); //クールダウン開始
+                }
+            };
+
+
+            //// Player1: WASD
+            //float x1 = Input.GetAxisRaw("Horizontal");
+            //float z1 = Input.GetAxisRaw("Vertical");
+            //Vector3 input1 = new Vector3(x1, 0, z1) * moveSpeed;
+            //mover1.Assignment(input1);
+
+            //// Player2: IJKL
+            //float x2 = Input.GetAxisRaw("Horizontal_P2");
+            //float z2 = Input.GetAxisRaw("Vertical_P2");
+            //Vector3 input2 = new Vector3(x2, 0, z2) * moveSpeed;
+            //mover2.Assignment(input2);
+
+            ////ジャンプ(共通)
+            //if (Input.GetKeyDown(KeyCode.Space) && mover1.canJump && mover2.canJump)
+            //{
+            //    mover1.jumpForce = this.jumpForce;
+            //    mover1.jumping = true;
+
+            //    mover2.jumpForce = this.jumpForce;
+            //    mover2.jumping = true;
+
+            //    //ジャンプSE
+            //    soundManager.OnPlaySE(soundsList.jumpSE);
+            //}
+
+            ////Shiftを押している時はスライディング開始
+            //if (Input.GetKeyDown(KeyCode.LeftShift))
+            //{
+            //    mover1.StartSliding();
+            //    mover2.StartSliding();
+            //}
+            ////Shiftを離したらスライディング終了
+            //else if (Input.GetKeyUp(KeyCode.LeftShift))
+            //{
+            //    mover1.EndSliding();
+            //    mover2.EndSliding();
+            //}
+
+            ////弾を発射(長押し:着弾地点表示)
+            //if (Input.GetKey(KeyCode.F) && canPlayer1Bullet)
+            //{
+            //    playerFirePoint1.SetActive(true);
+            //}
+            ////(離す:発射)
+            //else if (Input.GetKeyUp(KeyCode.F) && canPlayer1Bullet)
+            //{
+            //    playerFirePoint1.SetActive(false);
+            //    Instantiate(player1Bullet, player1BulletArea.transform.position, Quaternion.identity);
+            //    //効果音再生
+            //    soundManager.OnPlaySE(soundsList.shotSE);
+            //    StartCoroutine(Player1_BulletCoolDown()); //クールダウン開始
+            //}
+
+            ////弾を発射(長押し:着弾地点表示)
+            //if (Input.GetKey(KeyCode.H) && canPlayer2Bullet)
+            //{
+            //    playerFirePoint2.SetActive(true);
+            //}
+            ////(離す:発射)
+            //else if (Input.GetKeyUp(KeyCode.H) && canPlayer2Bullet)
+            //{
+            //    playerFirePoint2.SetActive(false);
+            //    Instantiate(player2Bullet, player2BulletArea.transform.position, Quaternion.identity);
+            //    //効果音再生
+            //    soundManager.OnPlaySE(soundsList.shotSE);
+            //    StartCoroutine(Player2_BulletCoolDown()); //クールダウン開始
+            //}
+
 
             //*追加部分
             if (Input.GetKeyDown(KeyCode.Z)) //のちのちギミックで動かすトリガー
@@ -173,7 +374,22 @@ public class PlayerCnt : MonoBehaviour
             }
         }
     }
+    //マルチプレイ用
+    void MultiPlayerControlle()
+    {
+        if (GameManager.state == GameManager.GameState.Playing)
+        {
+            //Player1:移動(キーボードとコントローラー対応)
+            Vector2 input1 = controls1.Player1.Move.ReadValue<Vector2>();
+            Vector3 moveDir1 = new Vector3(input1.x, 0f, input1.y); // y→Z軸へ
+            mover1.Assignment(moveDir1 * moveSpeed);
 
+            //Player2:移動(キーボードとコントローラー対応)
+            Vector2 input2 = controls2.Player2.Move.ReadValue<Vector2>();
+            Vector3 moveDir2 = new Vector3(input2.x, 0f, input2.y); // y→Z軸へ
+            mover2.Assignment(moveDir2 * moveSpeed);
+        }
+    }
     void SwapPlayerControl() //*追加部分
     {
         //mover1とmover2の中身を入れ替え
@@ -242,5 +458,13 @@ public class PlayerCnt : MonoBehaviour
         invincible = true; //無敵状態に
         yield return new WaitForSeconds(1f);
         invincible = false; //解除
+    }
+
+    //入力イベントを削除
+    public void OnDestroyEvents()
+    {
+        controls?.Dispose();
+        controls1?.Dispose();
+        controls2?.Dispose();
     }
 }

@@ -43,11 +43,21 @@ public class StageSelectManager : MonoBehaviour
 
 
     //チュートリアルに変遷するボタン
-    public void OnStartStage1Button()
+    public void OnSinglePlayTutorial()
     {
         //効果音を再生
         soundManager.OnPlaySE(soundsList.clickButton);
-        
+        //ゲームモードをシングルプレイに
+        GameManager.gameMode = GameManager.GameMode.SinglePlayer;
+        StartCoroutine(SceneLoading("TutorialScene"));
+    }
+    //チュートリアル:マルチプレイボタン
+    public void OnMultiPlayTutorial()
+    {
+        //効果音を再生
+        soundManager.OnPlaySE(soundsList.clickButton);
+        //ゲームモードをマルチプレイに
+        GameManager.gameMode = GameManager.GameMode.MultiPlayer;
         StartCoroutine(SceneLoading("TutorialScene"));
     }
 

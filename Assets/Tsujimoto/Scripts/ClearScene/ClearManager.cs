@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class ClearManager : MonoBehaviour
 {
-
     void Start()
     {
         //カーソルを使えるように

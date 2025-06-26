@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameState state; //ゲームの状態
+    public static GameMode gameMode; //ゲームモード
+    PlayerCnt playerCnt;
 
     [Header("スタート時に表示するカウントダウンテキスト")]
     public Text countDownText; //最初に表示するカウントダウン
@@ -41,11 +43,18 @@ public class GameManager : MonoBehaviour
         Clear
     };
 
+    //ゲームモード
+    public enum GameMode
+    {
+        SinglePlayer,
+        MultiPlayer
+    };
+
     void Start()
     {
         soundManager = FindObjectOfType<SoundManager>();
         soundsList = FindObjectOfType<SoundsList>();
-
+        playerCnt = FindObjectOfType<PlayerCnt>();
 
         //初期化
         ToPausedState(); //ポーズ状態
@@ -58,11 +67,13 @@ public class GameManager : MonoBehaviour
         //ゲームオーバーなら
         if (state == GameState.GameOver)
         {
+            playerCnt.OnDestroyEvents(); //シーン変遷前に入力イベントを削除
             SceneManager.LoadScene("GameOverScene");
         }
         //クリアなら
         else if (state == GameState.Clear)
         {
+            playerCnt.OnDestroyEvents(); //シーン変遷前に入力イベントを削除
             SceneManager.LoadScene("ClearScene");
         }
 

@@ -15,6 +15,7 @@ public class GameOverManager : MonoBehaviour
 
     SoundManager soundManager;
     SoundsList soundsList;
+    PlayerCnt playerCnt;
     void Start()
     {
         //カーソルを使えるように
@@ -24,6 +25,7 @@ public class GameOverManager : MonoBehaviour
         //コンポーネント取得
         soundManager = FindObjectOfType<SoundManager>();
         soundsList = FindObjectOfType<SoundsList>();
+        playerCnt = FindObjectOfType<PlayerCnt>();
 
         //死因を表示
         becauseGameOverText.text = "<color=red>" + "死因:" + "</color>" + becauseGameOver;

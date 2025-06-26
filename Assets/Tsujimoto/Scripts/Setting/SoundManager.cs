@@ -32,6 +32,8 @@ public class SoundManager : MonoBehaviour
     //効果音を鳴らす関数(呼び出し時volumeは省略可)
     public void OnPlaySE(AudioClip audioClip, float volume = 1f)
     {
+        if (audioClip == null)
+            return;
         seAudioSource.PlayOneShot(audioClip, volume);
     }
 
