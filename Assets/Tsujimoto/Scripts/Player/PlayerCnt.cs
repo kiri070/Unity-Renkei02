@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using Unity.VisualScripting;
-using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -80,10 +78,10 @@ public class PlayerCnt : MonoBehaviour
         RegisterEvents();
 
         //コントローラーのみ
-        //if (gamepads.Count >= 2)
+        //if (Gamepad.all.Count >= 2)
         //{
-        //    controls1.devices = new InputDevice[] { gamepads[0] };
-        //    controls2.devices = new InputDevice[] { gamepads[1] };
+        //    controls1.devices = new InputDevice[] { Gamepad.all[0] };
+        //    controls2.devices = new InputDevice[] { Gamepad.all[1] };
         //}
         //キーボード + コントローラー
         if (Gamepad.all.Count >= 1)

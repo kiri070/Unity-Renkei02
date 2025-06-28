@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class StageSelectManager : MonoBehaviour
 {
@@ -10,10 +11,10 @@ public class StageSelectManager : MonoBehaviour
     public GameObject loadingPanel;
     public Slider loadingSlider;
 
-    [Header("ヒントを表示するテキスト")]
-    public Text tipsText;
 
     //ヒントの内容
+    [Header("ヒントを表示するテキスト")]
+    public Text tipsText;
     [Header("ローディング画面に表示するヒント")]
     [Tooltip("ヒントの内容を入力してください")]
     public string[] tips;

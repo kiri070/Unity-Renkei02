@@ -656,6 +656,264 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""UICnt"",
+            ""id"": ""7ec0d511-8bdd-4f34-b1b3-54a89fc7bd25"",
+            ""actions"": [
+                {
+                    ""name"": ""Navigate"",
+                    ""type"": ""Value"",
+                    ""id"": ""882a7932-5877-4da1-971d-6cef810db240"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Submit"",
+                    ""type"": ""Button"",
+                    ""id"": ""a733901b-ed4e-416a-b0b0-ef933d1f846e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""d2bfef94-369f-4455-bc82-b5d36d1ceb6e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Point"",
+                    ""type"": ""Value"",
+                    ""id"": ""093412a9-1075-43e0-8743-775ff5822056"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""LeftClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""39264750-1310-4268-8898-93995d9a377d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenSetting"",
+                    ""type"": ""Button"",
+                    ""id"": ""aa5e7002-750f-4621-91c7-5a4920c857d1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""004a6a93-f2b3-42ae-ab54-f26b538d4a16"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""62a026bd-2f05-491a-b8a2-f135fd67870b"",
+                    ""path"": ""<Gamepad>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9b7873db-102a-4754-911e-f1992f35bb94"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""25abfd5b-e6c2-4174-9778-3602a23682da"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""01d7543b-fa12-459c-a1b3-61a5c7823b19"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Point"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9667c2ee-02c4-4e13-96dc-9f336b316b3a"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1ef51e50-bb17-46ed-a31f-68f8a5e30756"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenSetting"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""SettingMenu"",
+            ""id"": ""ee13448d-6437-40fa-8f31-4a2be370d3fc"",
+            ""actions"": [
+                {
+                    ""name"": ""Navigate"",
+                    ""type"": ""Value"",
+                    ""id"": ""d2664e4b-a65f-4dea-96db-2cd70bef9759"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Submit"",
+                    ""type"": ""Button"",
+                    ""id"": ""5e94e113-d68f-4f90-bd62-68498dfd5c3c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""1e9bf1cb-3c10-470a-930f-8318aa2540a9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Point"",
+                    ""type"": ""Value"",
+                    ""id"": ""9a25e0fa-5ffb-44b9-8376-db06bdfcffc5"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""LeftClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""4b13633f-5615-4afa-97f1-23407ff76f3b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""f202f2ab-4fad-4432-b193-f9e835043e94"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5c0fb372-dca2-4fd5-9c72-eae5a3327651"",
+                    ""path"": ""<Gamepad>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cfb7b7e3-4d6d-4a29-87d4-ad223d447390"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Submit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a89619e3-b72a-40c9-bed5-fa321fd8b1e0"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f9332a9a-1e16-4ae2-ae44-4867ab2f0457"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Point"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""243cdc8e-aeae-4fbb-b009-0c8b6a9c36dd"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -680,6 +938,21 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
         m_Player2_Move = m_Player2.FindAction("Move", throwIfNotFound: true);
         m_Player2_Sliding = m_Player2.FindAction(" Sliding", throwIfNotFound: true);
         m_Player2_Attack1 = m_Player2.FindAction("Attack1", throwIfNotFound: true);
+        // UICnt
+        m_UICnt = asset.FindActionMap("UICnt", throwIfNotFound: true);
+        m_UICnt_Navigate = m_UICnt.FindAction("Navigate", throwIfNotFound: true);
+        m_UICnt_Submit = m_UICnt.FindAction("Submit", throwIfNotFound: true);
+        m_UICnt_Cancel = m_UICnt.FindAction("Cancel", throwIfNotFound: true);
+        m_UICnt_Point = m_UICnt.FindAction("Point", throwIfNotFound: true);
+        m_UICnt_LeftClick = m_UICnt.FindAction("LeftClick", throwIfNotFound: true);
+        m_UICnt_OpenSetting = m_UICnt.FindAction("OpenSetting", throwIfNotFound: true);
+        // SettingMenu
+        m_SettingMenu = asset.FindActionMap("SettingMenu", throwIfNotFound: true);
+        m_SettingMenu_Navigate = m_SettingMenu.FindAction("Navigate", throwIfNotFound: true);
+        m_SettingMenu_Submit = m_SettingMenu.FindAction("Submit", throwIfNotFound: true);
+        m_SettingMenu_Cancel = m_SettingMenu.FindAction("Cancel", throwIfNotFound: true);
+        m_SettingMenu_Point = m_SettingMenu.FindAction("Point", throwIfNotFound: true);
+        m_SettingMenu_LeftClick = m_SettingMenu.FindAction("LeftClick", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -963,6 +1236,170 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
         }
     }
     public Player2Actions @Player2 => new Player2Actions(this);
+
+    // UICnt
+    private readonly InputActionMap m_UICnt;
+    private List<IUICntActions> m_UICntActionsCallbackInterfaces = new List<IUICntActions>();
+    private readonly InputAction m_UICnt_Navigate;
+    private readonly InputAction m_UICnt_Submit;
+    private readonly InputAction m_UICnt_Cancel;
+    private readonly InputAction m_UICnt_Point;
+    private readonly InputAction m_UICnt_LeftClick;
+    private readonly InputAction m_UICnt_OpenSetting;
+    public struct UICntActions
+    {
+        private @InputCnt m_Wrapper;
+        public UICntActions(@InputCnt wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Navigate => m_Wrapper.m_UICnt_Navigate;
+        public InputAction @Submit => m_Wrapper.m_UICnt_Submit;
+        public InputAction @Cancel => m_Wrapper.m_UICnt_Cancel;
+        public InputAction @Point => m_Wrapper.m_UICnt_Point;
+        public InputAction @LeftClick => m_Wrapper.m_UICnt_LeftClick;
+        public InputAction @OpenSetting => m_Wrapper.m_UICnt_OpenSetting;
+        public InputActionMap Get() { return m_Wrapper.m_UICnt; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UICntActions set) { return set.Get(); }
+        public void AddCallbacks(IUICntActions instance)
+        {
+            if (instance == null || m_Wrapper.m_UICntActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_UICntActionsCallbackInterfaces.Add(instance);
+            @Navigate.started += instance.OnNavigate;
+            @Navigate.performed += instance.OnNavigate;
+            @Navigate.canceled += instance.OnNavigate;
+            @Submit.started += instance.OnSubmit;
+            @Submit.performed += instance.OnSubmit;
+            @Submit.canceled += instance.OnSubmit;
+            @Cancel.started += instance.OnCancel;
+            @Cancel.performed += instance.OnCancel;
+            @Cancel.canceled += instance.OnCancel;
+            @Point.started += instance.OnPoint;
+            @Point.performed += instance.OnPoint;
+            @Point.canceled += instance.OnPoint;
+            @LeftClick.started += instance.OnLeftClick;
+            @LeftClick.performed += instance.OnLeftClick;
+            @LeftClick.canceled += instance.OnLeftClick;
+            @OpenSetting.started += instance.OnOpenSetting;
+            @OpenSetting.performed += instance.OnOpenSetting;
+            @OpenSetting.canceled += instance.OnOpenSetting;
+        }
+
+        private void UnregisterCallbacks(IUICntActions instance)
+        {
+            @Navigate.started -= instance.OnNavigate;
+            @Navigate.performed -= instance.OnNavigate;
+            @Navigate.canceled -= instance.OnNavigate;
+            @Submit.started -= instance.OnSubmit;
+            @Submit.performed -= instance.OnSubmit;
+            @Submit.canceled -= instance.OnSubmit;
+            @Cancel.started -= instance.OnCancel;
+            @Cancel.performed -= instance.OnCancel;
+            @Cancel.canceled -= instance.OnCancel;
+            @Point.started -= instance.OnPoint;
+            @Point.performed -= instance.OnPoint;
+            @Point.canceled -= instance.OnPoint;
+            @LeftClick.started -= instance.OnLeftClick;
+            @LeftClick.performed -= instance.OnLeftClick;
+            @LeftClick.canceled -= instance.OnLeftClick;
+            @OpenSetting.started -= instance.OnOpenSetting;
+            @OpenSetting.performed -= instance.OnOpenSetting;
+            @OpenSetting.canceled -= instance.OnOpenSetting;
+        }
+
+        public void RemoveCallbacks(IUICntActions instance)
+        {
+            if (m_Wrapper.m_UICntActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IUICntActions instance)
+        {
+            foreach (var item in m_Wrapper.m_UICntActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_UICntActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public UICntActions @UICnt => new UICntActions(this);
+
+    // SettingMenu
+    private readonly InputActionMap m_SettingMenu;
+    private List<ISettingMenuActions> m_SettingMenuActionsCallbackInterfaces = new List<ISettingMenuActions>();
+    private readonly InputAction m_SettingMenu_Navigate;
+    private readonly InputAction m_SettingMenu_Submit;
+    private readonly InputAction m_SettingMenu_Cancel;
+    private readonly InputAction m_SettingMenu_Point;
+    private readonly InputAction m_SettingMenu_LeftClick;
+    public struct SettingMenuActions
+    {
+        private @InputCnt m_Wrapper;
+        public SettingMenuActions(@InputCnt wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Navigate => m_Wrapper.m_SettingMenu_Navigate;
+        public InputAction @Submit => m_Wrapper.m_SettingMenu_Submit;
+        public InputAction @Cancel => m_Wrapper.m_SettingMenu_Cancel;
+        public InputAction @Point => m_Wrapper.m_SettingMenu_Point;
+        public InputAction @LeftClick => m_Wrapper.m_SettingMenu_LeftClick;
+        public InputActionMap Get() { return m_Wrapper.m_SettingMenu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(SettingMenuActions set) { return set.Get(); }
+        public void AddCallbacks(ISettingMenuActions instance)
+        {
+            if (instance == null || m_Wrapper.m_SettingMenuActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_SettingMenuActionsCallbackInterfaces.Add(instance);
+            @Navigate.started += instance.OnNavigate;
+            @Navigate.performed += instance.OnNavigate;
+            @Navigate.canceled += instance.OnNavigate;
+            @Submit.started += instance.OnSubmit;
+            @Submit.performed += instance.OnSubmit;
+            @Submit.canceled += instance.OnSubmit;
+            @Cancel.started += instance.OnCancel;
+            @Cancel.performed += instance.OnCancel;
+            @Cancel.canceled += instance.OnCancel;
+            @Point.started += instance.OnPoint;
+            @Point.performed += instance.OnPoint;
+            @Point.canceled += instance.OnPoint;
+            @LeftClick.started += instance.OnLeftClick;
+            @LeftClick.performed += instance.OnLeftClick;
+            @LeftClick.canceled += instance.OnLeftClick;
+        }
+
+        private void UnregisterCallbacks(ISettingMenuActions instance)
+        {
+            @Navigate.started -= instance.OnNavigate;
+            @Navigate.performed -= instance.OnNavigate;
+            @Navigate.canceled -= instance.OnNavigate;
+            @Submit.started -= instance.OnSubmit;
+            @Submit.performed -= instance.OnSubmit;
+            @Submit.canceled -= instance.OnSubmit;
+            @Cancel.started -= instance.OnCancel;
+            @Cancel.performed -= instance.OnCancel;
+            @Cancel.canceled -= instance.OnCancel;
+            @Point.started -= instance.OnPoint;
+            @Point.performed -= instance.OnPoint;
+            @Point.canceled -= instance.OnPoint;
+            @LeftClick.started -= instance.OnLeftClick;
+            @LeftClick.performed -= instance.OnLeftClick;
+            @LeftClick.canceled -= instance.OnLeftClick;
+        }
+
+        public void RemoveCallbacks(ISettingMenuActions instance)
+        {
+            if (m_Wrapper.m_SettingMenuActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ISettingMenuActions instance)
+        {
+            foreach (var item in m_Wrapper.m_SettingMenuActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_SettingMenuActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public SettingMenuActions @SettingMenu => new SettingMenuActions(this);
     public interface IPlayerActions
     {
         void OnJump(InputAction.CallbackContext context);
@@ -985,5 +1422,22 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnSliding(InputAction.CallbackContext context);
         void OnAttack1(InputAction.CallbackContext context);
+    }
+    public interface IUICntActions
+    {
+        void OnNavigate(InputAction.CallbackContext context);
+        void OnSubmit(InputAction.CallbackContext context);
+        void OnCancel(InputAction.CallbackContext context);
+        void OnPoint(InputAction.CallbackContext context);
+        void OnLeftClick(InputAction.CallbackContext context);
+        void OnOpenSetting(InputAction.CallbackContext context);
+    }
+    public interface ISettingMenuActions
+    {
+        void OnNavigate(InputAction.CallbackContext context);
+        void OnSubmit(InputAction.CallbackContext context);
+        void OnCancel(InputAction.CallbackContext context);
+        void OnPoint(InputAction.CallbackContext context);
+        void OnLeftClick(InputAction.CallbackContext context);
     }
 }
