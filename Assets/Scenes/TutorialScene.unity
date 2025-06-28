@@ -1955,7 +1955,7 @@ MonoBehaviour:
   countDownObject: {fileID: 1277431956}
   GameUI: {fileID: 1535480339}
   countDown: 3
-  timerValue: 50
+  timerValue: 500
   timerText: {fileID: 443648063}
   decreaseTextPrefab: {fileID: 1494770835523201997, guid: 76bef1ab1130f4f8c9836d8bc571084d, type: 3}
   spawnPoint: {fileID: 1073301433}
