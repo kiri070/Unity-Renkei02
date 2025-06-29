@@ -6,37 +6,36 @@ using UnityEngine.InputSystem;
 
 public class Pad_UICnt : MonoBehaviour
 {
-    [Header("Å‰‚ÉƒtƒH[ƒJƒX‚³‚ê‚éƒ{ƒ^ƒ“")]
-    [Tooltip("‚È‚¢ê‡‚Í–³—‚Éİ’è‚µ‚È‚­‚Ä‚à‰Â")]
+    [Header("æœ€åˆã«ãƒ•ã‚©ãƒ¼ã‚«ã‚¹ã™ã‚‹ãƒœã‚¿ãƒ³")]
+    [Tooltip("ãªã„å ´åˆã¯è¨­å®šãªã—ã§ã‚‚å¯")]
     [SerializeField] GameObject firstButton;
 
-    [Header("İ’è‰æ–Ê‚ÅÅ‰‚ÉƒtƒH[ƒJƒX‚³‚ê‚éƒ{ƒ^ƒ“")]
+    [Header("è¨­å®šç”»é¢ã§æœ€åˆã«ãƒ•ã‚©ãƒ¼ã‚«ã‚¹ã™ã‚‹ãƒœã‚¿ãƒ³")]
     [SerializeField] GameObject settingFirstButton;
 
-    [Header("ƒƒCƒ“‚ÌUI‚ğŠi”[")]
-    [Tooltip("¦CanvasGroup‚ª•K—v")]
+    [Header("ãƒ¡ã‚¤ãƒ³UI")]
+    [Tooltip("â€»CanvasGroupãŒå¿…è¦")]
     [SerializeField] CanvasGroup MainCanvasGroup;
 
-    GameObject previousSelected; //•ÏX‚µ‚½ƒIƒuƒWƒFƒNƒg‚ğˆêŠi”[‚·‚é
-    Vector3 buttonScale;         //ƒ{ƒ^ƒ“‚ÌŒ³‚ÌƒTƒCƒY
+    GameObject previousSelected; //ãƒ•ã‚©ãƒ¼ã‚«ã‚¹UIã‚’ä¸€æ™‚ä¿å­˜ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+    Vector3 buttonScale;         //ãƒ•ã‚©ãƒ¼ã‚«ã‚¹UIã®å…ƒã®ã‚µã‚¤ã‚ºã‚’ä¿å­˜
 
-    InputCnt pad_UICnt; //ƒAƒNƒVƒ‡ƒ“ƒ}ƒbƒv
+    InputCnt pad_UICnt; //ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒãƒƒãƒ—
 
-    bool isControllerInputActive = false; //ƒRƒ“ƒgƒ[ƒ‰[‚ª‘€ì‚³‚ê‚½‚©‚Ç‚¤‚©
+    bool isControllerInputActive = false; //ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ãŒä½¿ã‚ã‚Œã¦ã„ã‚‹ã‹
     SettingManager settingManager;
     private void Start()
     {
-        //Å‰‚ÉƒtƒH[ƒJƒX‚³‚ê‚éƒ{ƒ^ƒ“‚ğİ’è
-        // null‚¶‚á‚È‚¢‚Æ‚«‚¾‚¯ƒtƒH[ƒJƒX‚ğ“–‚Ä‚é
+        //æœ€åˆã«ãƒ•ã‚©ãƒ¼ã‚«ã‚¹ã™ã‚‹UIã‚’è¨­å®š
         if (firstButton != null)
             EventSystem.current.SetSelectedGameObject(firstButton);
 
-        settingManager = FindObjectOfType<SettingManager>(); // QÆæ“¾
+        settingManager = FindObjectOfType<SettingManager>();
 
         pad_UICnt = new InputCnt();
         pad_UICnt.UICnt.Enable();
 
-        //İ’è‰æ–Ê‚ğŠJ‚­ƒ{ƒ^ƒ“‚ğ“o˜^
+        //ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã§è¨­å®šç”»é¢ã‚’é–‹ãã‚¤ãƒ™ãƒ³ãƒˆã‚’ç™»éŒ²
         pad_UICnt.UICnt.OpenSetting.performed += ctx =>
         {
             settingManager.Pad_OnOffSettingUI();
@@ -49,26 +48,26 @@ public class Pad_UICnt : MonoBehaviour
         var gamepad = Gamepad.current;
         if (gamepad != null)
         {
-            // ƒXƒeƒBƒbƒN‚âƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚©
+            //ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã®å…¥åŠ›æ¤œçŸ¥
             bool isInput =
-                gamepad.leftStick.ReadValue().magnitude > 0.1f ||   //¶ƒXƒeƒBƒbƒN
-                gamepad.rightStick.ReadValue().magnitude > 0.1f ||  //‰EƒXƒeƒBƒbƒN 
-                gamepad.buttonSouth.wasPressedThisFrame ||          //Aƒ{ƒ^ƒ“
-                gamepad.buttonNorth.wasPressedThisFrame ||          //Yƒ{ƒ^ƒ“
-                gamepad.buttonEast.wasPressedThisFrame ||           //Bƒ{ƒ^ƒ“
-                gamepad.buttonWest.wasPressedThisFrame ||           //Xƒ{ƒ^ƒ“
+                gamepad.leftStick.ReadValue().magnitude > 0.1f ||   //å·¦ã‚¹ãƒ†ã‚£ãƒƒã‚¯
+                gamepad.rightStick.ReadValue().magnitude > 0.1f ||  //å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯
+                gamepad.buttonSouth.wasPressedThisFrame ||          //A
+                gamepad.buttonNorth.wasPressedThisFrame ||          //Y
+                gamepad.buttonEast.wasPressedThisFrame ||           //B
+                gamepad.buttonWest.wasPressedThisFrame ||           //X
                 gamepad.leftShoulder.wasPressedThisFrame ||         //LB
                 gamepad.rightShoulder.wasPressedThisFrame ||        //RB
-                gamepad.dpad.ReadValue().magnitude > 0.1f;          //Dƒpƒbƒh(\šƒL[)
+                gamepad.dpad.ReadValue().magnitude > 0.1f;          //DPad(åå­—)
 
-            //“ü—Í‚³‚ê‚½‚ç
+            //ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼å…¥åŠ›ãªã‚‰
             if (isInput)
             {
                 isControllerInputActive = true;
             }
         }
 
-        //ƒtƒH[ƒJƒX‚³‚ê‚Ä‚éƒ{ƒ^ƒ“‚ª‚È‚¯‚ê‚Î,ƒtƒH[ƒJƒX‚·‚éƒ{ƒ^ƒ“‚ğİ’è
+        //UIã‚’ãƒ•ã‚©ãƒ¼ã‚«ã‚¹
         if (isControllerInputActive && EventSystem.current.currentSelectedGameObject == null)
         {
             if (firstButton != null)
@@ -76,61 +75,61 @@ public class Pad_UICnt : MonoBehaviour
             isControllerInputActive = false;
         }
 
-        //ƒtƒH[ƒJƒX‚³‚ê‚Ä‚¢‚éƒ{ƒ^ƒ“‚ÌƒTƒCƒY‚ğ•ÏX
+        //ãƒ•ã‚©ãƒ¼ã‚«ã‚¹ã•ã‚Œã¦ã„ã‚‹UIã‚’å¤§ããã™ã‚‹
         Change_FocusButtonScale();
     }
 
-    //ƒtƒH[ƒJƒX‚³‚ê‚Ä‚¢‚éƒ{ƒ^ƒ“‚ÌƒTƒCƒY‚ğ•ÏX
+    //ãƒ•ã‚©ãƒ¼ã‚«ã‚¹ã•ã‚Œã¦ã„ã‚‹UIã‚’å¤§ããã™ã‚‹é–¢æ•°
     void Change_FocusButtonScale()
     {
-        var selectedObj = EventSystem.current.currentSelectedGameObject; //‘I‘ğ’†‚ÌƒIƒuƒWƒFƒNƒg‚ğŠi”[
+        var selectedObj = EventSystem.current.currentSelectedGameObject; //ãƒ•ã‚©ãƒ¼ã‚«ã‚¹ã•ã‚Œã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ ¼ç´
         if (selectedObj == previousSelected)
-            return; // ‘I‘ğ•Ï‚í‚Á‚Ä‚È‚¯‚ê‚Î‰½‚à‚µ‚È‚¢
+            return; //åŒã˜ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãªã‚‰ã‚¹ã‚­ãƒƒãƒ—
 
-        // ‘O‚Ì‘I‘ğ‚ÌƒTƒCƒY‚ğ–ß‚·
+        //å‰å›ä¿å­˜ã•ã‚ŒãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚ã£ãŸã‚‰å¤§ãã•ã‚’æˆ»ã™
         if (previousSelected != null)
         {
             var rtPrev = previousSelected.GetComponent<RectTransform>();
             if (rtPrev != null)
-                rtPrev.localScale = buttonScale; // Œ³‚ÌƒTƒCƒY‚É–ß‚·
+                rtPrev.localScale = buttonScale;
         }
 
+        //æ–°ã—ã„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒé¸æŠã•ã‚ŒãŸã‚‰
         if (selectedObj != null)
         {
-            //ƒ{ƒ^ƒ“‚ÌRectTransform‚ğæ“¾
             RectTransform rt = selectedObj.GetComponent<RectTransform>();
             if (rt != null)
             {
-                //Œ³‚ÌƒTƒCƒY‚ğ•Û‘¶
+                //å¤§ãã•ã‚’ä¿å­˜
                 buttonScale = rt.localScale;
-                //ƒTƒCƒY‚ğ•ÏX
+                //å¤§ãã•ã‚’å¤‰æ›´
                 rt.localScale += new Vector3(0.5f, 0.5f, 0.5f);
             }
         }
 
-        previousSelected = selectedObj; //•ÏX‚µ‚½ƒIƒuƒWƒFƒNƒg‚ğˆêŠi”[
+        previousSelected = selectedObj; //æ–°ã—ã„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä¸€æ™‚ä¿å­˜
     }
 
-    //İ’è‚ğŠJ‚­‚ÉŒÄ‚ÔŠÖ”
+    //è¨­å®šã‚’é–‹ã„ãŸæ™‚ã«å‘¼ã¶é–¢æ•°
     public void OpenSetting()
     {
-        // ƒƒCƒ“‰æ–Ê‚Ì‘€ì‚ğ–³Œø‚É
+        //ãƒ¡ã‚¤ãƒ³UIã‚’æ“ä½œã§ããªã„ã‚ˆã†ã«
         MainCanvasGroup.interactable = false;
         MainCanvasGroup.blocksRaycasts = false;
 
-        EventSystem.current.SetSelectedGameObject(null); // ˆê“xƒtƒH[ƒJƒX‚ğƒNƒŠƒA
-        EventSystem.current.SetSelectedGameObject(settingFirstButton); // İ’è‰æ–Ê‚Ìƒ{ƒ^ƒ“‚ğ‘I‘ğ
+        EventSystem.current.SetSelectedGameObject(null); // ç¾åœ¨ã®ãƒ•ã‚©ãƒ¼ã‚«ã‚¹ã‚’å¤–ã™
+        EventSystem.current.SetSelectedGameObject(settingFirstButton); // è¨­å®šç”»é¢ã®UIã‚’ãƒ•ã‚©ãƒ¼ã‚«ã‚¹
     }
 
-    //İ’è‚ğ•Â‚¶‚é‚ÉŒÄ‚ÔŠÖ”
+    //è¨­å®šã‚’é–‰ã˜ãŸæ™‚ã«å‘¼ã¶é–¢æ•°
     public void CloseSetting()
     {
-        // ƒƒCƒ“‰æ–Ê‚Ì‘€ì‚ğ—LŒø‚É–ß‚·
+        //ãƒ¡ã‚¤ãƒ³UIã‚’æ“ä½œã§ãã‚‹ã‚ˆã†ã«
         MainCanvasGroup.interactable = true;
         MainCanvasGroup.blocksRaycasts = true;
 
-        EventSystem.current.SetSelectedGameObject(null); // ˆê“xƒtƒH[ƒJƒX‚ğƒNƒŠƒA
+        EventSystem.current.SetSelectedGameObject(null); // ç¾åœ¨ã®ãƒ•ã‚©ãƒ¼ã‚«ã‚¹ã‚’å¤–ã™
         if (firstButton != null)
-            EventSystem.current.SetSelectedGameObject(firstButton); // ƒƒCƒ“UI‚Ìƒ{ƒ^ƒ“‚ğ‘I‘ğ
+            EventSystem.current.SetSelectedGameObject(firstButton); // ãƒ¡ã‚¤ãƒ³UIã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚ã£ãŸã‚‰ãƒ•ã‚©ãƒ¼ã‚«ã‚¹
     }
 }
