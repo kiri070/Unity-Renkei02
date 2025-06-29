@@ -6,11 +6,17 @@ using System.Collections.Generic;
 
 public class PlayerMover : MonoBehaviour
 {
+    [Header("プレイヤーID")][Tooltip("1~2")] public int playerIndex;
     Rigidbody rb;
     Vector3 move; //移動するためのベクトル
     PlayerCnt playerCnt;
     GameManager gameManager;
+    // 持っているオブジェクトを記録
+    Rigidbody heldObject;
 
+    [Header("物体を持てる範囲")][SerializeField] Vector3 boxSize = new Vector3(1f, 0.2f, 1f);
+    [SerializeField] Vector3 offSet = new Vector3(0f, 0f, 0f);
+    [Header("物体のレイヤー")] public LayerMask objLayer;
     [HideInInspector]
     public float jumpForce; //ジャンプ力
     [HideInInspector]
@@ -46,6 +52,7 @@ public class PlayerMover : MonoBehaviour
     Queue<GameObject> effectPool = new Queue<GameObject>(); //キュー
 
     bool canMove = true; //動けるかどうか
+    
     [Header("敵衝突時のノックバック:水平方向")][SerializeField] float nockBack_Horizontal = 30f;
     [Header("敵衝突時のノックバック:垂直方向")][SerializeField] float nockBack_Vertical = 10f;
     [Header("ノックバック時の操作不能から回復する時間")][SerializeField] float recoveryKnockbackTime = 0.7f; //ノックバックの操作の操作不能から回復する時間
@@ -89,12 +96,55 @@ public class PlayerMover : MonoBehaviour
     {
         OffScreen();
         WallChecker();
+        BringArea();
     }
 
     void FixedUpdate()
     {
         if (canMove)
             Move();
+    }
+
+    //物体を持てる範囲
+    void BringArea()
+    {
+        //playerIndexが1なら左,それ以外なら右
+        bool isBring = (playerIndex == 1) ? playerCnt.isPlayer1BringObj : playerCnt.isPlayer2BringObj;
+        // プレイヤーの前方＋ちょい上
+        Vector3 center = transform.position + transform.forward * 1.5f + Vector3.up * 1f;
+
+        // 物体を検索
+        Collider[] hits = Physics.OverlapBox(center, boxSize / 2, Quaternion.identity, objLayer);
+        Collider obj_Col; //コライダーを格納する箱
+
+        //オブジェクトが範囲内かつ、持つボタンを押したら
+        if (hits.Length > 0 && isBring)
+        {
+            heldObject = hits[0].attachedRigidbody;
+            obj_Col = hits[0].GetComponent<Collider>();
+            if (heldObject != null)
+            {
+                obj_Col.isTrigger = true;
+                heldObject.useGravity = false;
+                heldObject.velocity = Vector3.zero; // 落ちてる途中なら停止
+            }
+            // 既に持っている場合は、位置を前方に維持
+            if (heldObject != null && isBring)
+            {
+                Vector3 targetPos = transform.position + transform.forward * 1.5f + Vector3.up * 1f;
+                heldObject.MovePosition(targetPos);
+            }
+        }
+        else if (!isBring)
+        {
+            if (heldObject != null)
+            {
+                obj_Col = hits[0].GetComponent<Collider>();
+                obj_Col.isTrigger = false;
+                heldObject.useGravity = true;
+                heldObject = null;
+            }
+        }
     }
 
     //移動処理
@@ -141,12 +191,12 @@ public class PlayerMover : MonoBehaviour
     //スライディング開始:大きさを小さく
     public void StartSliding()
     {
-         transform.localScale = originalScale * 0.5f;
+        transform.localScale = originalScale * 0.5f;
     }
     //スライディング終了:大きさを戻す
     public void EndSliding()
     {
-         transform.localScale = originalScale;
+        transform.localScale = originalScale;
     }
 
     //画面外検知処理(保留)
@@ -179,7 +229,7 @@ public class PlayerMover : MonoBehaviour
 
                     playerCnt.SpawnCheckPoint();
                 }
-                
+
             }
 
             //ジャンプしていないとき
@@ -279,7 +329,7 @@ public class PlayerMover : MonoBehaviour
                 gameManager.DecreaseTimer(gameManager.decreaseFallTimer);
                 playerCnt.SpawnCheckPoint();
             }
-            
+
 
             // GameOverManager.becauseGameOver = "落下してしまった!!"; //死因
             // soundManager.OnPlaySE(soundsList.explosionSE);
@@ -308,7 +358,7 @@ public class PlayerMover : MonoBehaviour
                     gameManager.DecreaseTimer(gameManager.decreaseMimicTimer);
                     playerCnt.SpawnCheckPoint();
                 }
-                
+
             }
             // GameOverManager.becauseGameOver = "魔法で黒焦げにされた..."; //死因
             // GameManager.ToGameOverState();
@@ -417,5 +467,13 @@ public class PlayerMover : MonoBehaviour
     public void OnStepEnemy()
     {
         soundManager.OnPlaySE(soundsList.stepOnPlayer);
+    }
+
+    //物体を持てる範囲を描画
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Vector3 center = transform.position + Vector3.up * 1f + offSet;
+        Gizmos.DrawWireCube(center, boxSize);
     }
 }

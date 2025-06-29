@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Attack1",
+                    "name": "Bring1",
                     "type": "Button",
                     "id": "2cf67679-d945-4c0e-b02b-7cea3d7c2d32",
                     "expectedControlType": "Button",
@@ -51,7 +51,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Attack2",
+                    "name": "Bring2",
                     "type": "Button",
                     "id": "d5356012-0dfa-4401-8693-63538f02c013",
                     "expectedControlType": "Button",
@@ -244,7 +244,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack1",
+                    "action": "Bring1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -255,7 +255,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack1",
+                    "action": "Bring1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -266,7 +266,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack2",
+                    "action": "Bring2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -277,7 +277,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack2",
+                    "action": "Bring2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -315,7 +315,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Attack1",
+                    "name": "Bring",
                     "type": "Button",
                     "id": "6381f6d6-0c52-4cfb-adb1-bf65d3c8218b",
                     "expectedControlType": "Button",
@@ -376,7 +376,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack1",
+                    "action": "Bring",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -387,7 +387,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack1",
+                    "action": "Bring",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -491,7 +491,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Attack1",
+                    "name": "Bring",
                     "type": "Button",
                     "id": "fc157c33-59c2-4795-9dec-52f6fa469bf9",
                     "expectedControlType": "Button",
@@ -552,7 +552,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack1",
+                    "action": "Bring",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -563,7 +563,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack1",
+                    "action": "Bring",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

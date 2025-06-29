@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 521445415}
-  m_IndirectSpecularColor: {r: 0.21569997, g: 0.30549255, b: 0.3319656, a: 1}
+  m_IndirectSpecularColor: {r: 0.21566258, g: 0.30543432, b: 0.3318665, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -506,7 +506,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b0f6f052088246368b57c311f86779d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceFactor: 0.15
+  distanceFactor: 0.3
 --- !u!81 &51061011
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1036,6 +1036,8 @@ MonoBehaviour:
   spawnEffect: {fileID: 2222479055996870727, guid: ae2a2e8fafd5b488d8b58c8b41b59ff9, type: 3}
   currentCheckPoint: {fileID: 0}
   invincible: 0
+  isPlayer1BringObj: 0
+  isPlayer2BringObj: 0
   targetCameras:
   - {fileID: 51061009}
   playerFirePoint1: {fileID: 15146930}
@@ -4517,6 +4519,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 284c7ac39e8274d49ae321ce74d45642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerIndex: 1
+  boxSize: {x: 1.5, y: 1, z: 1.7}
+  offSet: {x: -0.1, y: 0, z: 1.5}
+  objLayer:
+    serializedVersion: 2
+    m_Bits: 256
   jumpForce: 0
   jumping: 0
   canJump: 0
@@ -10736,6 +10744,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 284c7ac39e8274d49ae321ce74d45642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerIndex: 2
+  boxSize: {x: 1.5, y: 1, z: 1.7}
+  offSet: {x: -0.1, y: 0, z: 1.5}
+  objLayer:
+    serializedVersion: 2
+    m_Bits: 256
   jumpForce: 0
   jumping: 0
   canJump: 0

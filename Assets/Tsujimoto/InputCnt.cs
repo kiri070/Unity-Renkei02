@@ -64,7 +64,7 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Attack1"",
+                    ""name"": ""Bring1"",
                     ""type"": ""Button"",
                     ""id"": ""2cf67679-d945-4c0e-b02b-7cea3d7c2d32"",
                     ""expectedControlType"": ""Button"",
@@ -73,7 +73,7 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Attack2"",
+                    ""name"": ""Bring2"",
                     ""type"": ""Button"",
                     ""id"": ""d5356012-0dfa-4401-8693-63538f02c013"",
                     ""expectedControlType"": ""Button"",
@@ -266,7 +266,7 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Attack1"",
+                    ""action"": ""Bring1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -277,7 +277,7 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Attack1"",
+                    ""action"": ""Bring1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -288,7 +288,7 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Attack2"",
+                    ""action"": ""Bring2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -299,7 +299,7 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Attack2"",
+                    ""action"": ""Bring2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -337,7 +337,7 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Attack1"",
+                    ""name"": ""Bring"",
                     ""type"": ""Button"",
                     ""id"": ""6381f6d6-0c52-4cfb-adb1-bf65d3c8218b"",
                     ""expectedControlType"": ""Button"",
@@ -398,7 +398,7 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Attack1"",
+                    ""action"": ""Bring"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -409,7 +409,7 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Attack1"",
+                    ""action"": ""Bring"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -513,7 +513,7 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Attack1"",
+                    ""name"": ""Bring"",
                     ""type"": ""Button"",
                     ""id"": ""fc157c33-59c2-4795-9dec-52f6fa469bf9"",
                     ""expectedControlType"": ""Button"",
@@ -574,7 +574,7 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Attack1"",
+                    ""action"": ""Bring"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -585,7 +585,7 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Attack1"",
+                    ""action"": ""Bring"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -990,20 +990,20 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
         m_Player_Move1 = m_Player.FindAction("Move1", throwIfNotFound: true);
         m_Player_Move2 = m_Player.FindAction("Move2", throwIfNotFound: true);
         m_Player_Sliding = m_Player.FindAction(" Sliding", throwIfNotFound: true);
-        m_Player_Attack1 = m_Player.FindAction("Attack1", throwIfNotFound: true);
-        m_Player_Attack2 = m_Player.FindAction("Attack2", throwIfNotFound: true);
+        m_Player_Bring1 = m_Player.FindAction("Bring1", throwIfNotFound: true);
+        m_Player_Bring2 = m_Player.FindAction("Bring2", throwIfNotFound: true);
         // Player1
         m_Player1 = asset.FindActionMap("Player1", throwIfNotFound: true);
         m_Player1_Jump = m_Player1.FindAction("Jump", throwIfNotFound: true);
         m_Player1_Move = m_Player1.FindAction("Move", throwIfNotFound: true);
         m_Player1_Sliding = m_Player1.FindAction(" Sliding", throwIfNotFound: true);
-        m_Player1_Attack1 = m_Player1.FindAction("Attack1", throwIfNotFound: true);
+        m_Player1_Bring = m_Player1.FindAction("Bring", throwIfNotFound: true);
         // Player2
         m_Player2 = asset.FindActionMap("Player2", throwIfNotFound: true);
         m_Player2_Jump = m_Player2.FindAction("Jump", throwIfNotFound: true);
         m_Player2_Move = m_Player2.FindAction("Move", throwIfNotFound: true);
         m_Player2_Sliding = m_Player2.FindAction(" Sliding", throwIfNotFound: true);
-        m_Player2_Attack1 = m_Player2.FindAction("Attack1", throwIfNotFound: true);
+        m_Player2_Bring = m_Player2.FindAction("Bring", throwIfNotFound: true);
         // UICnt
         m_UICnt = asset.FindActionMap("UICnt", throwIfNotFound: true);
         m_UICnt_Navigate = m_UICnt.FindAction("Navigate", throwIfNotFound: true);
@@ -1084,8 +1084,8 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move1;
     private readonly InputAction m_Player_Move2;
     private readonly InputAction m_Player_Sliding;
-    private readonly InputAction m_Player_Attack1;
-    private readonly InputAction m_Player_Attack2;
+    private readonly InputAction m_Player_Bring1;
+    private readonly InputAction m_Player_Bring2;
     public struct PlayerActions
     {
         private @InputCnt m_Wrapper;
@@ -1094,8 +1094,8 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
         public InputAction @Move1 => m_Wrapper.m_Player_Move1;
         public InputAction @Move2 => m_Wrapper.m_Player_Move2;
         public InputAction @Sliding => m_Wrapper.m_Player_Sliding;
-        public InputAction @Attack1 => m_Wrapper.m_Player_Attack1;
-        public InputAction @Attack2 => m_Wrapper.m_Player_Attack2;
+        public InputAction @Bring1 => m_Wrapper.m_Player_Bring1;
+        public InputAction @Bring2 => m_Wrapper.m_Player_Bring2;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1117,12 +1117,12 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
             @Sliding.started += instance.OnSliding;
             @Sliding.performed += instance.OnSliding;
             @Sliding.canceled += instance.OnSliding;
-            @Attack1.started += instance.OnAttack1;
-            @Attack1.performed += instance.OnAttack1;
-            @Attack1.canceled += instance.OnAttack1;
-            @Attack2.started += instance.OnAttack2;
-            @Attack2.performed += instance.OnAttack2;
-            @Attack2.canceled += instance.OnAttack2;
+            @Bring1.started += instance.OnBring1;
+            @Bring1.performed += instance.OnBring1;
+            @Bring1.canceled += instance.OnBring1;
+            @Bring2.started += instance.OnBring2;
+            @Bring2.performed += instance.OnBring2;
+            @Bring2.canceled += instance.OnBring2;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1139,12 +1139,12 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
             @Sliding.started -= instance.OnSliding;
             @Sliding.performed -= instance.OnSliding;
             @Sliding.canceled -= instance.OnSliding;
-            @Attack1.started -= instance.OnAttack1;
-            @Attack1.performed -= instance.OnAttack1;
-            @Attack1.canceled -= instance.OnAttack1;
-            @Attack2.started -= instance.OnAttack2;
-            @Attack2.performed -= instance.OnAttack2;
-            @Attack2.canceled -= instance.OnAttack2;
+            @Bring1.started -= instance.OnBring1;
+            @Bring1.performed -= instance.OnBring1;
+            @Bring1.canceled -= instance.OnBring1;
+            @Bring2.started -= instance.OnBring2;
+            @Bring2.performed -= instance.OnBring2;
+            @Bring2.canceled -= instance.OnBring2;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1169,7 +1169,7 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player1_Jump;
     private readonly InputAction m_Player1_Move;
     private readonly InputAction m_Player1_Sliding;
-    private readonly InputAction m_Player1_Attack1;
+    private readonly InputAction m_Player1_Bring;
     public struct Player1Actions
     {
         private @InputCnt m_Wrapper;
@@ -1177,7 +1177,7 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player1_Jump;
         public InputAction @Move => m_Wrapper.m_Player1_Move;
         public InputAction @Sliding => m_Wrapper.m_Player1_Sliding;
-        public InputAction @Attack1 => m_Wrapper.m_Player1_Attack1;
+        public InputAction @Bring => m_Wrapper.m_Player1_Bring;
         public InputActionMap Get() { return m_Wrapper.m_Player1; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1196,9 +1196,9 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
             @Sliding.started += instance.OnSliding;
             @Sliding.performed += instance.OnSliding;
             @Sliding.canceled += instance.OnSliding;
-            @Attack1.started += instance.OnAttack1;
-            @Attack1.performed += instance.OnAttack1;
-            @Attack1.canceled += instance.OnAttack1;
+            @Bring.started += instance.OnBring;
+            @Bring.performed += instance.OnBring;
+            @Bring.canceled += instance.OnBring;
         }
 
         private void UnregisterCallbacks(IPlayer1Actions instance)
@@ -1212,9 +1212,9 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
             @Sliding.started -= instance.OnSliding;
             @Sliding.performed -= instance.OnSliding;
             @Sliding.canceled -= instance.OnSliding;
-            @Attack1.started -= instance.OnAttack1;
-            @Attack1.performed -= instance.OnAttack1;
-            @Attack1.canceled -= instance.OnAttack1;
+            @Bring.started -= instance.OnBring;
+            @Bring.performed -= instance.OnBring;
+            @Bring.canceled -= instance.OnBring;
         }
 
         public void RemoveCallbacks(IPlayer1Actions instance)
@@ -1239,7 +1239,7 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player2_Jump;
     private readonly InputAction m_Player2_Move;
     private readonly InputAction m_Player2_Sliding;
-    private readonly InputAction m_Player2_Attack1;
+    private readonly InputAction m_Player2_Bring;
     public struct Player2Actions
     {
         private @InputCnt m_Wrapper;
@@ -1247,7 +1247,7 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player2_Jump;
         public InputAction @Move => m_Wrapper.m_Player2_Move;
         public InputAction @Sliding => m_Wrapper.m_Player2_Sliding;
-        public InputAction @Attack1 => m_Wrapper.m_Player2_Attack1;
+        public InputAction @Bring => m_Wrapper.m_Player2_Bring;
         public InputActionMap Get() { return m_Wrapper.m_Player2; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1266,9 +1266,9 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
             @Sliding.started += instance.OnSliding;
             @Sliding.performed += instance.OnSliding;
             @Sliding.canceled += instance.OnSliding;
-            @Attack1.started += instance.OnAttack1;
-            @Attack1.performed += instance.OnAttack1;
-            @Attack1.canceled += instance.OnAttack1;
+            @Bring.started += instance.OnBring;
+            @Bring.performed += instance.OnBring;
+            @Bring.canceled += instance.OnBring;
         }
 
         private void UnregisterCallbacks(IPlayer2Actions instance)
@@ -1282,9 +1282,9 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
             @Sliding.started -= instance.OnSliding;
             @Sliding.performed -= instance.OnSliding;
             @Sliding.canceled -= instance.OnSliding;
-            @Attack1.started -= instance.OnAttack1;
-            @Attack1.performed -= instance.OnAttack1;
-            @Attack1.canceled -= instance.OnAttack1;
+            @Bring.started -= instance.OnBring;
+            @Bring.performed -= instance.OnBring;
+            @Bring.canceled -= instance.OnBring;
         }
 
         public void RemoveCallbacks(IPlayer2Actions instance)
@@ -1472,22 +1472,22 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
         void OnMove1(InputAction.CallbackContext context);
         void OnMove2(InputAction.CallbackContext context);
         void OnSliding(InputAction.CallbackContext context);
-        void OnAttack1(InputAction.CallbackContext context);
-        void OnAttack2(InputAction.CallbackContext context);
+        void OnBring1(InputAction.CallbackContext context);
+        void OnBring2(InputAction.CallbackContext context);
     }
     public interface IPlayer1Actions
     {
         void OnJump(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
         void OnSliding(InputAction.CallbackContext context);
-        void OnAttack1(InputAction.CallbackContext context);
+        void OnBring(InputAction.CallbackContext context);
     }
     public interface IPlayer2Actions
     {
         void OnJump(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
         void OnSliding(InputAction.CallbackContext context);
-        void OnAttack1(InputAction.CallbackContext context);
+        void OnBring(InputAction.CallbackContext context);
     }
     public interface IUICntActions
     {

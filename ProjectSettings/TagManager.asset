@@ -17,6 +17,8 @@ TagManager:
   - Majic
   - Bomb
   - CheckPoint
+  - Bullet
+  - BringJudge
   layers:
   - Default
   - TransparentFX
@@ -26,7 +28,7 @@ TagManager:
   - UI
   - Broken
   - Collidable
-  - 
+  - BringObj
   - 
   - 
   - 

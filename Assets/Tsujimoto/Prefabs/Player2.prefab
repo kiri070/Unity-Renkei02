@@ -840,6 +840,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 284c7ac39e8274d49ae321ce74d45642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerIndex: 2
+  boxSize: {x: 1.5, y: 1, z: 1.7}
+  offSet: {x: -0.1, y: 0, z: 1.5}
+  objLayer:
+    serializedVersion: 2
+    m_Bits: 256
   jumpForce: 0
   jumping: 0
   canJump: 0

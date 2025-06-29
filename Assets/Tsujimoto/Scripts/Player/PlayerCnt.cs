@@ -49,6 +49,11 @@ public class PlayerCnt : MonoBehaviour
     private bool canPlayer1Bullet = true;
     private bool canPlayer2Bullet = true;
 
+    //荷物を持っているかどうか
+    [HideInInspector] public bool isPlayer1BringObj = false;
+    [HideInInspector] public bool isPlayer2BringObj = false;
+
+
     SoundManager soundManager; //SoundManagerのインスタンス
     SoundsList soundsList; //SoundsListのインスタンス
 
@@ -121,41 +126,27 @@ public class PlayerCnt : MonoBehaviour
         controls1.Player1.Jump.performed += OnPlayer1Jump;
         controls2.Player2.Jump.performed += OnPlayer2Jump;
 
-        //Player1:攻撃
-        controls1.Player1.Attack1.started += ctx =>
+        //Player1:荷物を持つ
+        controls1.Player1.Bring.started += ctx =>
         {
             if (GameManager.state != GameManager.GameState.Playing) return;
-            if (canPlayer1Bullet)
-                playerFirePoint1.SetActive(true);
+            isPlayer1BringObj = true;
         };
-        controls1.Player1.Attack1.canceled += ctx =>
+        controls1.Player1.Bring.canceled += ctx =>
         {
             if (GameManager.state != GameManager.GameState.Playing) return;
-            if (canPlayer1Bullet)
-            {
-                playerFirePoint1.SetActive(false);
-                Instantiate(player1Bullet, player1BulletArea.transform.position, Quaternion.identity);
-                soundManager.OnPlaySE(soundsList.shotSE);
-                StartCoroutine(Player1_BulletCoolDown());
-            }
+            isPlayer1BringObj = false;
         };
-        //Player2:攻撃
-        controls2.Player2.Attack1.started += ctx =>
+        //Player2:荷物を持つ
+        controls2.Player2.Bring.started += ctx =>
         {
             if (GameManager.state != GameManager.GameState.Playing) return;
-            if (canPlayer2Bullet)
-                playerFirePoint2.SetActive(true);
+            isPlayer2BringObj = true;
         };
-        controls2.Player2.Attack1.canceled += ctx =>
+        controls2.Player2.Bring.canceled += ctx =>
         {
             if (GameManager.state != GameManager.GameState.Playing) return;
-            if (canPlayer2Bullet)
-            {
-                playerFirePoint2.SetActive(false);
-                Instantiate(player2Bullet, player2BulletArea.transform.position, Quaternion.identity);
-                soundManager.OnPlaySE(soundsList.shotSE);
-                StartCoroutine(Player2_BulletCoolDown());
-            }
+            isPlayer2BringObj = false;
         };
 
         //Player1:スライディング開始
@@ -259,43 +250,27 @@ public class PlayerCnt : MonoBehaviour
                 }
             };
 
-            //Player1:弾を発射
-            controls.Player.Attack1.started += ctx =>
+            //Player1:荷物を持つ
+            controls.Player.Bring1.started += ctx =>
             {
-                if (canPlayer1Bullet)
-                {
-                    playerFirePoint1.SetActive(true);
-                }
+                if (GameManager.state != GameManager.GameState.Playing) return;
+                isPlayer1BringObj = true;
             };
-            controls.Player.Attack1.canceled += ctx =>
+            controls.Player.Bring1.canceled += ctx =>
             {
-                if (canPlayer1Bullet)
-                {
-                    playerFirePoint1.SetActive(false);
-                    Instantiate(player1Bullet, player1BulletArea.transform.position, Quaternion.identity);
-                    //効果音再生
-                    soundManager.OnPlaySE(soundsList.shotSE);
-                    StartCoroutine(Player1_BulletCoolDown()); //クールダウン開始
-                }
-            };    
-            //Player2:弾を発射
-            controls.Player.Attack2.started += ctx =>
-            {
-                if (canPlayer2Bullet)
-                {
-                    playerFirePoint2.SetActive(true);
-                }
+                if (GameManager.state != GameManager.GameState.Playing) return;
+                isPlayer1BringObj = false;
             };
-            controls.Player.Attack2.canceled += ctx =>
+            //Player2:荷物を持つ
+            controls.Player.Bring2.started += ctx =>
             {
-                if (canPlayer2Bullet)
-                {
-                    playerFirePoint2.SetActive(false);
-                    Instantiate(player2Bullet, player2BulletArea.transform.position, Quaternion.identity);
-                    //効果音再生
-                    soundManager.OnPlaySE(soundsList.shotSE);
-                    StartCoroutine(Player2_BulletCoolDown()); //クールダウン開始
-                }
+                if (GameManager.state != GameManager.GameState.Playing) return;
+                isPlayer2BringObj = true;
+            };
+            controls.Player.Bring2.canceled += ctx =>
+            {
+                if (GameManager.state != GameManager.GameState.Playing) return;
+                isPlayer2BringObj = false;
             };
 
 
