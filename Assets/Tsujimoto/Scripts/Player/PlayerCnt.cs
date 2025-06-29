@@ -83,17 +83,23 @@ public class PlayerCnt : MonoBehaviour
         RegisterEvents();
 
         //コントローラーのみ
-        //if (Gamepad.all.Count >= 2)
-        //{
-        //    controls1.devices = new InputDevice[] { Gamepad.all[0] };
-        //    controls2.devices = new InputDevice[] { Gamepad.all[1] };
-        //}
-        //キーボード + コントローラー
-        if (Gamepad.all.Count >= 1)
+        if (Gamepad.all.Count >= 2)
+        {
+            controls1.devices = new InputDevice[] { Gamepad.all[0] };
+            controls2.devices = new InputDevice[] { Gamepad.all[1] };
+        }
+        //コントローラーとキーボード
+        else if(Gamepad.all.Count >= 1)
         {
             controls1.devices = new InputDevice[] { Gamepad.all[0] };
             controls2.devices = new InputDevice[] { Keyboard.current };
         }
+        //キーボード + コントローラー
+        //if (Gamepad.all.Count >= 1)
+        //{
+        //    controls1.devices = new InputDevice[] { Gamepad.all[0] };
+        //    controls2.devices = new InputDevice[] { Keyboard.current };
+        //}
     }
 
     void Update()
