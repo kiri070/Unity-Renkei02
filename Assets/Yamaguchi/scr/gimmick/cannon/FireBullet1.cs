@@ -11,13 +11,13 @@ public class FireBullet1 : MonoBehaviour
     private GameObject bullet;
     [SerializeField]
     [Tooltip("弾の速さ")]
-    //private float speed = 30f;
+    private float speed = 30f;
     // Update is called once per frame
 
-    public float canonx = 200;
-    public float canony = 4;
+    //public float canonx = 200;
+    //public float canony = 4;
 
-    public float canonz = 0;
+    //public float canonz = 0;
 
     // ▼ ボックスの中心位置を、オブジェクトの位置からどれだけずらすか（例：頭の上とか）
     public Vector3 boxCenterOffset = Vector3.zero;
@@ -30,9 +30,18 @@ public class FireBullet1 : MonoBehaviour
     private Collider myCollider;
     bool reloading; // リロード中であるか否かを表すフラグ
 
+    public float swingAngle = 100f;    // 振れ幅（例：±30度）
+    public float swingSpeed = 1f;     // 往復の速さ（1秒で往復するなら1）
+
+    private float baseY;              // 元のY角度
+    public bool isSwinging = false;  // スイング中フラグ
+    private float swingTimer = 0f;    // 経過時間
+
     void Start()
     {
-        reloading = false;
+        reloading = false; //クールタイム
+
+        baseY = transform.eulerAngles.y;
     }
 
 
@@ -66,6 +75,15 @@ public class FireBullet1 : MonoBehaviour
 
             }
         }
+
+        if (isSwinging)
+        {
+            swingTimer += Time.deltaTime * swingSpeed;
+
+            // sin波を使って往復
+            float offset = Mathf.Sin(swingTimer * Mathf.PI * 2) * (swingAngle * 0.5f);
+            transform.rotation = Quaternion.Euler(0, baseY + offset, 0);
+        }
     }
 
     // ▼ Unityエディタ上で、検出範囲のボックスを見えるように描く関数
@@ -87,13 +105,16 @@ public class FireBullet1 : MonoBehaviour
             // 上で取得した場所に、"bullet"のPrefabを出現させる。Bulletの向きはMuzzleのローカル値と同じにする（3つ目の引数）
             GameObject newBullet = Instantiate(bullet, bulletPosition, this.gameObject.transform.rotation);
             // 出現させた弾のup(Y軸方向)を取得（MuzzleのローカルY軸方向のこと）
-            //Vector3 direction = newBullet.transform.up;
+            Vector3 direction = newBullet.transform.forward;
+            // Y軸にちょっと足す（例：0.2 上向き）
+            direction += Vector3.up * 1.5f;
             // 弾の発射方向にnewBallのY方向(ローカル座標)を入れ、弾オブジェクトのrigidbodyに衝撃力を加える
-            newBullet.GetComponent<Rigidbody>().AddForce(canonx, canony, canonz, ForceMode.Impulse);
+            newBullet.GetComponent<Rigidbody>().AddForce(direction * speed, ForceMode.Impulse);
+            //newBullet.GetComponent<Rigidbody>().AddForce(canonx, canony, canonz, ForceMode.Impulse);
             // 出現させた弾の名前を"bullet"に変更
             newBullet.name = bullet.name;
             // 出現させた弾を0.8秒後に消す
-            Destroy(newBullet, 0.8f);
+            Destroy(newBullet, 1f);
         }
     }
 
@@ -107,5 +128,14 @@ public class FireBullet1 : MonoBehaviour
         yield return new WaitForSeconds(2);
         Debug.Log("リロード完了");
         reloading = false;
+    }
+
+    public void Rotate()
+    {
+        if (!isSwinging)
+        {
+            swingTimer = 0f;
+            baseY = transform.eulerAngles.y; // 開始時の角度を基準にする
+        }
     }
 }

@@ -9,7 +9,7 @@ public class SwitchController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // Player スクリプトを持っているか確認
-        if (other.gameObject.CompareTag("Player1") || other.gameObject.CompareTag("Player2"))
+        if (other.gameObject.CompareTag("Player1") || other.gameObject.CompareTag("Player2") || other.gameObject.CompareTag("Bullet"))
         {
             // 制御対象のすべての敵に対して表示/非表示をトグル
             foreach (EnemyToggle enemy in controlledEnemies)
