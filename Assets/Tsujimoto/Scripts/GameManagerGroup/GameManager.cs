@@ -32,6 +32,13 @@ public class GameManager : MonoBehaviour
     [Tooltip("タイム減少:ミミックの魔法を受けた時")] public float decreaseMimicTimer = 5f;
     [Tooltip("タイム減少:落下時")] public float decreaseFallTimer = 10f;
 
+    [Header("お宝関連")]
+    [Tooltip("価値を表示するテキスト")]public Text valueText;
+    [HideInInspector] public int boxValue = 100; //お宝の価値
+    [SerializeField][Tooltip("価値の加減を表示するテキスト")] GameObject valueTextPrefab;
+    [SerializeField][Tooltip("価値の加減を表示するテキストのスポーン位置")] Transform valueTextPrefab_SpawnPoint;
+
+
     SoundManager soundManager;
     SoundsList soundsList;
     //ゲームの状態を管理
@@ -56,9 +63,12 @@ public class GameManager : MonoBehaviour
         soundsList = FindObjectOfType<SoundsList>();
         playerCnt = FindObjectOfType<PlayerCnt>();
 
+        //お宝の価値を表示
+        valueText.text = "<color=yellow>" + "お宝の価値:" + boxValue.ToString() + "%" + "</color>";
+
         //初期化
         ToPausedState(); //ポーズ状態
-
+        
         StartCoroutine(CountDown()); //スタートまでのカウントダウン開始
     }
 
@@ -88,6 +98,60 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //お宝の価値を下げる関数
+    public void MinusBoxValue(int value)
+    {
+        boxValue -= value;
+        if (boxValue <= 0) boxValue = 0;
+        //お宝の価値を更新
+        if (boxValue >= 80) //80以上なら文字色:黄色
+            valueText.text = "<color=yellow>" + "お宝の価値:" + boxValue.ToString() + "%" + "</color>";
+        else if (boxValue < 80 && boxValue >= 50) //80未満,50以上なら文字色:青色
+            valueText.text = "<color=yellow>" + "お宝の価値:" + "<color=blue>" + boxValue.ToString() + "%" + "</color>" + "</color>";
+        else if (boxValue < 50 && boxValue >= 10) //50未満,10以上なら文字色:赤色
+            valueText.text = "<color=yellow>" + "お宝の価値:" + "<color=red>" + boxValue.ToString() + "%" + "</color>" + "</color>";
+        else if (boxValue < 10) //10未満なら茶色
+            valueText.text = "<color=yellow>" + "お宝の価値:" + "<color=brown>" + boxValue.ToString() + "%" + "</color>" + "</color>";
+
+        // マイナステキストを表示
+        GameObject minusObj = Instantiate(valueTextPrefab, valueTextPrefab_SpawnPoint);
+        minusObj.transform.localScale = Vector3.one;
+        minusObj.transform.localPosition = Vector3.zero;
+
+        Text minusText = minusObj.GetComponent<Text>();
+        if (minusText != null)
+        {
+            minusText.text = "<color=red>" + "-" + value.ToString() + "%" + "</color>";
+            StartCoroutine(AnimateAndDestroyText(minusObj, minusText));
+        }
+
+    }
+    //お宝の価値を回復する関数
+    public void PlusBoxValue(int value)
+    {
+        boxValue += value;
+        //お宝の価値を更新
+        if (boxValue >= 80) //80以上なら文字色:黄色
+            valueText.text = "<color=yellow>" + "お宝の価値:" + boxValue.ToString() + "%" + "</color>";
+        else if (boxValue < 80 && boxValue >= 50) //80未満,50以上なら文字色:青色
+            valueText.text = "<color=yellow>" + "お宝の価値:" + "<color=blue>" + boxValue.ToString() + "%" + "</color>" + "</color>";
+        else if (boxValue < 50 && boxValue >= 10) //50未満,10以上なら文字色:赤色
+            valueText.text = "<color=yellow>" + "お宝の価値:" + "<color=red>" + boxValue.ToString() + "%" + "</color>" + "</color>";
+        else if (boxValue < 10) //10未満なら茶色
+            valueText.text = "<color=yellow>" + "お宝の価値:" + "<color=brown>" + boxValue.ToString() + "%" + "</color>" + "</color>";
+
+        // プラステキストを表示
+        GameObject plusObj = Instantiate(valueTextPrefab, valueTextPrefab_SpawnPoint);
+        plusObj.transform.localScale = Vector3.one;
+        plusObj.transform.localPosition = Vector3.zero;
+
+        Text plusText = plusObj.GetComponent<Text>();
+        if (plusText != null)
+        {
+            plusText.text = "<color=yellow>" + "+" + value.ToString() + "%" + "</color>";
+            StartCoroutine(AnimateAndDestroyText(plusObj, plusText));
+        }
+    }
     //タイマーを減らす関数
     public void DecreaseTimer(float time)
     {
@@ -103,7 +167,7 @@ public class GameManager : MonoBehaviour
             StartCoroutine(AnimateAndDestroyText(obj, text));
         }
     }
-    //タイマー減少テキストをフェードアウトさせる
+    //テキストをフェードアウトさせる
     IEnumerator AnimateAndDestroyText(GameObject obj, Text text)
     {
         float duration = 1f;

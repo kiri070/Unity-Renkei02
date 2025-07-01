@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BringObj : MonoBehaviour
 {
     Vector3 startPos; //初期位置を格納する変数
     Rigidbody rb;
     Collider col;
+    GameManager gameManager;
+    PlayerCnt playerCnt;
 
     void Start()
     {
@@ -15,6 +18,8 @@ public class BringObj : MonoBehaviour
 
         rb = GetComponent<Rigidbody>();
         col = GetComponent<Collider>();
+        gameManager = FindObjectOfType<GameManager>();
+        playerCnt = FindObjectOfType<PlayerCnt>();
     }
 
     void Update()
@@ -38,12 +43,25 @@ public class BringObj : MonoBehaviour
         //落ちたら初期位置に戻す
         if (other.CompareTag("DeathArea"))
         {
-            ReSpawnBox();
+            gameManager.MinusBoxValue(5);
+            //チェックポイントがある場合
+            if (playerCnt.currentCheckPoint != null)
+            {
+                playerCnt.SpawnCheckPoint();
+            }
+            //チェックポイントがない場合
+            else
+            {
+                //初期位置にスポーン
+                playerCnt.SpwanStartPoint();
+            }
         }
 
         //魔法に当たったら魔法を消す
         if (other.CompareTag("Majic"))
         {
+            //お宝の価値を下げる
+            gameManager.MinusBoxValue(10);
             Destroy(other.gameObject);
         }
     }

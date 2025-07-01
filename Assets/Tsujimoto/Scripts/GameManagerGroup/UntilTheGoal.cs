@@ -8,21 +8,19 @@ public class UntilTheGoal : MonoBehaviour
     [Header("ゴールのオブジェクトを格納")]
     public Transform goal;
 
-    [Header("カメラを格納")]
+    [Header("プレイヤーを格納")]
     public Transform player1;
     public Transform player2;
+    Vector3 midPoint; //プレイヤー間の距離
 
     [Header("ゴールまでの距離を表示するスライダー")]
     public Slider slider1;
-    public Slider slider2;
 
     void Start()
     {
-        //スライダー1の最大値をプレイヤー1の位置に設定
-        slider1.maxValue = Vector3.Distance(goal.position, player1.position);
-
-        //スライダー2の最大値をプレイヤー2の位置に設定
-        slider2.maxValue = Vector3.Distance(goal.position, player2.position);
+        midPoint = (player1.position + player2.position) / 2;
+        //スライダーの最大値をプレイヤー間の位置に設定
+        slider1.maxValue = Vector3.Distance(goal.position, midPoint);
     }
 
     void Update()
@@ -33,12 +31,8 @@ public class UntilTheGoal : MonoBehaviour
     //ゴールまでの距離を計算して表示
     void UntilGoalDistance()
     {
-        //プレイヤー1
-        float distance = Vector3.Distance(goal.position, player1.position);
+        midPoint = (player1.position + player2.position) / 2;
+        float distance = Vector3.Distance(goal.position, midPoint);
         slider1.value = distance;
-
-        //プレイヤー2
-        float distance2 = Vector3.Distance(goal.position, player2.position);
-        slider2.value = distance2;
     }
 }

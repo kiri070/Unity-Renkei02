@@ -21,6 +21,7 @@ TagManager:
   - BringJudge
   - Bound
   - CannonBall
+  - Treasure
   layers:
   - Default
   - TransparentFX

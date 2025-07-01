@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,6 +14,9 @@ public class PlayerCnt : MonoBehaviour
     [Header("プレイヤー格納")]
     public PlayerMover mover1;
     public PlayerMover mover2;
+
+    [Header("お宝を格納")]
+    public GameObject treasure;
 
     [Header("弾が発射されるエリア")]
     public GameObject player1BulletArea;
@@ -37,6 +41,7 @@ public class PlayerCnt : MonoBehaviour
     [Header("スタート地点")]
     public GameObject player1_StartPoint;
     public GameObject player2_StartPoint;
+    public GameObject treasure_StartPoint;
 
     [Header("エフェクト")]
     [Tooltip("スポーンエフェクト")][SerializeField] GameObject spawnEffect;
@@ -429,6 +434,8 @@ public class PlayerCnt : MonoBehaviour
         
         mover1.transform.position = player1_StartPoint.transform.position;
         mover2.transform.position = player2_StartPoint.transform.position;
+
+        treasure.transform.position = treasure_StartPoint.transform.position; //お宝
         StartCoroutine(InvincibleTimer());
     }
     //チェックポイントにスポーンさせる関数
@@ -445,13 +452,14 @@ public class PlayerCnt : MonoBehaviour
         //スポーンポイントを格納
         GameObject spawn1 = currentCheckPoint.transform.Find("Player1_Spawn").gameObject; 
         GameObject spawn2 = currentCheckPoint.transform.Find("Player2_Spawn").gameObject;
+        GameObject spawn3 = currentCheckPoint.transform.Find("Treasure_Spawn").gameObject;
         //スポーンエフェクト再生
         Instantiate(spawnEffect, spawn1.transform.position, spawnEffect.transform.rotation);
         Instantiate(spawnEffect, spawn2.transform.position, spawnEffect.transform.rotation);
 
         mover1.transform.position = spawn1.transform.position;
         mover2.transform.position = spawn2.transform.position;
-
+        treasure.transform.position = spawn3.transform.position; //お宝
         StartCoroutine(InvincibleTimer());
     }
     //無敵時間管理

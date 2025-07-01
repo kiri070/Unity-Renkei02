@@ -384,6 +384,13 @@ public class PlayerMover : MonoBehaviour
             canMove = false;
             StartCoroutine(RecoveryKnockback(recoveryKnockbackTime));
         }
+        //お宝回復に触れたら
+        if (other.CompareTag("Treasure"))
+        {
+            //お宝の価値をプラス
+            gameManager.PlusBoxValue(10);
+            Destroy(other.gameObject);
+        }
     }
 
     //遅延させてゲームオーバーシーンに変遷
