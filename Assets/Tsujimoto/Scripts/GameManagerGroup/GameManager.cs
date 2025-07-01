@@ -83,6 +83,8 @@ public class GameManager : MonoBehaviour
         //クリアなら
         else if (state == GameState.Clear)
         {
+            Score.Instance.ScoreReferer = boxValue; //お宝の価値を代入
+            Score.Instance.TimeReferer = timerValue; //残り時間を代入
             playerCnt.OnDestroyEvents(); //シーン変遷前に入力イベントを削除
             SceneManager.LoadScene("ClearScene");
         }

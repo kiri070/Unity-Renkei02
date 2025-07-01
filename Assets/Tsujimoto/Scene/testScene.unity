@@ -1023,6 +1023,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mover1: {fileID: 838964299}
   mover2: {fileID: 2097858287}
+  treasure: {fileID: 0}
   player1BulletArea: {fileID: 1269254363}
   player2BulletArea: {fileID: 247252073}
   player1Bullet: {fileID: 2203308906420047698, guid: f2f8ed0d8cf0c474086487c8a9e8a640, type: 3}
@@ -1033,6 +1034,7 @@ MonoBehaviour:
   player2_BulletCoolDown: 5
   player1_StartPoint: {fileID: 1078483150}
   player2_StartPoint: {fileID: 1789519966}
+  treasure_StartPoint: {fileID: 0}
   spawnEffect: {fileID: 2222479055996870727, guid: ae2a2e8fafd5b488d8b58c8b41b59ff9, type: 3}
   currentCheckPoint: {fileID: 0}
   invincible: 0
@@ -1881,7 +1883,7 @@ Transform:
   m_GameObject: {fileID: 535902385}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 42.84, y: 8.41, z: 46.85}
+  m_LocalPosition: {x: 12.53, y: 8.41, z: -32.8}
   m_LocalScale: {x: 14.33, y: 0.86868167, z: 14.311229}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -2722,7 +2724,6 @@ MonoBehaviour:
   player1: {fileID: 838964294}
   player2: {fileID: 2097858283}
   slider1: {fileID: 1115906144}
-  slider2: {fileID: 0}
 --- !u!114 &735732351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2747,6 +2748,8 @@ MonoBehaviour:
   decreaseFallTimer: 10
   valueText: {fileID: 810008131}
   boxValue: 100
+  valueTextPrefab: {fileID: 0}
+  valueTextPrefab_SpawnPoint: {fileID: 0}
 --- !u!4 &735732352
 Transform:
   m_ObjectHideFlags: 0
@@ -5354,7 +5357,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2464379277873846722, guid: 547a116dd554444bdbde0e3b720f5fbc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -33.6912
+      value: -2.5
       objectReference: {fileID: 0}
     - target: {fileID: 2464379277873846722, guid: 547a116dd554444bdbde0e3b720f5fbc, type: 3}
       propertyPath: m_LocalRotation.w
