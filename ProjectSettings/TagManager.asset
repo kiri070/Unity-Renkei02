@@ -20,6 +20,7 @@ TagManager:
   - Bullet
   - BringJudge
   - Bound
+  - CannonBall
   layers:
   - Default
   - TransparentFX

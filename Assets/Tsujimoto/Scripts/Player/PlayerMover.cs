@@ -378,6 +378,12 @@ public class PlayerMover : MonoBehaviour
             //チェックポイントのエフェクトを再生
             playerCnt.currentCheckPoint.transform.Find("CheckPointEffect").gameObject.SetActive(true);
         }
+        //大砲の球に触れたら
+        if (other.CompareTag("CannonBall"))
+        {
+            canMove = false;
+            StartCoroutine(RecoveryKnockback(recoveryKnockbackTime));
+        }
     }
 
     //遅延させてゲームオーバーシーンに変遷
