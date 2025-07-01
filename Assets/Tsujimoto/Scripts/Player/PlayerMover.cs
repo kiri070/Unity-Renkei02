@@ -115,16 +115,16 @@ public class PlayerMover : MonoBehaviour
 
         // 物体を検索
         Collider[] hits = Physics.OverlapBox(center, boxSize / 2, Quaternion.identity, objLayer);
-        Collider obj_Col; //コライダーを格納する箱
 
         //オブジェクトが範囲内かつ、持つボタンを押したら
         if (hits.Length > 0 && isBring)
         {
             heldObject = hits[0].attachedRigidbody;
-            obj_Col = hits[0].GetComponent<Collider>();
             if (heldObject != null)
             {
+                Collider obj_Col = hits[0];
                 obj_Col.isTrigger = true;
+
                 heldObject.useGravity = false;
                 heldObject.velocity = Vector3.zero; // 落ちてる途中なら停止
             }
@@ -139,8 +139,8 @@ public class PlayerMover : MonoBehaviour
         {
             if (heldObject != null)
             {
-                obj_Col = hits[0].GetComponent<Collider>();
-                obj_Col.isTrigger = false;
+                Collider obj_Col = heldObject.GetComponent<Collider>();
+                if (obj_Col != null) obj_Col.isTrigger = false;
                 heldObject.useGravity = true;
                 heldObject = null;
             }
