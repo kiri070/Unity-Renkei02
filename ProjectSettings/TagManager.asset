@@ -19,6 +19,7 @@ TagManager:
   - CheckPoint
   - Bullet
   - BringJudge
+  - Bound
   layers:
   - Default
   - TransparentFX
