@@ -40,13 +40,40 @@ public class CannonCnt : MonoBehaviour
             //範囲内なら
             if (hits.Length > 0)
             {
-                Vector3 direction = (hits[0].transform.position - transform.position).normalized;// 向くべき方向を計算（y軸だけ回転）
-                direction.y = 0f; // 上下回転しないように
+                //壁に隠れていない時に撃つ
+                HidePlayerCheck();
+            }
+
+        }
+        //一定間隔で撃つ場合
+        else if (!isAimPlayer)
+        {
+            if (canShot)
+            {
+                Shot();
+            }
+        }
+    }
+
+    //壁に隠れているか判定して行動する処理
+    void HidePlayerCheck()
+    {
+        RaycastHit hit;
+        Vector3 origin = shotPos.transform.position; //Rayを飛ばす位置
+        Vector3 direction = (hits[0].transform.position - origin).normalized; //プレイヤーの方向
+        int mask = LayerMask.GetMask("Player", "Wall"); //判定するレイヤー
+        if (Physics.Raycast(shotPos.transform.position, direction, out hit, mask))
+        {
+            //隠れていなければ
+            if (hit.collider.CompareTag("Player1") || hit.collider.CompareTag("Player2"))
+            {
+                Vector3 direction1 = (hits[0].transform.position - transform.position).normalized;// 向くべき方向を計算（y軸だけ回転）
+                direction1.y = 0f; // 上下回転しないように
 
                 //回転処理
-                if (direction != Vector3.zero)
+                if (direction1 != Vector3.zero)
                 {
-                    Quaternion targetRotation = Quaternion.LookRotation(direction);
+                    Quaternion targetRotation = Quaternion.LookRotation(direction1);
                     transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5f * Time.deltaTime);
                 }
                 //球を発射
@@ -55,14 +82,10 @@ public class CannonCnt : MonoBehaviour
                     AimShot();
                 }
             }
-
-        }
-        //一定間隔で打つ場合
-        else if (!isAimPlayer)
-        {
-            if (canShot)
+            //壁に隠れていたら
+            else if (hit.collider.CompareTag("Wall"))
             {
-                Shot();
+                return;
             }
         }
     }
