@@ -415,6 +415,14 @@ public class PlayerCnt : MonoBehaviour
     //スタート地点にスポーンさせる関数
     public void SpwanStartPoint()
     {
+        //動かないように
+        mover1.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        mover2.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+        //箱のスクリプトから箱を初期位置に戻す
+        BringObj[] bringObj = FindObjectsOfType<BringObj>();
+        foreach (BringObj bo in bringObj) bo.ReSpawnBox();
+
         //スポーンエフェクト再生
         Instantiate(spawnEffect, player1_SpawnEffectPoint.transform.position, spawnEffect.transform.rotation);
         Instantiate(spawnEffect, player2_SpawnEffectPoint.transform.position, spawnEffect.transform.rotation);
@@ -426,6 +434,14 @@ public class PlayerCnt : MonoBehaviour
     //チェックポイントにスポーンさせる関数
     public void SpawnCheckPoint()
     {
+        //動かないように
+        mover1.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        mover2.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+        //箱のスクリプトから箱を初期位置に戻す
+        BringObj[] bringObj = FindObjectsOfType<BringObj>();
+        foreach (BringObj bo in bringObj) bo.ReSpawnBox();
+
         //スポーンポイントを格納
         GameObject spawn1 = currentCheckPoint.transform.Find("Player1_Spawn").gameObject; 
         GameObject spawn2 = currentCheckPoint.transform.Find("Player2_Spawn").gameObject;

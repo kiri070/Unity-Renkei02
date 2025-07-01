@@ -9,6 +9,7 @@ public class Mimic : MonoBehaviour
     [HideInInspector] public Vector3 lastPlayerPosition; //攻撃範囲内に入ったプレイヤーの位置を記録
 
     [Header("踏みつけ判定")][SerializeField] Vector3 boxSize = new Vector3(1f, 0.2f, 1f);
+    [SerializeField] Vector3 offset;
     [SerializeField] LayerMask playerLayer;
 
     [Header("魔法で飛ばすオブジェクト")] public GameObject majicObj;
@@ -22,9 +23,6 @@ public class Mimic : MonoBehaviour
 
     Renderer renderer;
 
-    [Header("マテリアル")]
-    [SerializeField] Material defaultMaterial;
-    [SerializeField] Material attackMaterial;
 
 
     [Header("敵本体のコライダー")]
@@ -43,13 +41,11 @@ public class Mimic : MonoBehaviour
     //状態をIdleにする関数
     public void ToIdle()
     {
-        renderer.material = defaultMaterial; //マテリアルをデフォルト状態
         enemyState = EnemyState.Idle;
     }
     //状態をMajicAttackにする関数
     public void ToMajicAttack()
     {
-        renderer.material = attackMaterial; //マテリアルを攻撃している状態
         enemyState = EnemyState.MajicAttack;
     }
 
@@ -128,7 +124,7 @@ public class Mimic : MonoBehaviour
     void StepOnEnemy()
     {
         Vector3 center = transform.position + Vector3.up * 1f;
-        Collider[] hits = Physics.OverlapBox(center, boxSize / 2, transform.rotation, playerLayer);
+        Collider[] hits = Physics.OverlapBox(center + offset, boxSize / 2, transform.rotation, playerLayer);
         if (hits.Length > 0)
         {
             PlayerMover pm = FindObjectOfType<PlayerMover>();
@@ -146,7 +142,7 @@ public class Mimic : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Vector3 center = transform.position + transform.up * 1f;
+        Vector3 center = transform.position + transform.up * 1f + offset;
         Gizmos.matrix = Matrix4x4.TRS(center, transform.rotation, Vector3.one);
         Gizmos.DrawWireCube(Vector3.zero, boxSize);
     }
