@@ -105,9 +105,9 @@ public class FireBullet1 : MonoBehaviour
             // 上で取得した場所に、"bullet"のPrefabを出現させる。Bulletの向きはMuzzleのローカル値と同じにする（3つ目の引数）
             GameObject newBullet = Instantiate(bullet, bulletPosition, this.gameObject.transform.rotation);
             // 出現させた弾のup(Y軸方向)を取得（MuzzleのローカルY軸方向のこと）
-            Vector3 direction = newBullet.transform.forward;
-            // Y軸にちょっと足す（例：0.2 上向き）
-            direction += Vector3.up * 1.5f;
+            Vector3 direction = newBullet.transform.up;
+            // x軸にちょっと足す（例：0.2 上向き）
+            direction += Vector3.forward * 1.5f;
             // 弾の発射方向にnewBallのY方向(ローカル座標)を入れ、弾オブジェクトのrigidbodyに衝撃力を加える
             newBullet.GetComponent<Rigidbody>().AddForce(direction * speed, ForceMode.Impulse);
             //newBullet.GetComponent<Rigidbody>().AddForce(canonx, canony, canonz, ForceMode.Impulse);
