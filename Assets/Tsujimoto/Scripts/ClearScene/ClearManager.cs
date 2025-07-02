@@ -11,25 +11,37 @@ public class ClearManager : MonoBehaviour
     public Text currentScoreText;
     float finalScore = 0;
 
+    //テキストの強調表示
+    float keyText_color = 1f; //透明度の初期値
+    bool flag_alpha = false; //透明にするかどうか
+
     float[] rankings = new float[3]; //ランキングのスコアを入れる変数
     [SerializeField] Text[] rankingScoreTexts = new Text[3]; //ランキングのスコアを入れるテキスト
+
+    [Header("メインUIを格納")][SerializeField] CanvasGroup mainUI;
     void Start()
     {
 
         // //開発中にランキングをリセットする場合に実行
         // for (int i = 0; i < rankings.Length; i++)
         // {
-        //     PlayerPrefs.DeleteKey("ScoreRank_" + i);
+        //     PlayerPrefs.DeleteAll();
         //     rankings[i] = 0f;
         //     rankingScoreTexts[i].text = "0";
         // }
 
-        //ランキング読み込み
+
+        //一時UIを操作不可に
+        mainUI.interactable = false;
+        mainUI.blocksRaycasts = false;
+
+        string keyPrefix = "ScoreRank_" + Score.Instance.SceneName + "_";
         for (int i = 0; i < rankings.Length; i++)
         {
-            rankings[i] = PlayerPrefs.GetFloat("ScoreRank_" + i, 0f); // 0f は初期値
-            rankingScoreTexts[i].text = rankings[i].ToString(); //ランキングを適応
+            rankings[i] = PlayerPrefs.GetFloat(keyPrefix + i, 0f); // シーンごとのキーで読み込む
+            rankingScoreTexts[i].text = rankings[i].ToString();
         }
+
         //カーソルを使えるように
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -39,6 +51,7 @@ public class ClearManager : MonoBehaviour
         finalScore = (int)Mathf.Floor(finalScore);
         StartCoroutine(ShowScoreAnim(finalScore));
     }
+
     //リトライボタン
     public void OnRetryButton()
     {
@@ -55,56 +68,85 @@ public class ClearManager : MonoBehaviour
     //スコアにアニメーションをつける
     IEnumerator ShowScoreAnim(float finalScore)
     {
+        //ランダムな数字を表示する
         for (int i = 0; i < 20; i++)
         {
             currentScoreText.text = Random.Range(0, finalScore + 30).ToString();
             yield return new WaitForSeconds(0.05f);
         }
-
+        //今回のスコアを表示
         currentScoreText.text = finalScore.ToString();
-        //ランキングがなにもなければ
-        if (rankings == null)
-        {
-            rankings[0] = finalScore;
-            rankingScoreTexts[0].text = rankings.ToString();
-        }
         //ランキングがすでにあれば
-        else
+        for (int i = 0; i < rankings.Length; i++)
         {
-            for (int i = 0; i < rankings.Length; i++)
+            if (finalScore >= rankings[i])
             {
-                if (finalScore >= rankings[i])
+                // ランキングを下にずらす（末尾から）
+                for (int j = rankings.Length - 1; j > i; j--)
                 {
-                    // ランキングを下にずらす（末尾から）
-                    for (int j = rankings.Length - 1; j > i; j--)
-                    {
-                        rankings[j] = rankings[j - 1];
-                        rankingScoreTexts[j].text = rankings[j].ToString();
-                    }
-
-                    // 新しいスコアを挿入
-                    rankings[i] = finalScore;
-                    rankingScoreTexts[i].text = rankings[i].ToString();
-                    break;
+                    rankings[j] = rankings[j - 1];
+                    rankingScoreTexts[j].text = rankings[j].ToString();
                 }
+
+                // 新しいスコアを挿入
+                rankings[i] = finalScore;
+                rankingScoreTexts[i].text = rankings[i].ToString(); // テキストにスコアを入れる
+                rankingScoreTexts[i].color = new Color(1f, 1f, 0f, 1f); // 黄色（透明度つき）
+                StartCoroutine(TextAnim(rankingScoreTexts[i])); //テキストアニメーションを開始
+                break;
             }
         }
 
-        //ランキングを保存
+        //保存
+        string keyPrefix = "ScoreRank_" + Score.Instance.SceneName + "_";
         for (int i = 0; i < rankings.Length; i++)
         {
-            PlayerPrefs.SetFloat("ScoreRank_" + i, rankings[i]);
+            PlayerPrefs.SetFloat(keyPrefix + i, rankings[i]); // シーンごとのキーで保存
+        }
+
+        //UIを操作可能にする
+        mainUI.interactable = true;
+        mainUI.blocksRaycasts = true;
+    }
+
+    //自分のスコアがランキングに入ったら強調表示
+    IEnumerator TextAnim(Text text)
+    {
+        while (true)
+        {
+            //表示させる
+            if (flag_alpha)
+            {
+                keyText_color += Time.deltaTime;
+                text.color = new Color(Color.yellow.r, Color.yellow.g, Color.yellow.b, keyText_color);
+            }
+            //透明にする
+            else if (!flag_alpha)
+            {
+                keyText_color -= Time.deltaTime;
+                text.color = new Color(Color.yellow.r, Color.yellow.g, Color.yellow.b, keyText_color);
+            }
+
+            //透明になったら
+            if (keyText_color <= 0)
+            {
+                flag_alpha = true;
+            }
+            //透明じゃないなら
+            else if (keyText_color >= 1)
+            {
+                flag_alpha = false;
+            }
+            yield return null;
         }
     }
-        
+
 }
-
-
-
 //クリア時にお宝の価値と残り時間を代入
 public class Score
 {
     public readonly static Score Instance = new Score();
     public int ScoreReferer = 0; //お宝の価値
     public float TimeReferer = 0f; //残り時間
+    public string SceneName = string.Empty; //シーン名
 }

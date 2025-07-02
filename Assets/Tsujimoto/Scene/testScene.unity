@@ -1023,7 +1023,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mover1: {fileID: 838964299}
   mover2: {fileID: 2097858287}
-  treasure: {fileID: 0}
+  treasure: {fileID: 215541156}
   player1BulletArea: {fileID: 1269254363}
   player2BulletArea: {fileID: 247252073}
   player1Bullet: {fileID: 2203308906420047698, guid: f2f8ed0d8cf0c474086487c8a9e8a640, type: 3}
@@ -1059,6 +1059,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &215541156 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4782425240631804190, guid: 68b99271ae5594db0ab1ceb159b72655, type: 3}
+  m_PrefabInstance: {fileID: 1563107016}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &222829109
 GameObject:
   m_ObjectHideFlags: 0

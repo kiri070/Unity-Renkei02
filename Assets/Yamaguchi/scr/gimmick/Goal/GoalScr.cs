@@ -6,17 +6,20 @@ public class GoalScr : MonoBehaviour
 {
     private bool GoalOne;
     private bool GoalTwo;
+
+    private bool GoalTreasure; //お宝
     // Start is called before the first frame update
     void Start()
     {
         GoalOne = false;
         GoalTwo = false;
+        GoalTreasure = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (GoalOne && GoalTwo)
+        if (GoalOne && GoalTwo && GoalTreasure)
         {
            PlayerMover.GameClear();
         }
@@ -33,5 +36,6 @@ public class GoalScr : MonoBehaviour
         {
             GoalTwo = true;
         }
+        if (other.gameObject.layer == LayerMask.NameToLayer("BringObj")) GoalTreasure = true;
     }
 }
