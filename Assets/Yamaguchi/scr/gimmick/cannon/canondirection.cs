@@ -2,38 +2,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// スイッチの役割を持つスクリプト
+/// プレイヤーがスイッチに触れたら砲台の首振りをON/OFFする
+/// </summary>
 public class canondirection : MonoBehaviour
 {
-    FireBullet1 firebullet1;
+    [Header("首振りを制御する砲台（親オブジェクト）")]
     public GameObject _parent;
-    // Start is called before the first frame update
+
+    private CannonShooter cannon; // 対象のCannonShooterを取得
+
     void Start()
     {
-        firebullet1 = _parent.GetComponent<FireBullet1>();
+        // 親オブジェクトからCannonShooterを探す
+        cannon = _parent.GetComponent<CannonShooter>();
+        if (cannon == null)
+        {
+            Debug.LogError("CannonShooterが見つかりません。_parentを正しく設定してください。");
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    /// <summary>
+    /// プレイヤーがスイッチに入ったら首振り開始
+    /// </summary>
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player1") || other.gameObject.CompareTag("Player2"))
         {
-            firebullet1.isSwinging = true;
-            firebullet1.Rotate();
-            Debug.Log("回転します");
+            cannon.isSwinging = true;
+            Debug.Log("首振り開始");
         }
     }
 
+    /// <summary>
+    /// プレイヤーがスイッチから出たら首振り停止
+    /// </summary>
     void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Player1") || other.gameObject.CompareTag("Player2"))
         {
-            firebullet1.isSwinging = false;
-            Debug.Log("回転を止めます");
+            cannon.isSwinging = false;
+            Debug.Log("首振り停止");
         }
     }
 }
