@@ -96,11 +96,11 @@ public class PlayerMover : MonoBehaviour
     {
         OffScreen();
         WallChecker();
-        BringArea();
     }
 
     void FixedUpdate()
     {
+        BringArea();
         if (canMove)
             Move();
     }
