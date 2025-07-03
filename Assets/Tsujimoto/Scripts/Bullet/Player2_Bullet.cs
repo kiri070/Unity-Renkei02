@@ -38,8 +38,6 @@ public class Player2_Bullet : MonoBehaviour
             Instantiate(hitEffectPrefab, new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z),
              rotation);
 
-            //効果音再生
-            soundManager.OnPlaySE(soundsList.hitShotSE);
             Destroy(gameObject); //弾を削除
         }
     }

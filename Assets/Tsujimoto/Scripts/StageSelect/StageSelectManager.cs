@@ -31,6 +31,8 @@ public class StageSelectManager : MonoBehaviour
         soundManager = FindObjectOfType<SoundManager>();
         soundsList = FindObjectOfType<SoundsList>();
 
+        soundManager.OnPlayBGM(soundsList.stageSelectBGM); //BGM
+
         //ヒントをランダムに表示
         RandomTips();
     }
@@ -47,7 +49,7 @@ public class StageSelectManager : MonoBehaviour
     public void OnSinglePlayTutorial()
     {
         //効果音を再生
-        soundManager.OnPlaySE(soundsList.clickButton);
+        soundManager.OnPlaySE(soundsList.clickStage);
         //ゲームモードをシングルプレイに
         GameManager.gameMode = GameManager.GameMode.SinglePlayer;
         StartCoroutine(SceneLoading("TutorialScene"));
@@ -56,10 +58,29 @@ public class StageSelectManager : MonoBehaviour
     public void OnMultiPlayTutorial()
     {
         //効果音を再生
-        soundManager.OnPlaySE(soundsList.clickButton);
+        soundManager.OnPlaySE(soundsList.clickStage);
         //ゲームモードをマルチプレイに
         GameManager.gameMode = GameManager.GameMode.MultiPlayer;
         StartCoroutine(SceneLoading("TutorialScene"));
+    }
+
+    //ステージ1に変遷するボタン
+    public void OnSinglePlayStage1()
+    {
+        //効果音を再生
+        soundManager.OnPlaySE(soundsList.clickStage);
+        //ゲームモードをシングルプレイに
+        GameManager.gameMode = GameManager.GameMode.SinglePlayer;
+        StartCoroutine(SceneLoading("Stage1Scene"));
+    }
+    //ステージ1:マルチプレイボタン
+    public void OnMultiPlayStage1()
+    {
+        //効果音を再生
+        soundManager.OnPlaySE(soundsList.clickStage);
+        //ゲームモードをマルチプレイに
+        GameManager.gameMode = GameManager.GameMode.MultiPlayer;
+        StartCoroutine(SceneLoading("Stage1Scene"));
     }
 
     //ロード画面を表示するこるーちん

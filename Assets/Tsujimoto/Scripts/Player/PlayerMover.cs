@@ -313,6 +313,7 @@ public class PlayerMover : MonoBehaviour
         //落下したら
         if (other.CompareTag("DeathArea"))
         {
+            soundManager.OnPlaySE(soundsList.fallSE); //SE
             if (!playerCnt.currentCheckPoint)
             {
                 touchDeathArea = true;

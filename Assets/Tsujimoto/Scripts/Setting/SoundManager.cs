@@ -22,8 +22,6 @@ public class SoundManager : MonoBehaviour
         //コンポーネント取得
         soundsList = GetComponent<SoundsList>();
 
-        OnPlayBGM(soundsList.gameBGM); //初期のBGM
-
         //BGM,SEの音量を取り出し
         bgmVolumeSlider.value = PlayerPrefs.GetFloat("BGMVolume");
         seVolumeSlider.value = PlayerPrefs.GetFloat("SEVolume");

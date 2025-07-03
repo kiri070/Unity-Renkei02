@@ -7,6 +7,16 @@ using UnityEngine.UI;
 
 public class ClearManager : MonoBehaviour
 {
+    [Header("ロード画面")]
+    public GameObject loadingPanel;
+    public Slider loadingSlider;
+    //ヒントの内容
+    [Header("ヒントを表示するテキスト")]
+    public Text tipsText;
+    [Header("ローディング画面に表示するヒント")]
+    [Tooltip("ヒントの内容を入力してください")]
+    public string[] tips;
+
     [Header("今回のスコアを表示するテキスト")]
     public Text currentScoreText;
     float finalScore = 0;
@@ -19,6 +29,9 @@ public class ClearManager : MonoBehaviour
     [SerializeField] Text[] rankingScoreTexts = new Text[3]; //ランキングのスコアを入れるテキスト
 
     [Header("メインUIを格納")][SerializeField] CanvasGroup mainUI;
+
+    SoundManager soundManager;
+    SoundsList soundsList;
     void Start()
     {
 
@@ -30,6 +43,11 @@ public class ClearManager : MonoBehaviour
         //     rankingScoreTexts[i].text = "0";
         // }
 
+        soundManager = FindObjectOfType<SoundManager>();
+        soundsList = FindObjectOfType<SoundsList>();
+
+        //SE
+        soundManager.OnPlaySE(soundsList.gameclearSE);
 
         //一時UIを操作不可に
         mainUI.interactable = false;
@@ -50,13 +68,24 @@ public class ClearManager : MonoBehaviour
         finalScore = Score.Instance.ScoreReferer * Score.Instance.TimeReferer;
         finalScore = (int)Mathf.Floor(finalScore);
         StartCoroutine(ShowScoreAnim(finalScore));
+
+        //ヒントをランダムに表示
+        RandomTips();
+    }
+
+    //ヒントをランダムに抽出して表示
+    void RandomTips()
+    {
+        int rnd = Random.Range(0, tips.Length);
+        tipsText.text = "Tips:" + "<color=yellow>" + tips[rnd] + "</color>";
     }
 
     //リトライボタン
     public void OnRetryButton()
     {
         //前回のシーンをロード
-        SceneManager.LoadScene(Data.Instance.referer);
+        StartCoroutine(SceneLoading(Data.Instance.referer));
+        soundManager.OnPlaySE(soundsList.clickStage); //SE
     }
 
     //ステージ選択へ変遷するボタン
@@ -139,6 +168,25 @@ public class ClearManager : MonoBehaviour
             }
             yield return null;
         }
+    }
+
+    //ロード画面を表示するこるーちん
+    IEnumerator SceneLoading(string sceneName)
+    {
+        //ロード画面を表示
+        loadingPanel.SetActive(true);
+
+        //非同期読み込み
+        AsyncOperation async = SceneManager.LoadSceneAsync(sceneName);
+        async.allowSceneActivation = false; //自動でシーンが切り替わらないように
+
+        while (async.progress < 0.9f)
+        {
+            loadingSlider.value = async.progress; //スライダーに表示
+            yield return null;
+        }
+        yield return new WaitForSeconds(0.7f);
+        async.allowSceneActivation = true; //シーン切り替え
     }
 
 }

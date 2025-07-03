@@ -16,14 +16,21 @@ public class TitleManager : MonoBehaviour
 
     bool completeFadeOut; //フェードアウトが完了したか
 
+    SoundManager soundManager;
+    SoundsList soundsList;
+
     void Start()
     {
+        soundManager = FindObjectOfType<SoundManager>();
+        soundsList = FindObjectOfType<SoundsList>();
         //初期化
-        keyText_color = 1f;     
-        flag_alpha = false;     
+        keyText_color = 1f;
+        flag_alpha = false;
         completeFadeOut = false;
 
         StartCoroutine(FadeOutEffect(fadeOutImage)); //画像をフェードアウト
+
+        soundManager.OnPlayBGM(soundsList.tittleBGM); //タイトル画面のBGMを鳴らす
     }
     void Update()
     {

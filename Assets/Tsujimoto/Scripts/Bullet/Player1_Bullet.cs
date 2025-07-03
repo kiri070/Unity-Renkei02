@@ -38,9 +38,6 @@ public class Player1_Bullet : MonoBehaviour
             Quaternion rotation = Quaternion.Euler(90, 0, 0); //角度を調整
             Instantiate(hitEffectPrefab, new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z),
              rotation);
-
-            //効果音再生
-            soundManager.OnPlaySE(soundsList.hitShotSE);
             Destroy(gameObject); //弾を削除
         }
     }
