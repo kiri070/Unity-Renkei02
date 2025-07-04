@@ -4,34 +4,34 @@ using UnityEngine;
 
 public class MagicCnt : MonoBehaviour
 {
+    [Header("魔法のスピード")]
+    [HideInInspector] public float speed = 10f;
 
-    [Header("魔法のスピード")][HideInInspector] public float speed = 10f;
-    private Vector3 targetPos;
-
-    Rigidbody rb;
+    private Vector3 direction; // 方向ベクトル
+    private Rigidbody rb;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        rb.velocity = direction * speed; // 方向 × 速度
     }
 
-    //飛ばす位置を取得
+    // ターゲット位置を渡して、方向を設定する
     public void Init(Vector3 targetPosition)
     {
-        targetPos = targetPosition;
+        direction = (targetPosition - transform.position).normalized;
     }
-    //速度を取得
+
+    // スピードを設定
     public void SetSpeed(float x)
     {
         speed = x;
     }
+
     void Update()
     {
-        //targetPosまで飛ばす
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
-
-        Vector3 direction = transform.position - targetPos;
-        if (direction == Vector3.zero)
+        // 画面外に出たり距離が遠すぎたら削除（自動破棄）
+        if (Vector3.Distance(transform.position, Camera.main.transform.position) > 100f)
         {
             Destroy(gameObject);
         }
