@@ -374,10 +374,15 @@ public class PlayerMover : MonoBehaviour
         //チェックポイントに触れたら
         if (other.CompareTag("CheckPoint"))
         {
+            //同じチェックポイントなら処理をスキップ
+            if (playerCnt.currentCheckPoint == other.gameObject) return;
+
             //最新チェックポイントを保存
             playerCnt.currentCheckPoint = other.gameObject;
             //チェックポイントのエフェクトを再生
             playerCnt.currentCheckPoint.transform.Find("CheckPointEffect").gameObject.SetActive(true);
+            //効果音
+            soundManager.OnPlaySE(soundsList.checkPointSE);
         }
         //大砲の球に触れたら
         if (other.CompareTag("CannonBall"))

@@ -14,6 +14,8 @@ public class MagicCnt : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.velocity = direction * speed; // 方向 × 速度
+
+        StartCoroutine(DestroyBall());
     }
 
     // ターゲット位置を渡して、方向を設定する
@@ -28,12 +30,10 @@ public class MagicCnt : MonoBehaviour
         speed = x;
     }
 
-    void Update()
+    //指定の秒数後に削除
+    IEnumerator DestroyBall()
     {
-        // 画面外に出たり距離が遠すぎたら削除（自動破棄）
-        if (Vector3.Distance(transform.position, Camera.main.transform.position) > 100f)
-        {
-            Destroy(gameObject);
-        }
+        yield return new WaitForSeconds(5f);
+        Destroy(gameObject);
     }
 }

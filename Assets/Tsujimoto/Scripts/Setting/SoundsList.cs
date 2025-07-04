@@ -18,6 +18,7 @@ public class SoundsList : MonoBehaviour
     [Tooltip("効果音:ボムの爆発")] public AudioClip explosionSE;
     [Tooltip("効果音:大砲発射")] public AudioClip shotCannonSE;
     [Tooltip("効果音:宝箱がダメージを受ける")] public AudioClip treasureDamagedSE;
+    [Tooltip("効果音:チェックポイント")] public AudioClip checkPointSE;
 
     [Header("敵関連")]
     [Tooltip("効果音:ミミックの魔法")] public AudioClip mimicMagicSE;
