@@ -384,6 +384,7 @@ public class PlayerMover : MonoBehaviour
         {
             canMove = false;
             StartCoroutine(RecoveryKnockback(recoveryKnockbackTime));
+            StartCoroutine(cameraCnt.ShakeCamera(0.7f, 1f)); //カメラを揺らす
         }
         //お宝回復に触れたら
         if (other.CompareTag("Treasure"))

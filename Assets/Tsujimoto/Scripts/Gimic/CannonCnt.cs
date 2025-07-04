@@ -23,9 +23,16 @@ public class CannonCnt : MonoBehaviour
     bool canAimShot = true; //球をエイム発射できるかどうか
     bool canShot = true; //球を発射できるかどうか
 
+    SoundManager soundManager;
+    SoundsList soundsList;
+    AudioSource se3DAudioSource; //3d音声のオーディオソース
+
     void Start()
     {
-
+        soundManager = FindObjectOfType<SoundManager>();
+        soundsList = FindObjectOfType<SoundsList>();
+        // 自分のオブジェクトの AudioSource（3D音対応）を使う
+        se3DAudioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -68,7 +75,7 @@ public class CannonCnt : MonoBehaviour
             {
                 Vector3 direction1 = (hits[0].transform.position - transform.position).normalized;// 向くべき方向を計算（y軸だけ回転）
                 direction1.y = 0f; // 上下回転しないように
-                
+
                 //回転処理
                 if (direction1 != Vector3.zero)
                 {
@@ -102,6 +109,9 @@ public class CannonCnt : MonoBehaviour
         //エフェクト
         Instantiate(shotEffect, shotPos.transform.position, shotEffect.transform.rotation);
 
+        //効果音
+        OnPlaySE(soundsList.shotCannonSE);
+
         canAimShot = false;
         StartCoroutine(AimShotCoolTime()); //クールタイム処理
     }
@@ -118,6 +128,9 @@ public class CannonCnt : MonoBehaviour
 
         //エフェクト
         Instantiate(shotEffect, shotPos.transform.position, shotEffect.transform.rotation);
+
+        //効果音
+        OnPlaySE(soundsList.shotCannonSE);
 
         canShot = false;
         StartCoroutine(ShotCoolTime());
@@ -140,5 +153,15 @@ public class CannonCnt : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
+    }
+
+    //効果音を鳴らす関数(呼び出し時volumeは省略可)
+    void OnPlaySE(AudioClip audioClip, float volume = 1f)
+    {
+        if (audioClip == null)
+            return;
+        // 効果音（距離減衰 & UI音量に合わせる）
+        float seVolume = soundManager.seVolumeSlider.value;
+        se3DAudioSource.PlayOneShot(soundsList.shotCannonSE, seVolume);
     }
 }

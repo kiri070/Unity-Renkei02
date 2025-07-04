@@ -212,6 +212,7 @@ MonoBehaviour:
   gameoverSE: {fileID: 8300000, guid: 5082d025a39664d7ea619d802f0c8330, type: 3}
   gameclearSE: {fileID: 8300000, guid: 25bd4ce959c5145febc6f25d33c82c3f, type: 3}
   explosionSE: {fileID: 8300000, guid: 4a7cab11d13c84ea4b90b4fec0912027, type: 3}
+  shotCannonSE: {fileID: 8300000, guid: 7336adbe2b4b04356be37bffb565f501, type: 3}
   mimicMagicSE: {fileID: 8300000, guid: 529cf6a5611cf4622884583f7494ef3a, type: 3}
   killEnemySE: {fileID: 8300000, guid: f67eb3e22aa4b40868d536d0fd6d380d, type: 3}
   jumpAttack: {fileID: 8300000, guid: f3483f99b9d0f4369a44ed8ad8f18267, type: 3}
@@ -219,7 +220,6 @@ MonoBehaviour:
   openSetting: {fileID: 8300000, guid: 7d5e1a5c370004de58afc1d70ae2bc3b, type: 3}
   clickButton: {fileID: 8300000, guid: 13e8d7a012c384713a2f61d0f369ce49, type: 3}
   clickStage: {fileID: 8300000, guid: 2bff2ddbe157741b9a71f0bf3df1428d, type: 3}
-  gameBGM: {fileID: 8300000, guid: 8dd6cc80ecd8d4ffe9d59658b2e962d9, type: 3}
   tittleBGM: {fileID: 8300000, guid: 4b5a124b07c2a40bda8a633ed49bd2c3, type: 3}
   stageSelectBGM: {fileID: 8300000, guid: 851e692f7e85c4ea496b001347726649, type: 3}
   stage1BGM: {fileID: 8300000, guid: 99db9c58ef9bd47abb0ccfc1104c5dc2, type: 3}
