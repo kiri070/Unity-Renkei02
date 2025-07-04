@@ -34,8 +34,8 @@ public class PlayerMover : MonoBehaviour
     [Header("各プレイヤーのオブジェクトを格納")]
     public GameObject player;
 
-    [Header("マテリアル")]
-    public Material hideMaterial;
+    // [Header("マテリアル")]
+    // public Material hideMaterial;
 
     [Header("エフェクト")]
     [Tooltip("敵と衝突")] public GameObject nockBackEffect;
@@ -72,18 +72,18 @@ public class PlayerMover : MonoBehaviour
         // 子を含むRendererをすべて取得
         renderers = GetComponentsInChildren<Renderer>();
 
-        // 初期マテリアルを保存
-        foreach (Renderer r in renderers)
-        {
-            // マテリアルのコピーを保存
-            Material[] mats = r.materials;
-            Material[] copied = new Material[mats.Length];
-            for (int i = 0; i < mats.Length; i++)
-            {
-                copied[i] = mats[i];
-            }
-            defaultMaterials.Add(copied);
-        }
+        // 初期マテリアルを保存(hidematerial)
+        // foreach (Renderer r in renderers)
+        // {
+        //     // マテリアルのコピーを保存
+        //     Material[] mats = r.materials;
+        //     Material[] copied = new Material[mats.Length];
+        //     for (int i = 0; i < mats.Length; i++)
+        //     {
+        //         copied[i] = mats[i];
+        //     }
+        //     defaultMaterials.Add(copied);
+        // }
     }
 
     //移動ベクトルをこのキャラのベクトルに代入
@@ -95,7 +95,7 @@ public class PlayerMover : MonoBehaviour
     void Update()
     {
         // OffScreen();
-        WallChecker();
+        // WallChecker();
     }
 
     void FixedUpdate()
@@ -241,31 +241,31 @@ public class PlayerMover : MonoBehaviour
         }
     }
 
-    //壁などに隠れている時
-    void WallChecker()
-    {
-        Vector3 camPos = gameCamera.transform.position;
-        Vector3 targetPos = player.transform.position;
-        Vector3 direction = targetPos - camPos;
+    // //壁などに隠れている時
+    // void WallChecker()
+    // {
+    //     Vector3 camPos = gameCamera.transform.position;
+    //     Vector3 targetPos = player.transform.position;
+    //     Vector3 direction = targetPos - camPos;
 
-        //カメラからプレイヤーまでの直線上にRayを飛ばす
-        if (Physics.Raycast(camPos, direction.normalized, out RaycastHit hit, direction.magnitude))
-        {
-            //隠れていたら
-            if (hit.collider.gameObject != player)
-            {
-                if (hit.collider.CompareTag("Wall") || hit.collider.CompareTag("Floor"))
-                {
-                    SetAllMaterialsToHide(); //Hideマテリアルに変更
-                }
-            }
-            else if (hit.collider.gameObject == player)
-            {
-                RestoreAllMaterials(); //デフォルトマテリアルに変更
-            }
-        }
+    //     //カメラからプレイヤーまでの直線上にRayを飛ばす
+    //     if (Physics.Raycast(camPos, direction.normalized, out RaycastHit hit, direction.magnitude))
+    //     {
+    //         //隠れていたら
+    //         if (hit.collider.gameObject != player)
+    //         {
+    //             if (hit.collider.CompareTag("Wall") || hit.collider.CompareTag("Floor"))
+    //             {
+    //                 SetAllMaterialsToHide(); //Hideマテリアルに変更
+    //             }
+    //         }
+    //         else if (hit.collider.gameObject == player)
+    //         {
+    //             RestoreAllMaterials(); //デフォルトマテリアルに変更
+    //         }
+    //     }
 
-    }
+    // }
     //CollisionEnter
     void OnCollisionEnter(Collision other)
     {
@@ -279,6 +279,9 @@ public class PlayerMover : MonoBehaviour
         //敵に触れたら
         if (other.gameObject.CompareTag("Enemy"))
         {
+            //無敵状態なら処理をスキップ
+            if (playerCnt.invincible) return;
+
             //効果音再生
             soundManager.OnPlaySE(soundsList.nockBackSE);
 
@@ -387,9 +390,13 @@ public class PlayerMover : MonoBehaviour
         //大砲の球に触れたら
         if (other.CompareTag("CannonBall"))
         {
-            canMove = false;
-            StartCoroutine(RecoveryKnockback(recoveryKnockbackTime));
-            StartCoroutine(cameraCnt.ShakeCamera(0.7f, 1f)); //カメラを揺らす
+            if (!playerCnt.invincible)
+            {
+                canMove = false;
+                StartCoroutine(RecoveryKnockback(recoveryKnockbackTime));
+                StartCoroutine(cameraCnt.ShakeCamera(0.7f, 1f)); //カメラを揺らす
+            }
+            
         }
         //お宝回復に触れたら
         if (other.CompareTag("Treasure"))
@@ -453,19 +460,19 @@ public class PlayerMover : MonoBehaviour
         Debug.Log("クリア");
     }
 
-    //Hideマテリアルに変更する関数
-    void SetAllMaterialsToHide()
-    {
-        foreach (Renderer r in renderers)
-        {
-            Material[] newMats = new Material[r.materials.Length];
-            for (int i = 0; i < newMats.Length; i++)
-            {
-                newMats[i] = hideMaterial;
-            }
-            r.materials = newMats;
-        }
-    }
+    // //Hideマテリアルに変更する関数
+    // void SetAllMaterialsToHide()
+    // {
+    //     foreach (Renderer r in renderers)
+    //     {
+    //         Material[] newMats = new Material[r.materials.Length];
+    //         for (int i = 0; i < newMats.Length; i++)
+    //         {
+    //             newMats[i] = hideMaterial;
+    //         }
+    //         r.materials = newMats;
+    //     }
+    // }
 
     //初期のマテリアルに戻す関数
     void RestoreAllMaterials()

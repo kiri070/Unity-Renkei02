@@ -10,6 +10,11 @@ public class GoalScr : MonoBehaviour
     private bool GoalTreasure; //お宝
 
     GoalObjManager goalObjManager; //ゴールオブジェクトについているスクリプト
+    GameManager gameManager;
+    PlayerCnt playerCnt;
+    bool isClearTriggered = false;
+    SoundManager soundManager;
+    SoundsList soundsList;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,14 +23,29 @@ public class GoalScr : MonoBehaviour
         GoalTreasure = false;
 
         goalObjManager = FindObjectOfType<GoalObjManager>();
+        gameManager = FindObjectOfType<GameManager>();
+        playerCnt = FindObjectOfType<PlayerCnt>();
+        soundManager = FindObjectOfType<SoundManager>();
+        soundsList = FindObjectOfType<SoundsList>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (GoalOne && GoalTwo && GoalTreasure)
+        // if (GoalOne && GoalTwo && GoalTreasure)
+        // {
+        //    PlayerMover.GameClear();
+        // }
+        
+        //ゴールしたら
+        if (!isClearTriggered && GoalOne && GoalTwo && GoalTreasure)
         {
-           PlayerMover.GameClear();
+            soundManager.OnPlaySE(soundsList.touchGoalSE); //効果音
+            goalObjManager.touchGoal = true; //エフェクトフラグを立てる
+            isClearTriggered = true; //2回連続で発動しないように
+            gameManager.timerActive = false; //タイマーをオフ
+            playerCnt.invincible = true; //無敵状態にする
+            StartCoroutine(DelayClear(3f)); // 3秒後に実行
         }
     }
 
@@ -34,18 +54,22 @@ public class GoalScr : MonoBehaviour
         //Goalに触れたら
         if (other.CompareTag("Player1"))
         {
-            goalObjManager.touchGoal = true; //エフェクトフラグを立てる
             GoalOne = true;
         }
         if (other.CompareTag("Player2"))
         {
-            goalObjManager.touchGoal = true; //エフェクトフラグを立てる
             GoalTwo = true;
         }
         if (other.gameObject.layer == LayerMask.NameToLayer("BringObj"))
         {
-            goalObjManager.touchGoal = true; //エフェクトフラグを立てる
             GoalTreasure = true;
         }
+    }
+
+    //クリア状態にするまでに遅延をかける
+    IEnumerator DelayClear(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        PlayerMover.GameClear();
     }
 }

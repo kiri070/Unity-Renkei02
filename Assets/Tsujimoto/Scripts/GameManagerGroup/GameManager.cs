@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
 
     [Header("タイマー")]
     public float timerValue = 180f;
+
+    public bool timerActive = true; //タイマーを作動させるかどうか
     [Tooltip("タイマーのテキスト")] public Text timerText;
     [SerializeField][Tooltip("タイマー減少テキスト")] GameObject decreaseTextPrefab;
     [SerializeField][Tooltip("タイマー減少テキストのスポーン位置(RectTransform)")] Transform spawnPoint;
@@ -91,8 +93,11 @@ public class GameManager : MonoBehaviour
         }
 
         //タイマー更新
-        timerValue -= Time.deltaTime;
-        timerText.text = "残り時間:" + Mathf.Floor(timerValue).ToString();
+        if (timerActive)
+        {
+            timerValue -= Time.deltaTime;
+            timerText.text = "残り時間:" + Mathf.Floor(timerValue).ToString();
+        }
         //タイマーが0になったら
         if (timerValue <= 0)
         {

@@ -47,7 +47,7 @@ public class PlayerCnt : MonoBehaviour
     [Tooltip("スポーンエフェクト")][SerializeField] GameObject spawnEffect;
     GameObject player1_SpawnEffectPoint, player2_SpawnEffectPoint; //スポーンエフェクトの発生位置
     [HideInInspector] public GameObject currentCheckPoint; //最新のチェックポイント
-    public bool invincible;//プレイヤーが無敵時間かどうか
+    public bool invincible = false;//プレイヤーが無敵時間かどうか
 
 
     //弾を発射できるかどうか
