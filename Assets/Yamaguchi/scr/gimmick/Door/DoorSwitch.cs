@@ -25,6 +25,7 @@ public class DoorSwitch : MonoBehaviour
             foreach (var door in doors)
             {
                 door.isOpen = true; // ドアを開く
+                Debug.Log("扉を開きます");
             }
         }
     }
