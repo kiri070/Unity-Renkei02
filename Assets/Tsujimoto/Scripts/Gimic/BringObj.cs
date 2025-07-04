@@ -17,9 +17,14 @@ public class BringObj : MonoBehaviour
     public GameObject treasure_little;
     public GameObject treasure_empty;
 
-    Camera gameCamera;
+    [Header("エフェクト")]
+    [Tooltip("攻撃を食らった時")] public GameObject damegedEffect;
 
+    Camera gameCamera;
     CameraCnt cameraCnt;
+
+    SoundManager soundManager;
+    SoundsList soundsList;
     void Start()
     {
         //初期位置を記録
@@ -31,6 +36,8 @@ public class BringObj : MonoBehaviour
         playerCnt = FindObjectOfType<PlayerCnt>();
         gameCamera = FindObjectOfType<Camera>();
         cameraCnt = FindObjectOfType<CameraCnt>();
+        soundManager = FindObjectOfType<SoundManager>();
+        soundsList = FindObjectOfType<SoundsList>();
     }
 
     void Update()
@@ -108,6 +115,8 @@ public class BringObj : MonoBehaviour
         if (other.CompareTag("DeathArea"))
         {
             gameManager.MinusBoxValue(5);
+            //効果音
+            soundManager.OnPlaySE(soundsList.treasureDamagedSE);
             //チェックポイントがある場合
             if (playerCnt.currentCheckPoint != null)
             {
@@ -127,6 +136,14 @@ public class BringObj : MonoBehaviour
             //お宝の価値を下げる
             gameManager.MinusBoxValue(10);
             Destroy(other.gameObject);
+
+            //効果音
+            soundManager.OnPlaySE(soundsList.treasureDamagedSE);
+            //エフェクト
+            if (gameManager.boxValue > 0)
+            {
+                Instantiate(damegedEffect, transform.position, damegedEffect.transform.rotation);
+            }
         }
         //大砲の球に当たったら
         else if (other.CompareTag("CannonBall"))
@@ -135,6 +152,15 @@ public class BringObj : MonoBehaviour
             gameManager.MinusBoxValue(10);
             StartCoroutine(cameraCnt.ShakeCamera(0.7f, 0.3f)); //カメラを揺らす)
             Destroy(other.gameObject);
+
+            //効果音
+            soundManager.OnPlaySE(soundsList.treasureDamagedSE);
+            //エフェクト
+            if (gameManager.boxValue > 0)
+            {
+                Instantiate(damegedEffect, transform.position, damegedEffect.transform.rotation);
+            }
+
         }
     }
 }

@@ -213,6 +213,7 @@ MonoBehaviour:
   gameclearSE: {fileID: 8300000, guid: 25bd4ce959c5145febc6f25d33c82c3f, type: 3}
   explosionSE: {fileID: 8300000, guid: 4a7cab11d13c84ea4b90b4fec0912027, type: 3}
   shotCannonSE: {fileID: 8300000, guid: 7336adbe2b4b04356be37bffb565f501, type: 3}
+  treasureDamagedSE: {fileID: 8300000, guid: 7fa47e5b5bd204ffa8ca4860e2eed5f9, type: 3}
   mimicMagicSE: {fileID: 8300000, guid: 529cf6a5611cf4622884583f7494ef3a, type: 3}
   killEnemySE: {fileID: 8300000, guid: f67eb3e22aa4b40868d536d0fd6d380d, type: 3}
   jumpAttack: {fileID: 8300000, guid: f3483f99b9d0f4369a44ed8ad8f18267, type: 3}

@@ -189,7 +189,7 @@ MonoBehaviour:
   treasure_half: {fileID: 219767153744361898}
   treasure_little: {fileID: 1670369684342157788}
   treasure_empty: {fileID: 215859184237985996}
-  gameCamera: {fileID: 0}
+  damegedEffect: {fileID: 226812919256358113, guid: cc6b7e85d164c4f47b11aa1c388734b3, type: 3}
 --- !u!1 &581092687193544261
 GameObject:
   m_ObjectHideFlags: 0
