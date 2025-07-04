@@ -11,14 +11,15 @@ public class Enemy01 : MonoBehaviour
 
     //踏みつけ判定
     [Header("踏みつけ判定")][SerializeField] Vector3 boxSize = new Vector3(1f, 0.2f, 1f);
+    [SerializeField] Vector3 offset = new Vector3(0f, 0f, 0f);
     [SerializeField] LayerMask playerLayer;
     bool stepOnEnemyCollider = true; //踏むつけ判定のコライダーのオンオフ
 
     Renderer renderer;
 
-    [Header("マテリアル")]
-    [SerializeField] Material defaultMaterial;
-    [SerializeField] Material moveMaterial;
+    // [Header("マテリアル")]
+    // [SerializeField] Material defaultMaterial;
+    // [SerializeField] Material moveMaterial;
 
     [Header("速度")]
     [SerializeField] float speed;
@@ -60,13 +61,13 @@ public class Enemy01 : MonoBehaviour
     //状態をIdleにする関数
     public void ToEnemyIdle()
     {
-        renderer.material = defaultMaterial; //マテリアルをデフォルト状態
+        // renderer.material = defaultMaterial; //マテリアルをデフォルト状態
         enemyState = EnemyState.Idle;
     }
     //状態をMoveにする関数
     public void ToEnemyMove()
     {
-        renderer.material = moveMaterial; //マテリアルを動いている状態
+        // renderer.material = moveMaterial; //マテリアルを動いている状態
         enemyState = EnemyState.Move;
     }
     //状態をJumpAttackにする関数
@@ -74,7 +75,7 @@ public class Enemy01 : MonoBehaviour
     {
         if (!canJumpAttack) return;
 
-        renderer.material = moveMaterial;
+        // renderer.material = moveMaterial;
         enemyState = EnemyState.JumpAttack;
         canJumpAttack = false;
         StartCoroutine(ResetJumpAttackCoolDown());
@@ -84,7 +85,7 @@ public class Enemy01 : MonoBehaviour
     //状態をPushAttackにする関数
     public void ToEnemyPushAttack()
     {
-        renderer.material = moveMaterial; //マテリアルを動いている状態
+        // renderer.material = moveMaterial; //マテリアルを動いている状態
         enemyState = EnemyState.pushAttack;
     }
 
@@ -197,7 +198,7 @@ public class Enemy01 : MonoBehaviour
     void StepOnEnemy()
     {
         Vector3 center = transform.position + Vector3.up * 1f;
-        Collider[] hits = Physics.OverlapBox(center, boxSize / 2, Quaternion.identity, playerLayer);
+        Collider[] hits = Physics.OverlapBox(center + offset, boxSize / 2, Quaternion.identity, playerLayer);
         if (hits.Length > 0 && stepOnEnemyCollider)
         {
             PlayerMover pm = FindObjectOfType<PlayerMover>();
@@ -214,7 +215,7 @@ public class Enemy01 : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Vector3 center = transform.position + Vector3.up * 1f;
+        Vector3 center = transform.position + Vector3.up * 1f + offset;
         Gizmos.DrawWireCube(center, boxSize);
     }
 
