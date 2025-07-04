@@ -1,4 +1,4 @@
-using System.Collections;
+    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,8 +18,6 @@ public class BringObj : MonoBehaviour
     public GameObject treasure_empty;
 
     Camera gameCamera;
-
-
     void Start()
     {
         //初期位置を記録

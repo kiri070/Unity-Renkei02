@@ -68,7 +68,7 @@ public class CannonCnt : MonoBehaviour
             {
                 Vector3 direction1 = (hits[0].transform.position - transform.position).normalized;// 向くべき方向を計算（y軸だけ回転）
                 direction1.y = 0f; // 上下回転しないように
-
+                
                 //回転処理
                 if (direction1 != Vector3.zero)
                 {

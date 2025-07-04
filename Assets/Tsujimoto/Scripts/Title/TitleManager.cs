@@ -21,6 +21,9 @@ public class TitleManager : MonoBehaviour
 
     void Start()
     {
+        // 例：フルHDモニターに合わせる
+        Screen.SetResolution(1920, 1080, true); // 幅, 高さ, フルスクリーン
+
         soundManager = FindObjectOfType<SoundManager>();
         soundsList = FindObjectOfType<SoundsList>();
         //初期化
