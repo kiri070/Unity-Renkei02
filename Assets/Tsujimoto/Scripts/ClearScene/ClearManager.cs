@@ -147,13 +147,13 @@ public class ClearManager : MonoBehaviour
             if (flag_alpha)
             {
                 keyText_color += Time.deltaTime;
-                text.color = new Color(Color.yellow.r, Color.yellow.g, Color.yellow.b, keyText_color);
+                text.color = new Color(Color.black.r, Color.black.g, Color.black.b, keyText_color);
             }
             //透明にする
             else if (!flag_alpha)
             {
                 keyText_color -= Time.deltaTime;
-                text.color = new Color(Color.yellow.r, Color.yellow.g, Color.yellow.b, keyText_color);
+                text.color = new Color(Color.black.r, Color.black.g, Color.black.b, keyText_color);
             }
 
             //透明になったら

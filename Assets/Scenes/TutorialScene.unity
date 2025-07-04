@@ -1291,6 +1291,7 @@ MonoBehaviour:
   GameUI: {fileID: 1535480339}
   countDown: 3
   timerValue: 500
+  timerActive: 1
   timerText: {fileID: 443648063}
   decreaseTextPrefab: {fileID: 1494770835523201997, guid: 76bef1ab1130f4f8c9836d8bc571084d, type: 3}
   spawnPoint: {fileID: 1073301433}
@@ -5821,7 +5822,6 @@ MonoBehaviour:
   canJump: 0
   gameCamera: {fileID: 1640535790}
   player: {fileID: 1451337495}
-  hideMaterial: {fileID: 2100000, guid: baa9f0eee006743b2a4d731dd4203e5d, type: 2}
   nockBackEffect: {fileID: 3342264271403622667, guid: 22f9c3e8141d94239b9f581787ce2342, type: 3}
   jumpEffect: {fileID: 4016476391329389970, guid: 97f466f58e0d3418c94ff139f0428d87, type: 3}
   frozenEffect: {fileID: 8181396932745774138, guid: fbe4c939d632e459ba44bd93dae32381, type: 3}
@@ -6710,7 +6710,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5869660681617067048, guid: 01387d442ca9746b0a418d1a0a55eee6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.53931
+      value: -1.13
       objectReference: {fileID: 0}
     - target: {fileID: 5869660681617067048, guid: 01387d442ca9746b0a418d1a0a55eee6, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6722,7 +6722,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5869660681617067048, guid: 01387d442ca9746b0a418d1a0a55eee6, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 5869660681617067048, guid: 01387d442ca9746b0a418d1a0a55eee6, type: 3}
       propertyPath: m_LocalRotation.x
@@ -6730,7 +6730,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5869660681617067048, guid: 01387d442ca9746b0a418d1a0a55eee6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 5869660681617067048, guid: 01387d442ca9746b0a418d1a0a55eee6, type: 3}
       propertyPath: m_LocalRotation.z
@@ -6742,7 +6742,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5869660681617067048, guid: 01387d442ca9746b0a418d1a0a55eee6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 5869660681617067048, guid: 01387d442ca9746b0a418d1a0a55eee6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -8486,7 +8486,6 @@ MonoBehaviour:
   canJump: 0
   gameCamera: {fileID: 1640535790}
   player: {fileID: 1811192955}
-  hideMaterial: {fileID: 2100000, guid: baa9f0eee006743b2a4d731dd4203e5d, type: 2}
   nockBackEffect: {fileID: 3342264271403622667, guid: 22f9c3e8141d94239b9f581787ce2342, type: 3}
   jumpEffect: {fileID: 4016476391329389970, guid: 97f466f58e0d3418c94ff139f0428d87, type: 3}
   frozenEffect: {fileID: 8181396932745774138, guid: fbe4c939d632e459ba44bd93dae32381, type: 3}
