@@ -33,7 +33,7 @@ public class BringObj : MonoBehaviour
     void Update()
     {
         ChangeTreasureModel(); //お宝の状態変遷
-        OffScreen();           //お宝の画面外検知
+        // OffScreen();           //お宝の画面外検知
         //運ばれていないときはバグ回避のため、ここでも重力をオンにする
         if (rb.velocity == Vector3.zero)
         {

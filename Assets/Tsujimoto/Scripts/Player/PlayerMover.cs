@@ -94,7 +94,7 @@ public class PlayerMover : MonoBehaviour
 
     void Update()
     {
-        OffScreen();
+        // OffScreen();
         WallChecker();
     }
 
