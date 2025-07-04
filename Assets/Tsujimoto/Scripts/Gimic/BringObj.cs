@@ -18,6 +18,8 @@ public class BringObj : MonoBehaviour
     public GameObject treasure_empty;
 
     Camera gameCamera;
+
+    CameraCnt cameraCnt;
     void Start()
     {
         //初期位置を記録
@@ -28,6 +30,7 @@ public class BringObj : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
         playerCnt = FindObjectOfType<PlayerCnt>();
         gameCamera = FindObjectOfType<Camera>();
+        cameraCnt = FindObjectOfType<CameraCnt>();
     }
 
     void Update()
@@ -123,6 +126,14 @@ public class BringObj : MonoBehaviour
         {
             //お宝の価値を下げる
             gameManager.MinusBoxValue(10);
+            Destroy(other.gameObject);
+        }
+        //大砲の球に当たったら
+        else if (other.CompareTag("CannonBall"))
+        {
+            //お宝の価値を下げる
+            gameManager.MinusBoxValue(10);
+            StartCoroutine(cameraCnt.ShakeCamera(0.7f, 0.3f)); //カメラを揺らす)
             Destroy(other.gameObject);
         }
     }
