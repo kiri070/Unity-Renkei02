@@ -103,7 +103,7 @@ public class Pad_UICnt : MonoBehaviour
                 //大きさを保存
                 buttonScale = rt.localScale;
                 //大きさを変更
-                rt.localScale += new Vector3(0.3f, 0.3f, 0.3f);
+                rt.localScale += new Vector3(0.1f, 0.1f, 0f);
             }
         }
 

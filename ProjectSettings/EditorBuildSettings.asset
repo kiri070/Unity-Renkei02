@@ -26,7 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Tsujimoto/Scene/testScene.unity
     guid: 2185b854536024913883d2c0366f9e6a
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/TutorialScene.unity
-    guid: 1ba7d4cffbcf04e628823462a6ebeca2
+    guid: e18ce4fdcc85b400db3aaa290a9081e5
   m_configObjects: {}

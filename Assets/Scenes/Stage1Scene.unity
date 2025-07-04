@@ -2379,6 +2379,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SettingManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2574421309255454202, guid: 507046625c2d6430e8ed58e193d37bde, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5018740785429588624, guid: 507046625c2d6430e8ed58e193d37bde, type: 3}
       propertyPath: seVolumeSlider
       value: 
