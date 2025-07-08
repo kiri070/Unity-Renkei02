@@ -728,6 +728,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!4 &177134077 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6363539815983071492, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+  m_PrefabInstance: {fileID: 1458149082}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &185549894
 GameObject:
   m_ObjectHideFlags: 0
@@ -1837,6 +1842,18 @@ PrefabInstance:
     - target: {fileID: 3694925445326702480, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
       propertyPath: m_Name
       value: Cannon (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8940504583644379417, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+      propertyPath: coolTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8940504583644379417, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+      propertyPath: shotForce
+      value: 750
+      objectReference: {fileID: 0}
+    - target: {fileID: 8940504583644379417, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+      propertyPath: AimCoolTime
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8940504583644379417, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
       propertyPath: isAimPlayer
@@ -4290,6 +4307,10 @@ PrefabInstance:
       value: Cannon
       objectReference: {fileID: 0}
     - target: {fileID: 8940504583644379417, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+      propertyPath: shotForce
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 8940504583644379417, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
       propertyPath: isAimPlayer
       value: 0
       objectReference: {fileID: 0}
@@ -5837,12 +5858,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 185549895}
     m_Modifications:
     - target: {fileID: 1971980252515645330, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.7577702
+      objectReference: {fileID: 0}
+    - target: {fileID: 1971980252515645330, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7577702
+      objectReference: {fileID: 0}
+    - target: {fileID: 1971980252515645330, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.7577702
+      objectReference: {fileID: 0}
+    - target: {fileID: 1971980252515645330, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.009006
       objectReference: {fileID: 0}
     - target: {fileID: 1971980252515645330, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 147.9896
+      value: 147.96
       objectReference: {fileID: 0}
     - target: {fileID: 1971980252515645330, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5880,15 +5913,84 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cannon (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6363539815983071492, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.03004
+      objectReference: {fileID: 0}
+    - target: {fileID: 6363539815983071492, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.017
+      objectReference: {fileID: 0}
+    - target: {fileID: 6363539815983071492, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6796930646786218682, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 137.73909
+      objectReference: {fileID: 0}
+    - target: {fileID: 6796930646786218682, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 185.7338
+      objectReference: {fileID: 0}
+    - target: {fileID: 6796930646786218682, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 138.03615
+      objectReference: {fileID: 0}
+    - target: {fileID: 6796930646786218682, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 6796930646786218682, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 8940504583644379417, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+      propertyPath: shotForce
+      value: 500
+      objectReference: {fileID: 0}
     - target: {fileID: 8940504583644379417, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
       propertyPath: detectionRadius
       value: 20
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8940504583644379417, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3694925445326702480, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1479262281}
   m_SourcePrefab: {fileID: 100100000, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+--- !u!1 &1479262280 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3694925445326702480, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+  m_PrefabInstance: {fileID: 1458149082}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1479262281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479262280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8aad88e3a76b8495baa43786d6ca3467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionRadius: 20
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  hits: []
+  shotPos: {fileID: 177134077}
+  cannonBall: {fileID: 7236209681118025789, guid: 497f13fa696a14f95aa17182d9922447, type: 3}
+  AimCoolTime: 5
+  coolTime: 3
+  shotForce: 10
+  isAimPlayer: 1
+  shotEffect: {fileID: 7695112290117496644, guid: 4ec6982dcc39349c88296f09420fa7a4, type: 3}
 --- !u!1 &1495962558
 GameObject:
   m_ObjectHideFlags: 0
@@ -6413,6 +6515,18 @@ PrefabInstance:
     - target: {fileID: 3694925445326702480, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
       propertyPath: m_Name
       value: Cannon (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8940504583644379417, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+      propertyPath: coolTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8940504583644379417, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+      propertyPath: shotForce
+      value: 750
+      objectReference: {fileID: 0}
+    - target: {fileID: 8940504583644379417, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+      propertyPath: AimCoolTime
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8940504583644379417, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
       propertyPath: isAimPlayer
@@ -8816,6 +8930,10 @@ PrefabInstance:
       value: Cannon (5)
       objectReference: {fileID: 0}
     - target: {fileID: 8940504583644379417, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+      propertyPath: shotForce
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 8940504583644379417, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
       propertyPath: detectionRadius
       value: 26.7
       objectReference: {fileID: 0}
@@ -9459,6 +9577,10 @@ PrefabInstance:
     - target: {fileID: 3694925445326702480, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
       propertyPath: m_Name
       value: Cannon (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8940504583644379417, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+      propertyPath: shotForce
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 8940504583644379417, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
       propertyPath: detectionRadius
