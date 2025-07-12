@@ -6572,6 +6572,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: GoalObj
       objectReference: {fileID: 0}
+    - target: {fileID: 8012479543990915786, guid: 01387d442ca9746b0a418d1a0a55eee6, type: 3}
+      propertyPath: m_Size.x
+      value: 0.7643743
+      objectReference: {fileID: 0}
+    - target: {fileID: 8012479543990915786, guid: 01387d442ca9746b0a418d1a0a55eee6, type: 3}
+      propertyPath: m_Size.z
+      value: 0.80082643
+      objectReference: {fileID: 0}
+    - target: {fileID: 8012479543990915786, guid: 01387d442ca9746b0a418d1a0a55eee6, type: 3}
+      propertyPath: m_Center.x
+      value: -0.02190328
+      objectReference: {fileID: 0}
+    - target: {fileID: 8012479543990915786, guid: 01387d442ca9746b0a418d1a0a55eee6, type: 3}
+      propertyPath: m_Center.z
+      value: 0.017635573
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

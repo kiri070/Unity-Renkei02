@@ -12,7 +12,7 @@ public class GoalScr : MonoBehaviour
     GoalObjManager goalObjManager; //ゴールオブジェクトについているスクリプト
     GameManager gameManager;
     PlayerCnt playerCnt;
-    bool isClearTriggered = false;
+    public bool isClearTriggered = false;
     SoundManager soundManager;
     SoundsList soundsList;
     // Start is called before the first frame update
@@ -46,6 +46,11 @@ public class GoalScr : MonoBehaviour
             gameManager.timerActive = false; //タイマーをオフ
             playerCnt.invincible = true; //無敵状態にする
             StartCoroutine(DelayClear(3f)); // 3秒後に実行
+
+            //ゴールの移動位置を渡す
+            playerCnt.pos1 = transform.Find("Player1_Pos").gameObject;
+            playerCnt.pos2 = transform.Find("Player2_Pos").gameObject;
+            playerCnt.treasurePos = transform.Find("Treasure_Pos").gameObject;
         }
     }
 

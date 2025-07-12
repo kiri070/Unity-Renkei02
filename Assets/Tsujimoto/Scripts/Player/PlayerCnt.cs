@@ -62,6 +62,11 @@ public class PlayerCnt : MonoBehaviour
     SoundManager soundManager; //SoundManagerのインスタンス
     SoundsList soundsList; //SoundsListのインスタンス
 
+    //ゴール関連
+    GoalScr goalScr; //ゴールスクリプト
+    public GameObject pos1, pos2, treasurePos;
+
+
     public Camera[] targetCameras; //カメラの対象設定用の配列 *追加部分
 
     [Header("弾の着弾地点")]
@@ -73,6 +78,7 @@ public class PlayerCnt : MonoBehaviour
         //コンポーネント取得
         soundManager = GameObject.FindObjectOfType<SoundManager>();
         soundsList = GameObject.FindObjectOfType<SoundsList>();
+        goalScr = FindObjectOfType<GoalScr>();
 
         //エフェクトの位置を取得
         player1_SpawnEffectPoint = GameObject.Find("Player1_SpawnEffectPoint");
@@ -109,6 +115,22 @@ public class PlayerCnt : MonoBehaviour
 
     void Update()
     {
+        //ゴールしたら動けないように
+        if (goalScr.isClearTriggered)
+        {
+            var rb1 = mover1.GetComponent<Rigidbody>();
+            var rb2 = mover2.GetComponent<Rigidbody>();
+
+            //ゴール位置に移動
+            mover1.transform.position = pos1.transform.position;
+            mover2.transform.position = pos2.transform.position;
+            treasure.transform.position = treasurePos.transform.position;
+
+            rb1.isKinematic = true;
+            rb2.isKinematic = true;
+            return;
+        }
+
         //ゲームモードがシングルなら
         if (GameManager.gameMode == GameManager.GameMode.SinglePlayer)
         {
@@ -129,7 +151,6 @@ public class PlayerCnt : MonoBehaviour
             PlayerControlle();
         else if (GameManager.gameMode == GameManager.GameMode.MultiPlayer) //マルチプレイ時
             MultiPlayerControlle();
-
     }
     void RegisterEvents()
     {
