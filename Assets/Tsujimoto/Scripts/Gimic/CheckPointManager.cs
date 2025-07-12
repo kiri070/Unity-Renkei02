@@ -16,6 +16,9 @@ public class CheckPointManager : MonoBehaviour
             {
                 Vector3 pos = new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z);
                 Instantiate(checkpointWaveEffect, pos, checkpointWaveEffect.transform.rotation);
+                // CheckPointArea を非アクティブにする
+                Transform area = transform.Find("CheckPointArea");
+                area.gameObject.SetActive(false);
             }
             
         }
