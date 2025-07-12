@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TutorialScene.unity
     guid: e18ce4fdcc85b400db3aaa290a9081e5
+  - enabled: 1
+    path: Assets/Scenes/DemoMovieScene.unity
+    guid: f6f8351119bdd294fa7dadd7729a7a78
   m_configObjects: {}

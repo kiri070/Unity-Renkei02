@@ -19,6 +19,9 @@ public class TitleManager : MonoBehaviour
     SoundManager soundManager;
     SoundsList soundsList;
 
+    [Header("デモ動画を流すまでの時間")]
+    [SerializeField] float delayDemoScene;
+
     void Start()
     {
         // 例：フルHDモニターに合わせる
@@ -34,6 +37,8 @@ public class TitleManager : MonoBehaviour
         StartCoroutine(FadeOutEffect(fadeOutImage)); //画像をフェードアウト
 
         soundManager.OnPlayBGM(soundsList.tittleBGM); //タイトル画面のBGMを鳴らす
+
+        StartCoroutine(DelayDemoScene(delayDemoScene)); //指定の秒数後にデモ動画を流す
     }
     void Update()
     {
@@ -87,5 +92,11 @@ public class TitleManager : MonoBehaviour
             yield return null;
         }
         completeFadeOut = true;
+    }
+
+    IEnumerator DelayDemoScene(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene("DemoMovieScene");
     }
 }
