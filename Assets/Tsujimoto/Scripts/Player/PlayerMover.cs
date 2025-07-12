@@ -343,29 +343,26 @@ public class PlayerMover : MonoBehaviour
         //魔法に当たったら
         if (other.CompareTag("Majic"))
         {
-            //無敵時間ではなかったら
-            if (!playerCnt.invincible)
-            {
-                //チェックポイントがない場合
-                if (!playerCnt.currentCheckPoint)
-                {
-                    //タイマー減少
-                    gameManager.DecreaseTimer(gameManager.decreaseMimicTimer);
+            //無敵状態なら処理をスキップ
+            if (playerCnt.invincible) return;
 
-                    //スタート地点に戻る
-                    playerCnt.SpwanStartPoint();
-                }
-                //チェックポイントがある場合
-                else
-                {
-                    //タイマー減少
-                    gameManager.DecreaseTimer(gameManager.decreaseMimicTimer);
-                    playerCnt.SpawnCheckPoint();
-                }
+            canMove = false;
+            StartCoroutine(RecoveryKnockback(recoveryKnockbackTime));
 
-            }
-            // GameOverManager.becauseGameOver = "魔法で黒焦げにされた..."; //死因
-            // GameManager.ToGameOverState();
+            //水平方向の力
+            Vector3 horizontal = (transform.position - other.transform.position).normalized;
+            horizontal.y = 0f;
+            horizontal = horizontal * nockBack_Horizontal;
+
+            // 上方向の力
+            Vector3 vertical = Vector3.up * nockBack_Vertical; // ジャンプの高さ
+
+            //二つをまとめる
+            Vector3 nockBack = horizontal + vertical;
+
+
+            //ノックバック
+            rb.AddForce(nockBack, ForceMode.Impulse);
         }
         //Bombに触れたら
         if (other.CompareTag("Bomb"))

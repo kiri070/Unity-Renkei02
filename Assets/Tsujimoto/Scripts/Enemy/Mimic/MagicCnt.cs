@@ -36,4 +36,12 @@ public class MagicCnt : MonoBehaviour
         yield return new WaitForSeconds(5f);
         Destroy(gameObject);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player1") || other.CompareTag("Player2") || other.gameObject.layer == LayerMask.NameToLayer("BringObj"))
+        {
+            Destroy(gameObject);
+        }
+    }
 }
