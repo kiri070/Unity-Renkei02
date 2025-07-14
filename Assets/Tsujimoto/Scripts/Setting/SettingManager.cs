@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 public class SettingManager : MonoBehaviour
 {
+    StageSelectManager stageSelectManager;
     [Header("設定画面のUIを格納")]
     public GameObject settingUI;
 
@@ -37,6 +38,7 @@ public class SettingManager : MonoBehaviour
         soundsList = FindObjectOfType<SoundsList>();
         playerCnt = FindObjectOfType<PlayerCnt>();
         padUICnt = FindObjectOfType<Pad_UICnt>();
+        stageSelectManager = FindObjectOfType<StageSelectManager>();
     }
     void Update()
     {
@@ -94,12 +96,15 @@ public class SettingManager : MonoBehaviour
     //設定画面を表示,非表示管理する関数(キーボード)
     public void OnOffSettingUI()
     {
+        //ステージを選択中ならバグ回避のため、設定画面を開かない
+        if (stageSelectManager.stageSelecting) return;
+        
         //設定画面を表示
-        if (Input.GetKeyDown(KeyCode.Escape) && !settingUI.activeSelf )
+        if (Input.GetKeyDown(KeyCode.Escape) && !settingUI.activeSelf)
         {
             settingUI.SetActive(true); //設定画面を表示
-            if(padUICnt != null)
-               padUICnt.OpenSetting();    //設定画面のみ操作
+            if (padUICnt != null)
+                padUICnt.OpenSetting();    //設定画面のみ操作
             //効果音を再生
             soundManager.OnPlaySE(soundsList.openSetting);
 
@@ -131,6 +136,9 @@ public class SettingManager : MonoBehaviour
     //設定画面を表示,非表示管理する関数(コントローラー)
     public void Pad_OnOffSettingUI()
     {
+        //ステージを選択中ならバグ回避のため、設定画面を開かない
+        if (stageSelectManager.stageSelecting) return;
+        
         if (settingUI != null)
         {
             //設定画面を表示

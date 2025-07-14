@@ -7,9 +7,31 @@ using UnityEngine.EventSystems;
 
 public class StageSelectManager : MonoBehaviour
 {
+    public bool stageSelecting = false; //ステージを選択中かどうか
     [Header("ロード画面")]
     public GameObject loadingPanel;
     public Slider loadingSlider;
+
+    [Header("ステージ選択後のCanvas項目")]
+    [Tooltip("チュートリアルステージのprefab")][SerializeField] GameObject tutorialStagePrefab;
+    [Tooltip("ステージ1のprefab")][SerializeField] GameObject stage1Prefab;
+    [Tooltip("ステージの回転速度")][SerializeField] float rotateSpeed = 5f;
+    [Space]
+
+    //チュートリアルステージ
+    [Header("チュートリアルステージ関連")]
+    [Tooltip("チュートリアルグループ")][SerializeField] GameObject tutorial_Group;
+    [Tooltip("チュートリアルステージのゲームモードボタングループ")][SerializeField] GameObject tutorial_GameMode;
+    [Tooltip("チュートリアル選択後、フォーカスするボタン")][SerializeField] GameObject tutorial_firstButton;
+    [Tooltip("チュートリアル選択ボタン")][SerializeField] GameObject tutorial_selectButton;
+    [Space]
+
+    //ステージ1
+    [Header("ステージ1関連")]
+    [Tooltip("ステージ1グループ")][SerializeField] GameObject stage1_Group;
+    [Tooltip("ステージ1のゲームモードボタングループ")][SerializeField] GameObject stage1_GameMode;
+    [Tooltip("ステージ1選択後、フォーカスするボタン")][SerializeField] GameObject stage1_firstButton;
+    [Tooltip("ステージ1選択ボタン")][SerializeField] GameObject stage1_selectButton;
 
 
     //ヒントの内容
@@ -37,6 +59,21 @@ public class StageSelectManager : MonoBehaviour
         RandomTips();
     }
 
+    void Update()
+    {
+        GameObject currentSelectStage = EventSystem.current.currentSelectedGameObject; //現在選択されているボタンを取得
+        //チュートリアルが選択されていたら
+        if (currentSelectStage.name == "Tutorial_SelectButton")
+        {
+            tutorialStagePrefab.transform.Rotate(0f, rotateSpeed * Time.deltaTime, 0f); //回転させる
+        }
+        //ステージ1が選択されていたら
+        else if (currentSelectStage.name == "Stage1_SelectButton")
+        {
+            stage1Prefab.transform.Rotate(0f, rotateSpeed * Time.deltaTime, 0f); //回転させる
+        }
+    }
+
     //ヒントをランダムに抽出して表示
     void RandomTips()
     {
@@ -62,6 +99,45 @@ public class StageSelectManager : MonoBehaviour
         //ゲームモードをマルチプレイに
         GameManager.gameMode = GameManager.GameMode.MultiPlayer;
         StartCoroutine(SceneLoading("TutorialScene"));
+    }
+
+    //チュートリアルステージを選択するボタン
+    public void OnTutorialSelectButton()
+    {
+        //各ステージ選択ボタンを非表示
+        tutorial_selectButton.SetActive(false);
+        stage1_Group.SetActive(false); //一括で非表示(テキスト等含む)
+        //その他のステージのprefabを非表示
+        stage1Prefab.SetActive(false);
+        //チュートリアルのゲームモードを決めるボタンを表示
+        tutorial_GameMode.SetActive(true);
+        //ボタンをフォーカスさせる
+        EventSystem.current.SetSelectedGameObject(tutorial_firstButton);
+
+        //ステージ選択中フラグを立てる
+        stageSelecting = true;
+    }
+    //ステージ1を選択するボタン
+    public void OnStage1SelectButton()
+    {
+        //各ステージ選択ボタンを非表示
+        tutorial_Group.SetActive(false); //一括で非表示(テキスト等含む)
+        stage1_selectButton.SetActive(false);
+        //その他のステージのprefabを非表示
+        tutorialStagePrefab.SetActive(false);
+        //ステージ1のゲームモードを決めるボタンを表示
+        stage1_GameMode.SetActive(true);
+        //ボタンをフォーカスさせる
+        EventSystem.current.SetSelectedGameObject(stage1_firstButton);
+
+        //ステージ選択中フラグを立てる
+        stageSelecting = true;
+    }
+
+    //ステージ選択に戻るボタン
+    public void OnBackStageSelectButton()
+    {
+        SceneManager.LoadScene("StageSelect");
     }
 
     //ステージ1に変遷するボタン
