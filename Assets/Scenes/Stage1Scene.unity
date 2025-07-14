@@ -1786,6 +1786,10 @@ PrefabInstance:
       propertyPath: settingUI
       value: 
       objectReference: {fileID: 1495962558}
+    - target: {fileID: 8658639699663935948, guid: 507046625c2d6430e8ed58e193d37bde, type: 3}
+      propertyPath: countDownUI
+      value: 
+      objectReference: {fileID: 1277431956}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -8,6 +8,8 @@ using UnityEngine.InputSystem;
 public class SettingManager : MonoBehaviour
 {
     StageSelectManager stageSelectManager;
+    [Header("カウントダウンUIを格納")]
+    [Tooltip("ステージシーンのみ")]public GameObject countDownUI; 
     [Header("設定画面のUIを格納")]
     public GameObject settingUI;
 
@@ -97,48 +99,59 @@ public class SettingManager : MonoBehaviour
     public void OnOffSettingUI()
     {
         //ステージを選択中ならバグ回避のため、設定画面を開かない
-        if (stageSelectManager.stageSelecting) return;
+        if (stageSelectManager != null)
+        {
+            if (stageSelectManager.stageSelecting) return;
+        }
+        //カウントダウン中は設定画面を開かない
+        if (countDownUI != null && countDownUI.activeSelf) return;
+        
         
         //設定画面を表示
-        if (Input.GetKeyDown(KeyCode.Escape) && !settingUI.activeSelf)
-        {
-            settingUI.SetActive(true); //設定画面を表示
-            if (padUICnt != null)
-                padUICnt.OpenSetting();    //設定画面のみ操作
-            //効果音を再生
-            soundManager.OnPlaySE(soundsList.openSetting);
-
-            //カーソルを表示
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-
-            //ゲームの状態をポーズに変更
-            GameManager.ToPausedState();
-        }
-        else if (Input.GetKeyDown(KeyCode.Escape) && settingUI.activeSelf)
-        {
-            settingUI.SetActive(false); //設定画面を非表示
-            if (padUICnt != null)
-                padUICnt.CloseSetting();    //他のUIの操作を可能に
-            //ゲームシーン以外なら
-            if (SceneManager.GetActiveScene().name != "Title" && SceneManager.GetActiveScene().name != "StageSelect"
-                && SceneManager.GetActiveScene().name != "ClearScene" && SceneManager.GetActiveScene().name != "GameOverScene")
+            if (Input.GetKeyDown(KeyCode.Escape) && !settingUI.activeSelf)
             {
-                //カーソルを非表示
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Locked;
+                settingUI.SetActive(true); //設定画面を表示
+                if (padUICnt != null)
+                    padUICnt.OpenSetting();    //設定画面のみ操作
+                                               //効果音を再生
+                soundManager.OnPlaySE(soundsList.openSetting);
+
+                //カーソルを表示
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+
+                //ゲームの状態をポーズに変更
+                GameManager.ToPausedState();
             }
-            //ゲームの状態をプレイ中に変更
-            GameManager.ToPlayingState();
-        }
+            else if (Input.GetKeyDown(KeyCode.Escape) && settingUI.activeSelf)
+            {
+                settingUI.SetActive(false); //設定画面を非表示
+                if (padUICnt != null)
+                    padUICnt.CloseSetting();    //他のUIの操作を可能に
+                                                //ゲームシーン以外なら
+                if (SceneManager.GetActiveScene().name != "Title" && SceneManager.GetActiveScene().name != "StageSelect"
+                    && SceneManager.GetActiveScene().name != "ClearScene" && SceneManager.GetActiveScene().name != "GameOverScene")
+                {
+                    //カーソルを非表示
+                    Cursor.visible = false;
+                    Cursor.lockState = CursorLockMode.Locked;
+                }
+                //ゲームの状態をプレイ中に変更
+                GameManager.ToPlayingState();
+            }
     }
 
     //設定画面を表示,非表示管理する関数(コントローラー)
     public void Pad_OnOffSettingUI()
     {
         //ステージを選択中ならバグ回避のため、設定画面を開かない
-        if (stageSelectManager.stageSelecting) return;
-        
+        if (stageSelectManager != null)
+        {
+            if (stageSelectManager.stageSelecting) return;
+        }
+        //カウントダウン中は設定画面を開かない
+        if (countDownUI != null && countDownUI.activeSelf) return;
+
         if (settingUI != null)
         {
             //設定画面を表示

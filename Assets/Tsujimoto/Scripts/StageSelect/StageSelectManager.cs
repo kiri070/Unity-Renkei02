@@ -16,6 +16,9 @@ public class StageSelectManager : MonoBehaviour
     [Tooltip("チュートリアルステージのprefab")][SerializeField] GameObject tutorialStagePrefab;
     [Tooltip("ステージ1のprefab")][SerializeField] GameObject stage1Prefab;
     [Tooltip("ステージの回転速度")][SerializeField] float rotateSpeed = 5f;
+    //各ステージの初期の大きさ
+    Vector3 tutorialStage_StartScale;
+    Vector3 stage1_StartScale;
     [Space]
 
     //チュートリアルステージ
@@ -57,6 +60,10 @@ public class StageSelectManager : MonoBehaviour
 
         //ヒントをランダムに表示
         RandomTips();
+
+        //各ステージの初期の大きさ
+        tutorialStage_StartScale = tutorialStagePrefab.transform.localScale;
+        stage1_StartScale = stage1Prefab.transform.localScale;
     }
 
     void Update()
@@ -66,11 +73,17 @@ public class StageSelectManager : MonoBehaviour
         if (currentSelectStage.name == "Tutorial_SelectButton")
         {
             tutorialStagePrefab.transform.Rotate(0f, rotateSpeed * Time.deltaTime, 0f); //回転させる
+            tutorialStagePrefab.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);   //選択中のステージを大きく
+            //選択しているステージ以外を元の大きさにする
+            stage1Prefab.transform.localScale = stage1_StartScale;
         }
         //ステージ1が選択されていたら
         else if (currentSelectStage.name == "Stage1_SelectButton")
         {
             stage1Prefab.transform.Rotate(0f, rotateSpeed * Time.deltaTime, 0f); //回転させる
+            stage1Prefab.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);   //選択中のステージを大きく
+            //選択しているステージ以外を元の大きさにする
+            tutorialStagePrefab.transform.localScale = tutorialStage_StartScale;
         }
     }
 
