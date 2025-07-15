@@ -179,9 +179,12 @@ public class PlayerCnt : MonoBehaviour
         };
 
         //--マルチ--//
-        //ジャンプ
+        //ジャンプ1
         controls1.Player1.Jump.performed += OnPlayer1Jump;
         controls2.Player2.Jump.performed += OnPlayer2Jump;
+        //ジャンプ2
+        controls1.Player1.Jump2.performed += OnPlayer1Jump;
+        controls2.Player2.Jump2.performed += OnPlayer2Jump;
 
         //Player1:荷物を持つ
         controls1.Player1.Bring.started += ctx =>
@@ -204,35 +207,6 @@ public class PlayerCnt : MonoBehaviour
         {
             if (GameManager.state != GameManager.GameState.Playing) return;
             isPlayer2BringObj = false;
-        };
-
-        //Player1:スライディング開始
-        controls1.Player1.Sliding.started += ctx =>
-        {
-            if (GameManager.state != GameManager.GameState.Playing) return;
-            mover1.StartSliding();
-            mover2.StartSliding();
-        };
-        //Player1:スライディング終了
-        controls1.Player1.Sliding.canceled += ctx =>
-        {
-            if (GameManager.state != GameManager.GameState.Playing) return;
-            mover1.EndSliding();
-            mover2.EndSliding();
-        };
-        //Player2:スライディング開始
-        controls2.Player2.Sliding.started += ctx =>
-        {
-            if (GameManager.state != GameManager.GameState.Playing) return;
-            mover1.StartSliding();
-            mover2.StartSliding();
-        };
-        //Player2:スライディング終了
-        controls2.Player2.Sliding.canceled += ctx =>
-        {
-            if (GameManager.state != GameManager.GameState.Playing) return;
-            mover1.EndSliding();
-            mover2.EndSliding();
         };
     }
     //Player1:ジャンプ(マルチ用)
@@ -278,22 +252,22 @@ public class PlayerCnt : MonoBehaviour
             Vector3 moveDir2 = new Vector3(input2.x, 0f, input2.y); // y→Z軸へ
             mover2.Assignment(moveDir2 * moveSpeed);
 
-
-            //スライディング開始
-            controls.Player.Sliding.started += ctx =>
-            {
-                mover1.StartSliding();
-                mover2.StartSliding();
-            };
-            //スライディング終了
-            controls.Player.Sliding.canceled += ctx =>
-            {
-                mover1.EndSliding();
-                mover2.EndSliding();
-            };
-
-            //ジャンプ入力
+            //ジャンプ入力1
             controls.Player.Jump.performed += ctx =>
+            {
+                if (mover1.canJump && mover2.canJump)
+                {
+                    mover1.jumpForce = this.jumpForce;
+                    mover1.jumping = true;
+
+                    mover2.jumpForce = this.jumpForce;
+                    mover2.jumping = true;
+
+                    soundManager.OnPlaySE(soundsList.jumpSE);
+                }
+            };
+            //ジャンプ入力2
+            controls.Player.Jump2.performed += ContextMenu =>
             {
                 if (mover1.canJump && mover2.canJump)
                 {
