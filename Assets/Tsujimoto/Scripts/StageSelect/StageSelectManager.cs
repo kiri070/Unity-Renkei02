@@ -12,29 +12,13 @@ public class StageSelectManager : MonoBehaviour
     public GameObject loadingPanel;
     public Slider loadingSlider;
 
-    [Header("ステージ選択後のCanvas項目")]
-    [Tooltip("チュートリアルステージのprefab")][SerializeField] GameObject tutorialStagePrefab;
-    [Tooltip("ステージ1のprefab")][SerializeField] GameObject stage1Prefab;
-    [Tooltip("ステージの回転速度")][SerializeField] float rotateSpeed = 5f;
-    //各ステージの初期の大きさ
-    Vector3 tutorialStage_StartScale;
-    Vector3 stage1_StartScale;
-    [Space]
-
-    //チュートリアルステージ
-    [Header("チュートリアルステージ関連")]
-    [Tooltip("チュートリアルグループ")][SerializeField] GameObject tutorial_Group;
-    [Tooltip("チュートリアルステージのゲームモードボタングループ")][SerializeField] GameObject tutorial_GameMode;
-    [Tooltip("チュートリアル選択後、フォーカスするボタン")][SerializeField] GameObject tutorial_firstButton;
-    [Tooltip("チュートリアル選択ボタン")][SerializeField] GameObject tutorial_selectButton;
-    [Space]
-
-    //ステージ1
-    [Header("ステージ1関連")]
-    [Tooltip("ステージ1グループ")][SerializeField] GameObject stage1_Group;
-    [Tooltip("ステージ1のゲームモードボタングループ")][SerializeField] GameObject stage1_GameMode;
-    [Tooltip("ステージ1選択後、フォーカスするボタン")][SerializeField] GameObject stage1_firstButton;
-    [Tooltip("ステージ1選択ボタン")][SerializeField] GameObject stage1_selectButton;
+    [Header("各ステージの項目(0:チュートリアル,1:ステージ1...)")]
+    [Tooltip("ステージのUIグループ")][SerializeField] private List<GameObject> stageGroups;      // UIのGroup（tutorial_Groupやstage1_Groupなど）
+    [Tooltip("回転するステージのprefab")] [SerializeField] private List<GameObject> stagePrefabs;     // ステージオブジェクト（回転させるやつ）
+    [Tooltip("セレクトボタン")] [SerializeField] private List<GameObject> selectButtons;    // Selectボタン
+    [Tooltip("ゲームモード選択UIグループ")] [SerializeField] private List<GameObject> gameModeGroups;   // ゲームモード選択ボタンGroup
+    private List<Vector3> stage_StartScale = new List<Vector3>();//ステージの初期の大きさ
+    [Tooltip("ステージの回転速度")] [SerializeField] float rotateSpeed = 5f;
 
 
     //ヒントの内容
@@ -62,30 +46,68 @@ public class StageSelectManager : MonoBehaviour
         RandomTips();
 
         //各ステージの初期の大きさ
-        tutorialStage_StartScale = tutorialStagePrefab.transform.localScale;
-        stage1_StartScale = stage1Prefab.transform.localScale;
+        for (int i = 0; i < stagePrefabs.Count; i++)
+        {
+            stage_StartScale.Add(stagePrefabs[i].transform.localScale);
+        }
     }
 
     void Update()
     {
         GameObject currentSelectStage = EventSystem.current.currentSelectedGameObject; //現在選択されているボタンを取得
-        //チュートリアルが選択されていたら
-        if (currentSelectStage.name == "Tutorial_SelectButton")
+        //選択されているステージの処理
+        switch (currentSelectStage.name)
         {
-            tutorialStagePrefab.transform.Rotate(0f, rotateSpeed * Time.deltaTime, 0f); //回転させる
-            tutorialStagePrefab.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);   //選択中のステージを大きく
-            //選択しているステージ以外を元の大きさにする
-            stage1Prefab.transform.localScale = stage1_StartScale;
-        }
-        //ステージ1が選択されていたら
-        else if (currentSelectStage.name == "Stage1_SelectButton")
-        {
-            stage1Prefab.transform.Rotate(0f, rotateSpeed * Time.deltaTime, 0f); //回転させる
-            stage1Prefab.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);   //選択中のステージを大きく
-            //選択しているステージ以外を元の大きさにする
-            tutorialStagePrefab.transform.localScale = tutorialStage_StartScale;
+            //チュートリアルが選択されている場合
+            case "Tutorial_SelectButton":
+                stagePrefabs[0].transform.Rotate(0f, rotateSpeed * Time.deltaTime, 0f); //回転させる
+                stagePrefabs[0].transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);   //選択中のステージを大きく
+                                                                                        //選択しているステージ以外を元の大きさにする
+                for (int i = 0; i < stagePrefabs.Count; i++)
+                {
+                    if (i != 0)
+                        stagePrefabs[i].transform.localScale = stage_StartScale[i];
+                }
+                break;
+
+            //ステージ1が選択されている場合
+            case "Stage1_SelectButton":
+                stagePrefabs[1].transform.Rotate(0f, rotateSpeed * Time.deltaTime, 0f); //回転させる
+                stagePrefabs[1].transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);   //選択中のステージを大きく
+
+                //選択しているステージ以外を元の大きさにする
+                for (int i = 0; i < stagePrefabs.Count; i++)
+                {
+                    if (i != 1)
+                        stagePrefabs[i].transform.localScale = stage_StartScale[i];
+                }
+                break;
         }
     }
+
+    //ステージの切り替え関数
+    void ShowStage(int index)
+    {
+        for (int i = 0; i < stageGroups.Count; i++)
+        {
+            bool isSelected = (i == index);
+            stageGroups[i].SetActive(isSelected);
+            stagePrefabs[i].SetActive(isSelected);
+            selectButtons[i].SetActive(!isSelected);
+            gameModeGroups[i].SetActive(isSelected);
+
+            if (isSelected)
+            {
+                // フォーカス設定（ステージごとに設定したいなら別で配列化）
+                EventSystem.current.SetSelectedGameObject(
+                    gameModeGroups[i].transform.GetChild(0).gameObject //最初の子オブジェクト
+                );
+            }
+        }
+
+        stageSelecting = true;
+    }
+
 
     //ヒントをランダムに抽出して表示
     void RandomTips()
@@ -117,34 +139,12 @@ public class StageSelectManager : MonoBehaviour
     //チュートリアルステージを選択するボタン
     public void OnTutorialSelectButton()
     {
-        //各ステージ選択ボタンを非表示
-        tutorial_selectButton.SetActive(false);
-        stage1_Group.SetActive(false); //一括で非表示(テキスト等含む)
-        //その他のステージのprefabを非表示
-        stage1Prefab.SetActive(false);
-        //チュートリアルのゲームモードを決めるボタンを表示
-        tutorial_GameMode.SetActive(true);
-        //ボタンをフォーカスさせる
-        EventSystem.current.SetSelectedGameObject(tutorial_firstButton);
-
-        //ステージ選択中フラグを立てる
-        stageSelecting = true;
+        ShowStage(0); // tutorial
     }
     //ステージ1を選択するボタン
     public void OnStage1SelectButton()
     {
-        //各ステージ選択ボタンを非表示
-        tutorial_Group.SetActive(false); //一括で非表示(テキスト等含む)
-        stage1_selectButton.SetActive(false);
-        //その他のステージのprefabを非表示
-        tutorialStagePrefab.SetActive(false);
-        //ステージ1のゲームモードを決めるボタンを表示
-        stage1_GameMode.SetActive(true);
-        //ボタンをフォーカスさせる
-        EventSystem.current.SetSelectedGameObject(stage1_firstButton);
-
-        //ステージ選択中フラグを立てる
-        stageSelecting = true;
+        ShowStage(1); // stage1
     }
 
     //ステージ選択に戻るボタン
