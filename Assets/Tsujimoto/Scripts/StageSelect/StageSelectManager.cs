@@ -56,33 +56,37 @@ public class StageSelectManager : MonoBehaviour
     {
         GameObject currentSelectStage = EventSystem.current.currentSelectedGameObject; //現在選択されているボタンを取得
         //選択されているステージの処理
-        switch (currentSelectStage.name)
+        if (currentSelectStage != null)
         {
-            //チュートリアルが選択されている場合
-            case "Tutorial_SelectButton":
-                stagePrefabs[0].transform.Rotate(0f, rotateSpeed * Time.deltaTime, 0f); //回転させる
-                stagePrefabs[0].transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);   //選択中のステージを大きく
-                                                                                        //選択しているステージ以外を元の大きさにする
-                for (int i = 0; i < stagePrefabs.Count; i++)
-                {
-                    if (i != 0)
-                        stagePrefabs[i].transform.localScale = stage_StartScale[i];
-                }
-                break;
+            switch (currentSelectStage.name)
+            {
+                //チュートリアルが選択されている場合
+                case "Tutorial_SelectButton":
+                    stagePrefabs[0].transform.Rotate(0f, rotateSpeed * Time.deltaTime, 0f); //回転させる
+                    stagePrefabs[0].transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);   //選択中のステージを大きく
+                                                                                            //選択しているステージ以外を元の大きさにする
+                    for (int i = 0; i < stagePrefabs.Count; i++)
+                    {
+                        if (i != 0)
+                            stagePrefabs[i].transform.localScale = stage_StartScale[i];
+                    }
+                    break;
 
-            //ステージ1が選択されている場合
-            case "Stage1_SelectButton":
-                stagePrefabs[1].transform.Rotate(0f, rotateSpeed * Time.deltaTime, 0f); //回転させる
-                stagePrefabs[1].transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);   //選択中のステージを大きく
+                //ステージ1が選択されている場合
+                case "Stage1_SelectButton":
+                    stagePrefabs[1].transform.Rotate(0f, rotateSpeed * Time.deltaTime, 0f); //回転させる
+                    stagePrefabs[1].transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);   //選択中のステージを大きく
 
-                //選択しているステージ以外を元の大きさにする
-                for (int i = 0; i < stagePrefabs.Count; i++)
-                {
-                    if (i != 1)
-                        stagePrefabs[i].transform.localScale = stage_StartScale[i];
-                }
-                break;
+                    //選択しているステージ以外を元の大きさにする
+                    for (int i = 0; i < stagePrefabs.Count; i++)
+                    {
+                        if (i != 1)
+                            stagePrefabs[i].transform.localScale = stage_StartScale[i];
+                    }
+                    break;
+            }
         }
+        
     }
 
     //ステージの切り替え関数
