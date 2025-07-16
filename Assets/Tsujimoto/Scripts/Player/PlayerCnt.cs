@@ -187,6 +187,7 @@ public class PlayerCnt : MonoBehaviour
         controls2.Player2.Jump2.performed += OnPlayer2Jump;
 
         //Player1:荷物を持つ
+        //R2
         controls1.Player1.Bring.started += ctx =>
         {
             if (GameManager.state != GameManager.GameState.Playing) return;
@@ -197,13 +198,36 @@ public class PlayerCnt : MonoBehaviour
             if (GameManager.state != GameManager.GameState.Playing) return;
             isPlayer1BringObj = false;
         };
+        //L2
+        controls1.Player1.Bring2.started += ctx =>
+        {
+            if (GameManager.state != GameManager.GameState.Playing) return;
+            isPlayer1BringObj = true;
+        };
+        controls1.Player1.Bring2.canceled += ctx =>
+        {
+            if (GameManager.state != GameManager.GameState.Playing) return;
+            isPlayer1BringObj = false;
+        };
         //Player2:荷物を持つ
+        //R2
         controls2.Player2.Bring.started += ctx =>
         {
             if (GameManager.state != GameManager.GameState.Playing) return;
             isPlayer2BringObj = true;
         };
         controls2.Player2.Bring.canceled += ctx =>
+        {
+            if (GameManager.state != GameManager.GameState.Playing) return;
+            isPlayer2BringObj = false;
+        };
+        //L2
+        controls2.Player2.Bring2.started += ctx =>
+        {
+            if (GameManager.state != GameManager.GameState.Playing) return;
+            isPlayer2BringObj = true;
+        };
+        controls2.Player2.Bring2.canceled += ctx =>
         {
             if (GameManager.state != GameManager.GameState.Playing) return;
             isPlayer2BringObj = false;

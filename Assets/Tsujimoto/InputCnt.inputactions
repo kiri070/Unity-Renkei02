@@ -322,6 +322,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Bring2",
+                    "type": "Button",
+                    "id": "b5774beb-09b5-40da-aeea-930047849182",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -456,6 +465,28 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ce34cc8f-0f3e-4010-87fe-ea809457ab9c",
+                    "path": "<Keyboard>/h",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Bring2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "446c3422-ca64-48c1-8198-974b74e4c7e3",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Bring2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -494,6 +525,15 @@
                     "name": "Bring",
                     "type": "Button",
                     "id": "fc157c33-59c2-4795-9dec-52f6fa469bf9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Bring2",
+                    "type": "Button",
+                    "id": "ee2f95ed-0c18-46f7-ae3e-ea1141fd0303",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -630,6 +670,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a3892ae7-4fc9-454c-9a96-5cb7bd0e24ce",
+                    "path": "<Keyboard>/h",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Bring2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "76f75a7e-e744-41fb-928e-1c93ee8d9b00",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Bring2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

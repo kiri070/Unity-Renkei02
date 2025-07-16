@@ -344,6 +344,15 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Bring2"",
+                    ""type"": ""Button"",
+                    ""id"": ""b5774beb-09b5-40da-aeea-930047849182"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -478,6 +487,28 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ce34cc8f-0f3e-4010-87fe-ea809457ab9c"",
+                    ""path"": ""<Keyboard>/h"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Bring2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""446c3422-ca64-48c1-8198-974b74e4c7e3"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Bring2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -516,6 +547,15 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
                     ""name"": ""Bring"",
                     ""type"": ""Button"",
                     ""id"": ""fc157c33-59c2-4795-9dec-52f6fa469bf9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Bring2"",
+                    ""type"": ""Button"",
+                    ""id"": ""ee2f95ed-0c18-46f7-ae3e-ea1141fd0303"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -652,6 +692,28 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a3892ae7-4fc9-454c-9a96-5cb7bd0e24ce"",
+                    ""path"": ""<Keyboard>/h"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Bring2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""76f75a7e-e744-41fb-928e-1c93ee8d9b00"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Bring2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -998,12 +1060,14 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
         m_Player1_Move = m_Player1.FindAction("Move", throwIfNotFound: true);
         m_Player1_Jump2 = m_Player1.FindAction("Jump2", throwIfNotFound: true);
         m_Player1_Bring = m_Player1.FindAction("Bring", throwIfNotFound: true);
+        m_Player1_Bring2 = m_Player1.FindAction("Bring2", throwIfNotFound: true);
         // Player2
         m_Player2 = asset.FindActionMap("Player2", throwIfNotFound: true);
         m_Player2_Jump = m_Player2.FindAction("Jump", throwIfNotFound: true);
         m_Player2_Move = m_Player2.FindAction("Move", throwIfNotFound: true);
         m_Player2_Jump2 = m_Player2.FindAction("Jump2", throwIfNotFound: true);
         m_Player2_Bring = m_Player2.FindAction("Bring", throwIfNotFound: true);
+        m_Player2_Bring2 = m_Player2.FindAction("Bring2", throwIfNotFound: true);
         // UICnt
         m_UICnt = asset.FindActionMap("UICnt", throwIfNotFound: true);
         m_UICnt_Navigate = m_UICnt.FindAction("Navigate", throwIfNotFound: true);
@@ -1170,6 +1234,7 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player1_Move;
     private readonly InputAction m_Player1_Jump2;
     private readonly InputAction m_Player1_Bring;
+    private readonly InputAction m_Player1_Bring2;
     public struct Player1Actions
     {
         private @InputCnt m_Wrapper;
@@ -1178,6 +1243,7 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player1_Move;
         public InputAction @Jump2 => m_Wrapper.m_Player1_Jump2;
         public InputAction @Bring => m_Wrapper.m_Player1_Bring;
+        public InputAction @Bring2 => m_Wrapper.m_Player1_Bring2;
         public InputActionMap Get() { return m_Wrapper.m_Player1; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1199,6 +1265,9 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
             @Bring.started += instance.OnBring;
             @Bring.performed += instance.OnBring;
             @Bring.canceled += instance.OnBring;
+            @Bring2.started += instance.OnBring2;
+            @Bring2.performed += instance.OnBring2;
+            @Bring2.canceled += instance.OnBring2;
         }
 
         private void UnregisterCallbacks(IPlayer1Actions instance)
@@ -1215,6 +1284,9 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
             @Bring.started -= instance.OnBring;
             @Bring.performed -= instance.OnBring;
             @Bring.canceled -= instance.OnBring;
+            @Bring2.started -= instance.OnBring2;
+            @Bring2.performed -= instance.OnBring2;
+            @Bring2.canceled -= instance.OnBring2;
         }
 
         public void RemoveCallbacks(IPlayer1Actions instance)
@@ -1240,6 +1312,7 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player2_Move;
     private readonly InputAction m_Player2_Jump2;
     private readonly InputAction m_Player2_Bring;
+    private readonly InputAction m_Player2_Bring2;
     public struct Player2Actions
     {
         private @InputCnt m_Wrapper;
@@ -1248,6 +1321,7 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player2_Move;
         public InputAction @Jump2 => m_Wrapper.m_Player2_Jump2;
         public InputAction @Bring => m_Wrapper.m_Player2_Bring;
+        public InputAction @Bring2 => m_Wrapper.m_Player2_Bring2;
         public InputActionMap Get() { return m_Wrapper.m_Player2; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1269,6 +1343,9 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
             @Bring.started += instance.OnBring;
             @Bring.performed += instance.OnBring;
             @Bring.canceled += instance.OnBring;
+            @Bring2.started += instance.OnBring2;
+            @Bring2.performed += instance.OnBring2;
+            @Bring2.canceled += instance.OnBring2;
         }
 
         private void UnregisterCallbacks(IPlayer2Actions instance)
@@ -1285,6 +1362,9 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
             @Bring.started -= instance.OnBring;
             @Bring.performed -= instance.OnBring;
             @Bring.canceled -= instance.OnBring;
+            @Bring2.started -= instance.OnBring2;
+            @Bring2.performed -= instance.OnBring2;
+            @Bring2.canceled -= instance.OnBring2;
         }
 
         public void RemoveCallbacks(IPlayer2Actions instance)
@@ -1481,6 +1561,7 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump2(InputAction.CallbackContext context);
         void OnBring(InputAction.CallbackContext context);
+        void OnBring2(InputAction.CallbackContext context);
     }
     public interface IPlayer2Actions
     {
@@ -1488,6 +1569,7 @@ public partial class @InputCnt: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump2(InputAction.CallbackContext context);
         void OnBring(InputAction.CallbackContext context);
+        void OnBring2(InputAction.CallbackContext context);
     }
     public interface IUICntActions
     {
