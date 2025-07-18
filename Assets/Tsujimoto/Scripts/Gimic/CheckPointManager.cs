@@ -8,6 +8,8 @@ public class CheckPointManager : MonoBehaviour
     public GameObject checkpointWaveEffect;
     public GameObject checkPointEffect; //炎
 
+    [HideInInspector] public bool isActive = false;
+
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player1") || other.CompareTag("Player2"))
@@ -20,7 +22,7 @@ public class CheckPointManager : MonoBehaviour
                 Transform area = transform.Find("CheckPointArea");
                 area.gameObject.SetActive(false);
             }
-            
+
         }
     }
 }
