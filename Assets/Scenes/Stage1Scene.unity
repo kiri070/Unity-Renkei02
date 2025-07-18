@@ -4094,8 +4094,8 @@ MonoBehaviour:
   nockBackEffect: {fileID: 3342264271403622667, guid: 22f9c3e8141d94239b9f581787ce2342, type: 3}
   jumpEffect: {fileID: 4016476391329389970, guid: 97f466f58e0d3418c94ff139f0428d87, type: 3}
   frozenEffect: {fileID: 8181396932745774138, guid: fbe4c939d632e459ba44bd93dae32381, type: 3}
-  nockBack_Horizontal: 30
-  nockBack_Vertical: 10
+  nockBack_Horizontal: 20
+  nockBack_Vertical: 7
   recoveryKnockbackTime: 0.5
 --- !u!1001 &1472122580
 PrefabInstance:
@@ -6216,8 +6216,8 @@ MonoBehaviour:
   nockBackEffect: {fileID: 3342264271403622667, guid: 22f9c3e8141d94239b9f581787ce2342, type: 3}
   jumpEffect: {fileID: 4016476391329389970, guid: 97f466f58e0d3418c94ff139f0428d87, type: 3}
   frozenEffect: {fileID: 8181396932745774138, guid: fbe4c939d632e459ba44bd93dae32381, type: 3}
-  nockBack_Horizontal: 30
-  nockBack_Vertical: 10
+  nockBack_Horizontal: 20
+  nockBack_Vertical: 7
   recoveryKnockbackTime: 0.5
 --- !u!4 &1813623200 stripped
 Transform:

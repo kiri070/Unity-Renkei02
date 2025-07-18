@@ -3694,8 +3694,8 @@ MonoBehaviour:
   nockBackEffect: {fileID: 3342264271403622667, guid: 22f9c3e8141d94239b9f581787ce2342, type: 3}
   jumpEffect: {fileID: 4016476391329389970, guid: 97f466f58e0d3418c94ff139f0428d87, type: 3}
   frozenEffect: {fileID: 8181396932745774138, guid: fbe4c939d632e459ba44bd93dae32381, type: 3}
-  nockBack_Horizontal: 30
-  nockBack_Vertical: 10
+  nockBack_Horizontal: 20
+  nockBack_Vertical: 7
   recoveryKnockbackTime: 0.5
 --- !u!1 &1479262280 stripped
 GameObject:
@@ -4227,7 +4227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b0f6f052088246368b57c311f86779d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceFactor: 0.15
+  distanceFactor: 0.2
 --- !u!81 &1640535789
 AudioListener:
   m_ObjectHideFlags: 0
@@ -5562,8 +5562,8 @@ MonoBehaviour:
   nockBackEffect: {fileID: 3342264271403622667, guid: 22f9c3e8141d94239b9f581787ce2342, type: 3}
   jumpEffect: {fileID: 4016476391329389970, guid: 97f466f58e0d3418c94ff139f0428d87, type: 3}
   frozenEffect: {fileID: 8181396932745774138, guid: fbe4c939d632e459ba44bd93dae32381, type: 3}
-  nockBack_Horizontal: 30
-  nockBack_Vertical: 10
+  nockBack_Horizontal: 20
+  nockBack_Vertical: 7
   recoveryKnockbackTime: 0.5
 --- !u!1 &1833971772
 GameObject:
