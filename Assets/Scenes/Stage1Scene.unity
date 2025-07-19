@@ -1944,12 +1944,28 @@ PrefabInstance:
       value: checkpoint 1 (2)
       objectReference: {fileID: 0}
     - target: {fileID: 6920726027234589190, guid: 8a8ff20b7d0104ccdab2c50d5df61be3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.087
+      objectReference: {fileID: 0}
+    - target: {fileID: 6920726027234589190, guid: 8a8ff20b7d0104ccdab2c50d5df61be3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.083
+      value: 0.008
       objectReference: {fileID: 0}
     - target: {fileID: 6920726027234589190, guid: 8a8ff20b7d0104ccdab2c50d5df61be3, type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.038
+      objectReference: {fileID: 0}
+    - target: {fileID: 7748406097353800031, guid: 8a8ff20b7d0104ccdab2c50d5df61be3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.003
+      objectReference: {fileID: 0}
+    - target: {fileID: 7748406097353800031, guid: 8a8ff20b7d0104ccdab2c50d5df61be3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7748406097353800031, guid: 8a8ff20b7d0104ccdab2c50d5df61be3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.05
       objectReference: {fileID: 0}
     - target: {fileID: 8673598950143180818, guid: 8a8ff20b7d0104ccdab2c50d5df61be3, type: 3}
       propertyPath: m_Size.x
@@ -1970,6 +1986,18 @@ PrefabInstance:
     - target: {fileID: 8673598950143180818, guid: 8a8ff20b7d0104ccdab2c50d5df61be3, type: 3}
       propertyPath: m_Center.z
       value: -0.029268663
+      objectReference: {fileID: 0}
+    - target: {fileID: 9139061878178382431, guid: 8a8ff20b7d0104ccdab2c50d5df61be3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.008
+      objectReference: {fileID: 0}
+    - target: {fileID: 9139061878178382431, guid: 8a8ff20b7d0104ccdab2c50d5df61be3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.081
+      objectReference: {fileID: 0}
+    - target: {fileID: 9139061878178382431, guid: 8a8ff20b7d0104ccdab2c50d5df61be3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.05
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
