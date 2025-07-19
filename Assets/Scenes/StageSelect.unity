@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028326, g: 0.22571333, b: 0.30692202, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4144,17 +4144,7 @@ MonoBehaviour:
   gameModeGroups:
   - {fileID: 1611136896}
   - {fileID: 1432087507}
-  tutorialStagePrefab: {fileID: 1381245461}
-  stage1Prefab: {fileID: 110608456}
   rotateSpeed: 5
-  tutorial_Group: {fileID: 1365642308}
-  tutorial_GameMode: {fileID: 1611136896}
-  tutorial_firstButton: {fileID: 723609291}
-  tutorial_selectButton: {fileID: 723652952}
-  stage1_Group: {fileID: 1261959397}
-  stage1_GameMode: {fileID: 1432087507}
-  stage1_firstButton: {fileID: 1777250182}
-  stage1_selectButton: {fileID: 1272468654}
   tipsText: {fileID: 241828003}
   tips:
   - "\u30B8\u30E3\u30F3\u30D7\u306F\u5171\u901A\u306A\u306E\u3067\u6C17\u3092\u3064\u3051\u3088\u3046!!"

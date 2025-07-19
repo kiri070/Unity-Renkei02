@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -32,16 +33,32 @@ public class ClearManager : MonoBehaviour
 
     SoundManager soundManager;
     SoundsList soundsList;
+
+    [SerializeField]GameObject deleteScoreUI; //スコアランキングを削除した時に表示するUI
+
+    //スコアを消す関数
+    void ClearScoreOnly()
+    {
+        string keyPrefix = "ScoreRank_" + Score.Instance.SceneName + "_";
+        for (int i = 0; i < rankings.Length; i++)
+        {
+            PlayerPrefs.DeleteKey(keyPrefix + i);
+            rankings[i] = 0f;
+            rankingScoreTexts[i].text = "0";
+        }
+        PlayerPrefs.Save(); // 変更を反映
+    }
     void Start()
     {
-
         // //開発中にランキングをリセットする場合に実行
         // for (int i = 0; i < rankings.Length; i++)
         // {
         //     PlayerPrefs.DeleteAll();
         //     rankings[i] = 0f;
         //     rankingScoreTexts[i].text = "0";
+        //     PlayerPrefs.Save();
         // }
+
 
         soundManager = FindObjectOfType<SoundManager>();
         soundsList = FindObjectOfType<SoundsList>();
@@ -71,6 +88,19 @@ public class ClearManager : MonoBehaviour
 
         //ヒントをランダムに表示
         RandomTips();
+    }
+
+    void Update()
+    {
+        //スコアランキングを消す
+        if (Input.GetKey(KeyCode.S))
+            if (Input.GetKey(KeyCode.R))
+                if (Input.GetKey(KeyCode.C))
+                {
+                    ClearScoreOnly(); //スコアランキングを削除
+                    deleteScoreUI.SetActive(true); //削除通知を表示
+                    StartCoroutine(DelayNonActive_DeleteScoreUI()); //遅延をかけて削除通知を非表示
+                }
     }
 
     //ヒントをランダムに抽出して表示
@@ -187,6 +217,13 @@ public class ClearManager : MonoBehaviour
         }
         yield return new WaitForSeconds(0.7f);
         async.allowSceneActivation = true; //シーン切り替え
+    }
+
+    //スコア削除UIを非表示
+    IEnumerator DelayNonActive_DeleteScoreUI()
+    {
+        yield return new WaitForSeconds(1);
+        deleteScoreUI.SetActive(false);
     }
 
 }

@@ -14,11 +14,11 @@ public class StageSelectManager : MonoBehaviour
 
     [Header("各ステージの項目(0:チュートリアル,1:ステージ1...)")]
     [Tooltip("ステージのUIグループ")][SerializeField] private List<GameObject> stageGroups;      // UIのGroup（tutorial_Groupやstage1_Groupなど）
-    [Tooltip("回転するステージのprefab")] [SerializeField] private List<GameObject> stagePrefabs;     // ステージオブジェクト（回転させるやつ）
-    [Tooltip("セレクトボタン")] [SerializeField] private List<GameObject> selectButtons;    // Selectボタン
-    [Tooltip("ゲームモード選択UIグループ")] [SerializeField] private List<GameObject> gameModeGroups;   // ゲームモード選択ボタンGroup
+    [Tooltip("回転するステージのprefab")][SerializeField] private List<GameObject> stagePrefabs;     // ステージオブジェクト（回転させるやつ）
+    [Tooltip("セレクトボタン")][SerializeField] private List<GameObject> selectButtons;    // Selectボタン
+    [Tooltip("ゲームモード選択UIグループ")][SerializeField] private List<GameObject> gameModeGroups;   // ゲームモード選択ボタンGroup
     private List<Vector3> stage_StartScale = new List<Vector3>();//ステージの初期の大きさ
-    [Tooltip("ステージの回転速度")] [SerializeField] float rotateSpeed = 5f;
+    [Tooltip("ステージの回転速度")][SerializeField] float rotateSpeed = 5f;
 
 
     //ヒントの内容
@@ -86,7 +86,6 @@ public class StageSelectManager : MonoBehaviour
                     break;
             }
         }
-        
     }
 
     //ステージの切り替え関数
