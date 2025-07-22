@@ -45,6 +45,7 @@ public class Enemy01 : MonoBehaviour
     [Tooltip("ジャンプ攻撃の着地時")] public GameObject smork;
     [Tooltip("踏まれた時")] public GameObject step;
     [Tooltip("死んだ時")] public GameObject killed;
+    [Tooltip("突進攻撃のチャージ")] public GameObject chargePushAttackEffect;
 
     [HideInInspector] public bool canJumpAttack = true;
 
@@ -261,10 +262,13 @@ public class Enemy01 : MonoBehaviour
     //Push攻撃の準備
     IEnumerator PreparePushAttack(float duration, float magnitude)
     {
+
         isPushAttack = true;
         float elapsed = 0f;
         Vector3 originalPos = transform.position;
 
+        //チャージエフェクトを再生
+        GameObject chargeEffect = Instantiate(chargePushAttackEffect, transform.position, chargePushAttackEffect.transform.rotation);
         //指定の秒数左右に振動
         while (elapsed < duration)
         {
@@ -285,6 +289,10 @@ public class Enemy01 : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
+
+        //チャージエフェクトを削除
+        Destroy(chargeEffect);
+
         transform.position = originalPos;
 
         //方向を取得

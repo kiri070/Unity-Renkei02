@@ -142,6 +142,7 @@ MonoBehaviour:
   smork: {fileID: 4016476391329389970, guid: 3ad641078a8264f1f92d3706a34bed7e, type: 3}
   step: {fileID: 1335740066564347515, guid: e0f6c4eef073b4fa7867d666c7d18e60, type: 3}
   killed: {fileID: 8849130375774310947, guid: 58e66bd48199f4d8b9b9fae301831934, type: 3}
+  chargePushAttackEffect: {fileID: 8915112609262080523, guid: bf021dbfd6d83c44e9d1cbd2af76b281, type: 3}
   canJumpAttack: 1
 --- !u!54 &4600302145240230350
 Rigidbody:
