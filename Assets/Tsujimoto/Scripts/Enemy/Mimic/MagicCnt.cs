@@ -22,6 +22,12 @@ public class MagicCnt : MonoBehaviour
     public void Init(Vector3 targetPosition)
     {
         direction = (targetPosition - transform.position).normalized;
+
+        // ターゲットの方向を向く
+        if (direction != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(direction);
+        }
     }
 
     // スピードを設定
@@ -40,6 +46,11 @@ public class MagicCnt : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player1") || other.CompareTag("Player2") || other.gameObject.layer == LayerMask.NameToLayer("BringObj"))
+        {
+            Destroy(gameObject);
+        }
+
+        if (other.CompareTag("Floor"))
         {
             Destroy(gameObject);
         }
