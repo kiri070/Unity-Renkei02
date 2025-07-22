@@ -49,8 +49,8 @@ MonoBehaviour:
   enemyState: 0
   player: {fileID: 0}
   lastPlayerPosition: {x: 0, y: 0, z: 0}
-  boxSize: {x: 1, y: 0.2, z: 1}
-  offset: {x: 0, y: 0.78, z: 0}
+  boxSize: {x: 1.42, y: 0.44, z: 1.36}
+  offset: {x: 0, y: 0.72, z: 0}
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -85,14 +85,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2464379277873846722}
     m_Modifications:
-    - target: {fileID: 5172402266881896398, guid: 6f637dc57c32943b4adb4a5a0a085c5a, type: 3}
-      propertyPath: majicAttackCooltime
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6136845873227956270, guid: 6f637dc57c32943b4adb4a5a0a085c5a, type: 3}
-      propertyPath: detectionRadius
-      value: 17.6
-      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2f5af1932410ee34d95a41827564c0cc, type: 3}
       propertyPath: m_LocalScale.x
       value: 50
@@ -156,6 +148,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 2f5af1932410ee34d95a41827564c0cc, type: 3}
       propertyPath: m_TagString
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 5172402266881896398, guid: 6f637dc57c32943b4adb4a5a0a085c5a, type: 3}
+      propertyPath: majicAttackCooltime
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136845873227956270, guid: 6f637dc57c32943b4adb4a5a0a085c5a, type: 3}
+      propertyPath: detectionRadius
+      value: 17.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
