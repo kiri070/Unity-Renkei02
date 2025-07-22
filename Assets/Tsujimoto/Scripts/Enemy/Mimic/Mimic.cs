@@ -23,7 +23,7 @@ public class Mimic : MonoBehaviour
 
     Renderer renderer;
 
-
+    PlayerMover mover1, mover2; //プレイヤーのスクリプト
 
     [Header("敵本体のコライダー")]
     public Collider bodyCollider;
@@ -56,6 +56,10 @@ public class Mimic : MonoBehaviour
         soundManager = FindObjectOfType<SoundManager>();
         soundsList = FindObjectOfType<SoundsList>();
 
+        GameObject player1 = GameObject.Find("Player1");
+        mover1 = player1.GetComponent<PlayerMover>();
+        GameObject player2 = GameObject.Find("Player2");
+        mover2 = player2.GetComponent<PlayerMover>();
     }
 
     void FixedUpdate()
@@ -127,6 +131,8 @@ public class Mimic : MonoBehaviour
         Collider[] hits = Physics.OverlapBox(center + offset, boxSize / 2, transform.rotation, playerLayer);
         if (hits.Length > 0)
         {
+            if (mover1.canJump || mover2.canJump) return; //ジャンプしていなかったらreturn
+
             PlayerMover pm = FindObjectOfType<PlayerMover>();
             pm.OnStepEnemy(); //音をプレイヤー側で鳴らす
             soundManager.OnPlaySE(soundsList.stepOnPlayer);

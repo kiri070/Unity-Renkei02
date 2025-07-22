@@ -15,8 +15,10 @@ public class GameManager : MonoBehaviour
     public Text countDownText; //最初に表示するカウントダウン
     public GameObject countDownObject; //上記の親
 
-    [Header("ゲーム中にUI")]
+    [Header("ゲーム中のUI")]
     public GameObject GameUI;
+    [Tooltip("残り時間を知らせるUI")]public GameObject timeTextGroup;
+    [Tooltip("残り時間をテキスト")] public Text leftoverTimeText;
 
     [Header("カウントダウンの秒数")]
     [SerializeField]
@@ -92,11 +94,18 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("ClearScene");
         }
 
+        Timer();
+    }
+
+    //タイマー
+    void Timer()
+    {
         //タイマー更新
         if (timerActive)
         {
             timerValue -= Time.deltaTime;
             timerText.text = "残り時間:" + Mathf.Floor(timerValue).ToString();
+            CheckTimerUI();
         }
         //タイマーが0になったら
         if (timerValue <= 0)
@@ -104,6 +113,27 @@ public class GameManager : MonoBehaviour
             GameOverManager.becauseGameOver = "タイムアップ!";
             ToGameOverState();
         }
+    }
+
+    //指定の残り時間ごとにUI表示を切り替える
+    void CheckTimerUI()
+    {
+        int currentSecond = Mathf.FloorToInt(timerValue);
+
+        if(currentSecond % 100 == 0 && currentSecond != 0)
+        {
+            leftoverTimeText.text = "残り時間:" + Mathf.Floor(timerValue).ToString();
+            timeTextGroup.SetActive(true);
+            StopCoroutine(nameof(DelayTimerText));
+            StartCoroutine(DelayTimerText());
+        }
+    }
+
+    //残り時間を知らせるUIを非表示にする
+    IEnumerator DelayTimerText()
+    {
+        yield return new WaitForSeconds(1f);
+        timeTextGroup.SetActive(false);
     }
 
     //お宝の価値を下げる関数
