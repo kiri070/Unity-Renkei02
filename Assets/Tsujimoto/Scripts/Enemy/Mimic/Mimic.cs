@@ -20,6 +20,7 @@ public class Mimic : MonoBehaviour
     [Header("エフェクト")]
     [Tooltip("死んだ時")] public GameObject killed;
     [Tooltip("踏まれた時")] public GameObject step;
+    [Tooltip("チャージ")] public GameObject chargeEffectPrefab;
 
     Renderer renderer;
 
@@ -100,22 +101,36 @@ public class Mimic : MonoBehaviour
         //魔法を召喚
         if (canMajicAttack)
         {
-            //魔法を召喚
-            GameObject magic = Instantiate(majicObj,transform.position + Vector3.up * 2f,Quaternion.identity);
-            // ターゲット座標を渡す
-            magic.GetComponent<MagicCnt>().Init(lastPlayerPosition); //関数呼び出し
-            //魔法の速度を渡す
-            magic.GetComponent<MagicCnt>().SetSpeed(speed); //関数呼び出し
-
-            //効果音再生
-            soundManager.OnPlaySE(soundsList.mimicMagicSE);
-
-            canMajicAttack = false;
-
-            //クールタイム処理開始
-            StartCoroutine(MajicCookTime());
+            StartCoroutine(ChargeAndShoot());
         }
         
+    }
+
+    //チャージエフェクト後に魔法を撃つ
+    IEnumerator ChargeAndShoot()
+    {
+        canMajicAttack = false;
+
+        // チャージ用のエフェクトを生成
+        GameObject chargeEffect = Instantiate(chargeEffectPrefab, transform.position + Vector3.up * 2f, Quaternion.identity);
+
+        // エフェクトの再生時間分待機
+        float chargeTime = 1.5f; //1.5秒待つ
+        yield return new WaitForSeconds(chargeTime);
+
+        // チャージエフェクトを消去
+        Destroy(chargeEffect);
+
+        // 魔法を生成して発射
+        GameObject magic = Instantiate(majicObj, transform.position + Vector3.up * 2f, Quaternion.identity);
+        magic.GetComponent<MagicCnt>().Init(lastPlayerPosition);
+        magic.GetComponent<MagicCnt>().SetSpeed(speed);
+
+        // 発射音
+        soundManager.OnPlaySE(soundsList.mimicMagicSE);
+
+        // クールタイム処理開始
+        StartCoroutine(MajicCookTime());
     }
     //クールタイム処理
     IEnumerator MajicCookTime()

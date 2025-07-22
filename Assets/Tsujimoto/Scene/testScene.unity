@@ -5542,6 +5542,10 @@ PrefabInstance:
       propertyPath: boxSize.z
       value: 1.78
       objectReference: {fileID: 0}
+    - target: {fileID: 6699873683341981901, guid: 547a116dd554444bdbde0e3b720f5fbc, type: 3}
+      propertyPath: chargeEffectPrefab
+      value: 
+      objectReference: {fileID: 8100463367269592151, guid: c523eb8864120c84fbe004594a737fa3, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

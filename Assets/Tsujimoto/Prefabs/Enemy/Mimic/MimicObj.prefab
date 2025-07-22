@@ -59,6 +59,7 @@ MonoBehaviour:
   speed: 10
   killed: {fileID: 8849130375774310947, guid: 58e66bd48199f4d8b9b9fae301831934, type: 3}
   step: {fileID: 1335740066564347515, guid: e0f6c4eef073b4fa7867d666c7d18e60, type: 3}
+  chargeEffectPrefab: {fileID: 8100463367269592151, guid: c523eb8864120c84fbe004594a737fa3, type: 3}
   bodyCollider: {fileID: 1862976200813532196}
 --- !u!114 &3189047479802758794
 MonoBehaviour:
