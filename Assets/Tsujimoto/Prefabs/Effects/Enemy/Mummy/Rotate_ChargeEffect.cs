@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class Rotate_ChargeEffect : MonoBehaviour
 {
-    [Header("ƒ`ƒƒ[ƒWƒGƒtƒFƒNƒg‚Ì‰ñ“]‘¬“x")]
+    [Header("å›è»¢é€Ÿåº¦")]
     public float rotateSpeed = 30f;
 
     void Start()
     {
-        //‘å‚«‚³‚ğ¬‚³‚­‚·‚éƒRƒ‹[ƒ`ƒ“
+        //å¤§ãã•ã‚’å°ã•ãã™ã‚‹
         StartCoroutine(ChangeScale(new Vector3(0f, 0f, 0f), 1.5f));
     }
     void Update()
     {
-        //‰ñ“]
+        //å›è»¢ã€€
         transform.Rotate(0f, 0f, rotateSpeed * Time.deltaTime);
     }
 
-    //‘å‚«‚³‚ğ¬‚³‚­‚µ‚Ä‚¢‚­
+    //å¤§ãã•ã‚’å°ã•ãã™ã‚‹
     IEnumerator ChangeScale(Vector3 targetScale, float duration)
     {
         Vector3 startScale = transform.localScale;
