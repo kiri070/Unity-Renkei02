@@ -129,7 +129,13 @@ public class Pad_UICnt : MonoBehaviour
         MainCanvasGroup.blocksRaycasts = true;
 
         EventSystem.current.SetSelectedGameObject(null); // 現在のフォーカスを外す
+
         if (firstButton != null)
             EventSystem.current.SetSelectedGameObject(firstButton); // メインUIにオブジェクトがあったらフォーカス
+
+        //現在のページのボタンをフォーカス
+        StageSelectManager stageSelectManager = FindObjectOfType<StageSelectManager>();
+        if (stageSelectManager != null)
+            stageSelectManager.ChangePage(stageSelectManager.pageIndex);
     }
 }

@@ -4,14 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 public class StageSelectManager : MonoBehaviour
 {
     public bool stageSelecting = false; //ステージを選択中かどうか
+    public int pageIndex = 0; //現在のページ
+    bool changePageButton = false; //ページを変遷したかどうか
     [Header("ロード画面")]
     public GameObject loadingPanel;
     public Slider loadingSlider;
 
+    [Header("ステージをまとめたページ")][SerializeField] List<GameObject> page;
+    [Header("ステージをまとめたobjグループ")][SerializeField] List<GameObject> stageGropuObj;
     [Header("各ステージの項目(0:チュートリアル,1:ステージ1...)")]
     [Tooltip("ステージのUIグループ")][SerializeField] private List<GameObject> stageGroups;      // UIのGroup（tutorial_Groupやstage1_Groupなど）
     [Tooltip("回転するステージのprefab")][SerializeField] private List<GameObject> stagePrefabs;     // ステージオブジェクト（回転させるやつ）
@@ -27,6 +32,9 @@ public class StageSelectManager : MonoBehaviour
     [Header("ローディング画面に表示するヒント")]
     [Tooltip("ヒントの内容を入力してください")]
     public string[] tips;
+
+    [Header("エフェクト")]
+    [Tooltip("ページ変遷")] public GameObject nextPageEffect;
 
     SoundManager soundManager;
     SoundsList soundsList;
@@ -50,6 +58,10 @@ public class StageSelectManager : MonoBehaviour
         {
             stage_StartScale.Add(stagePrefabs[i].transform.localScale);
         }
+
+        //前回のページに変遷
+        pageIndex = PlayerPrefs.GetInt("PageIndex", 0); // 保存されていなければ0ページ
+        ChangePage(pageIndex);
     }
 
     void Update()
@@ -96,8 +108,77 @@ public class StageSelectManager : MonoBehaviour
                             stagePrefabs[i].transform.localScale = stage_StartScale[i];
                     }
                     break;
+                //ステージ3が選択されている場合
+                case "Stage3_SelectButton":
+                    stagePrefabs[3].transform.Rotate(0f, rotateSpeed * Time.deltaTime, 0f); //回転させる
+                    stagePrefabs[3].transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);   //選択中のステージを大きく
+
+                    //選択しているステージ以外を元の大きさにする
+                    for (int i = 0; i < stagePrefabs.Count; i++)
+                    {
+                        if (i != 3)
+                            stagePrefabs[i].transform.localScale = stage_StartScale[i];
+                    }
+                    break;
             }
         }
+    }
+
+    //次のページに行くボタン
+    public void NextPageButton()
+    {
+        pageIndex++;
+        PlayerPrefs.SetInt("PageIndex", pageIndex); // ページ番号保存
+        changePageButton = true; //ページ変遷ボタンフラグを立てる
+        ChangePage(pageIndex);
+    }
+    //前のページに行くボタン
+    public void BackPageButton()
+    {
+        pageIndex--;
+        PlayerPrefs.SetInt("PageIndex", pageIndex); // ページ番号保存
+        changePageButton = true; //ページ変遷ボタンフラグを立てる
+        ChangePage(pageIndex);
+    }
+
+    //ページ変遷処理
+    public void ChangePage(int index)
+    {
+        // 範囲外チェック
+        if (index < 0 || index >= page.Count)
+        {
+            pageIndex = Mathf.Clamp(index, 0, page.Count - 1);
+            index = pageIndex;
+        }
+        // すべて非表示
+        foreach (var pageUI in page)
+            pageUI.SetActive(false);
+        foreach (var stageObj in stageGropuObj)
+            stageObj.SetActive(false);
+
+        // 対応ページを有効化
+        page[index].SetActive(true);
+        if (index < stageGropuObj.Count)
+            stageGropuObj[index].SetActive(true);
+
+        // 最初のボタンを自動フォーカス
+        FocusFirstButton(page[index]);
+
+        //ページ変遷ボタンを押したらエフェクトを再生
+        if (changePageButton)
+        {
+            GameObject spawnPos = page[index].transform.Find("Effect_SpawnPos").gameObject;
+            Instantiate(nextPageEffect, spawnPos.transform.position, nextPageEffect.transform.rotation);
+            changePageButton = false;
+        }
+        
+    }
+    //ボタンをフォーカスする関数
+    public void FocusFirstButton(GameObject pageObj)
+    {
+        Button firstButton = pageObj.GetComponentInChildren<Button>();
+        if (firstButton != null)
+            EventSystem.current.SetSelectedGameObject(firstButton.gameObject);
     }
 
     //ステージの切り替え関数
@@ -130,10 +211,11 @@ public class StageSelectManager : MonoBehaviour
         int rnd = Random.Range(0, tips.Length);
         tipsText.text = "Tips:" + "<color=yellow>" + tips[rnd] + "</color>";
     }
-    
+
     //ステージ選択に戻るボタン
     public void OnBackStageSelectButton()
     {
+        PlayerPrefs.SetInt("PageIndex", pageIndex); // ページ番号保存
         SceneManager.LoadScene("StageSelect");
     }
 
@@ -156,85 +238,73 @@ public class StageSelectManager : MonoBehaviour
         async.allowSceneActivation = true; //シーン切り替え
     }
 
-    //各ステージに変遷するボタン
-    public void OnLoadStageButton()
+    //各ステージに変遷するボタン(シングルプレイ)
+    public void OnLoad_SingleStageButton()
     {
         // 押されたボタンを取得
         GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
-        //各シーンに変遷
-        switch (clickedButton.name)
-        {
-            //--チュートリアル--
-            //シングルプレイ
-            case "Tutorial_SinglePlay":
-                //効果音を再生
-                soundManager.OnPlaySE(soundsList.clickStage);
-                //ゲームモードをシングルプレイに
-                GameManager.gameMode = GameManager.GameMode.SinglePlayer;
-                StartCoroutine(SceneLoading("TutorialScene"));
-                break;
-            //マルチプレイ
-            case "Tutorial_MultiPlay":
-                //効果音を再生
-                soundManager.OnPlaySE(soundsList.clickStage);
-                //ゲームモードをマルチプレイに
-                GameManager.gameMode = GameManager.GameMode.MultiPlayer;
-                StartCoroutine(SceneLoading("TutorialScene"));
-                break;
+        string buttonName = clickedButton.name;
 
-            //--ステージ1--
-            //シングルプレイ
-            case "Stage1_SinglePlay":
-                //効果音を再生
-                soundManager.OnPlaySE(soundsList.clickStage);
-                //ゲームモードをシングルプレイに
-                GameManager.gameMode = GameManager.GameMode.SinglePlayer;
-                StartCoroutine(SceneLoading("Stage1Scene"));
-                break;
-            //マルチプレイ
-            case "Stage1_MultiPlay":
-                //効果音を再生
-                soundManager.OnPlaySE(soundsList.clickStage);
-                //ゲームモードをマルチプレイに
-                GameManager.gameMode = GameManager.GameMode.MultiPlayer;
-                StartCoroutine(SceneLoading("Stage1Scene"));
-                break;
+        soundManager.OnPlaySE(soundsList.clickStage);
+        GameManager.gameMode = GameManager.GameMode.SinglePlayer;
 
-            //--ステージ2--
-            //シングルプレイ
-            case "Stage2_SinglePlay":
-                //効果音を再生
-                soundManager.OnPlaySE(soundsList.clickStage);
-                //ゲームモードをシングルプレイに
-                GameManager.gameMode = GameManager.GameMode.SinglePlayer;
-                StartCoroutine(SceneLoading("Stage2Scene"));
-                break;
-            //マルチプレイ
-            case "Stage2_MultiPlay":
-                //効果音を再生
-                soundManager.OnPlaySE(soundsList.clickStage);
-                //ゲームモードをマルチプレイに
-                GameManager.gameMode = GameManager.GameMode.MultiPlayer;
-                StartCoroutine(SceneLoading("Stage2Scene"));
-                break;
-        }
+        string sceneName = GetSceneName(buttonName);
+        //シーン名が空でなければ
+        if (!string.IsNullOrEmpty(sceneName))
+            StartCoroutine(SceneLoading(sceneName)); //シーンをロード
     }
+
+    //各ステージに変遷するボタン(マルチプレイ)
+    public void OnLoad_MultiStageButton()
+    {
+        // 押されたボタンを取得
+        GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
+        string buttonName = clickedButton.name;
+
+        soundManager.OnPlaySE(soundsList.clickStage);
+        GameManager.gameMode = GameManager.GameMode.MultiPlayer;
+
+        string sceneName = GetSceneName(buttonName);
+        //シーン名が空でなければ
+        if (!string.IsNullOrEmpty(sceneName))
+            StartCoroutine(SceneLoading(sceneName)); //シーンをロード
+    }
+
+    //ゲームモードボタン名からシーン名を生成する関数
+    private string GetSceneName(string buttonName)
+    {
+        if (buttonName.StartsWith("Tutorial"))
+            return "TutorialScene";
+
+        //例:"Stage1_SinglePlay" → "Stage1Scene"
+        if (buttonName.StartsWith("Stage"))
+        {
+            string stageNum = buttonName.Split('_')[0]; //例:_で区切り、Stage1を取り出す
+            return stageNum + "Scene";
+        }
+        return null;
+    }
+
     //ステージを選択した時のボタン処理
     public void StageSelectButton()
     {
         // 押されたボタンを取得
         GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
-        switch (clickedButton.name)
+
+        string buttonName = clickedButton.name;
+        //チュートリアルの場合
+        if (buttonName.StartsWith("Tutorial"))
         {
-            case "Tutorial_SelectButton":
-                ShowStage(0); // tutorial
-                break;
-            case "Stage1_SelectButton":
-                ShowStage(1); // stage1
-                break;
-            case "Stage2_SelectButton":
-                ShowStage(2); // stage2
-                break;
+            ShowStage(0);
+        }
+        //ステージ1...の場合
+        int stageNum;
+        if (buttonName.StartsWith("Stage"))
+        {
+            string name = buttonName.Split('_')[0]; //_の前半を取得
+            string num = name.Replace("Stage", ""); //Stageを空文字にする
+            int.TryParse(num, out stageNum);        //文字列からint型にする
+            ShowStage(stageNum);                    //ステージ選択関数を呼ぶ
         }
     }
 }

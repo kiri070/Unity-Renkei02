@@ -39,6 +39,8 @@ public class TitleManager : MonoBehaviour
         soundManager.OnPlayBGM(soundsList.tittleBGM); //タイトル画面のBGMを鳴らす
 
         StartCoroutine(DelayDemoScene(delayDemoScene)); //指定の秒数後にデモ動画を流す
+
+        PlayerPrefs.DeleteKey("PageIndex"); //ステージ選択画面のページ番号をリセット
     }
     void Update()
     {
