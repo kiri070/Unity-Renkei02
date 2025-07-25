@@ -67,7 +67,7 @@ public class StageSelectManager : MonoBehaviour
                                                                                             //選択しているステージ以外を元の大きさにする
                     for (int i = 0; i < stagePrefabs.Count; i++)
                     {
-                        if (i != 0)
+                        if (i != 0) //このステージのindexを入れる
                             stagePrefabs[i].transform.localScale = stage_StartScale[i];
                     }
                     break;
@@ -92,7 +92,7 @@ public class StageSelectManager : MonoBehaviour
                     //選択しているステージ以外を元の大きさにする
                     for (int i = 0; i < stagePrefabs.Count; i++)
                     {
-                        if (i != 1)
+                        if (i != 2)
                             stagePrefabs[i].transform.localScale = stage_StartScale[i];
                     }
                     break;
