@@ -10,7 +10,8 @@ public class StageSelectManager : MonoBehaviour
 {
     public bool stageSelecting = false; //ステージを選択中かどうか
     public int pageIndex = 0; //現在のページ
-    bool changePageButton = false; //ページを変遷したかどうか
+    bool nextPageButton = false; //ページを変遷したかどうか
+    bool backPageButton = false; //ページを変遷したかどうか
     [Header("ロード画面")]
     public GameObject loadingPanel;
     public Slider loadingSlider;
@@ -34,7 +35,8 @@ public class StageSelectManager : MonoBehaviour
     public string[] tips;
 
     [Header("エフェクト")]
-    [Tooltip("ページ変遷")] public GameObject nextPageEffect;
+    [Tooltip("ページ変遷:左側")] public GameObject nextPageEffect_Left;
+    [Tooltip("ページ変遷:右側")] public GameObject nextPageEffect_Right;
 
     SoundManager soundManager;
     SoundsList soundsList;
@@ -129,7 +131,7 @@ public class StageSelectManager : MonoBehaviour
     {
         pageIndex++;
         PlayerPrefs.SetInt("PageIndex", pageIndex); // ページ番号保存
-        changePageButton = true; //ページ変遷ボタンフラグを立てる
+        nextPageButton = true; //次のページボタンのフラグを立てる
         ChangePage(pageIndex);
     }
     //前のページに行くボタン
@@ -137,7 +139,7 @@ public class StageSelectManager : MonoBehaviour
     {
         pageIndex--;
         PlayerPrefs.SetInt("PageIndex", pageIndex); // ページ番号保存
-        changePageButton = true; //ページ変遷ボタンフラグを立てる
+        backPageButton = true; //前のページボタンのフラグを立てる
         ChangePage(pageIndex);
     }
 
@@ -164,14 +166,20 @@ public class StageSelectManager : MonoBehaviour
         // 最初のボタンを自動フォーカス
         FocusFirstButton(page[index]);
 
-        //ページ変遷ボタンを押したらエフェクトを再生
-        if (changePageButton)
+        //次のページボタンのエフェクト
+        if (nextPageButton)
         {
-            GameObject spawnPos = page[index].transform.Find("Effect_SpawnPos").gameObject;
-            Instantiate(nextPageEffect, spawnPos.transform.position, nextPageEffect.transform.rotation);
-            changePageButton = false;
+            GameObject nextPos = page[index].transform.Find("EffectSpawnPos_Left").gameObject;
+            Instantiate(nextPageEffect_Left, nextPos.transform.position, nextPageEffect_Left.transform.rotation);
+            nextPageButton = false;
         }
-        
+        //前のページボタンのエフェクト
+        else if (backPageButton)
+        {
+            GameObject nextPos = page[index].transform.Find("EffectSpawnPos_Right").gameObject;
+            Instantiate(nextPageEffect_Right, nextPos.transform.position, nextPageEffect_Right.transform.rotation);
+            backPageButton = false;
+        }
     }
     //ボタンをフォーカスする関数
     public void FocusFirstButton(GameObject pageObj)
