@@ -257,6 +257,7 @@ public class PlayerCnt : MonoBehaviour
 
             mover2.jumpForce = jumpForce;
             mover2.jumping = true;
+
             soundManager.OnPlaySE(soundsList.jumpSE);
         }
     }

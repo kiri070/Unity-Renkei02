@@ -52,7 +52,7 @@ public class PlayerMover : MonoBehaviour
     Queue<GameObject> effectPool = new Queue<GameObject>(); //キュー
 
     bool canMove = true; //動けるかどうか
-    
+
     [Header("敵衝突時のノックバック:水平方向")][SerializeField] float nockBack_Horizontal = 30f;
     [Header("敵衝突時のノックバック:垂直方向")][SerializeField] float nockBack_Vertical = 10f;
     [Header("ノックバック時の操作不能から回復する時間")][SerializeField] float recoveryKnockbackTime = 0.7f; //ノックバックの操作の操作不能から回復する時間
