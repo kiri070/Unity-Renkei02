@@ -1,0 +1,66 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class UnderOverGimic_Manager : MonoBehaviour
+{
+    bool player1_Ongimic = false; //プレイヤー1の上下ギミックフラグ
+    bool player2_Ongimic = false; //プレイヤー2の上下ギミックフラグ
+    bool treasureBox_Ongimic = false; //宝箱の上下ギミックフラグ
+    GameObject gimicCamera, mainCamera; //それぞれのカメラ
+    void Start()
+    {
+        //それぞれのカメラを取得
+        mainCamera = GameObject.Find("MainCamera");
+        gimicCamera = GameObject.Find("GimicCamera");
+    }
+
+    void Update()
+    {
+        //上下ギミックに乗ったら
+        if (player1_Ongimic && player2_Ongimic && treasureBox_Ongimic)
+        {
+            PlayerCnt playerCnt = FindObjectOfType<PlayerCnt>();
+            playerCnt.OnUnder_OverGimic = true; //上下ギミック起動フラグを立てる
+            //カメラを切り替える
+            mainCamera.SetActive(false);
+            gimicCamera.GetComponent<Camera>().enabled = true;
+
+            WarpToGimic(); //上下ギミックにスポーンさせる
+        }
+    }
+
+    //上下ギミックにスポーンさせる関数
+    void WarpToGimic()
+    {
+        //それぞれのスポーンポイントを取得
+        Vector3 player1_SpawnPos = GameObject.Find("Player1_GimicSpawnPos").transform.position;
+        Vector3 player2_SpawnPos = GameObject.Find("Player2_GimicSpawnPos").transform.position;
+        Vector3 treasureBox_SpawnPos = GameObject.Find("TreasureBox_GimicSpawnPos").transform.position;
+
+        //それぞれのオブジェクトを取得
+        GameObject player1 = GameObject.Find("Player1");
+        GameObject player2 = GameObject.Find("Player2");
+        GameObject treasureBox = GameObject.Find("TreasureGroup");
+
+        //それぞれのスポーンポイントにスポーン
+        player1.transform.position = player1_SpawnPos;
+        player2.transform.position = player2_SpawnPos;
+        treasureBox.transform.position = treasureBox_SpawnPos;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        //上下ギミック起動装置に乗った時
+        if (other.CompareTag("Player1")) player1_Ongimic = true;
+        if (other.CompareTag("Player2")) player2_Ongimic = true;
+        if (other.gameObject.layer == LayerMask.NameToLayer("BringObj")) treasureBox_Ongimic = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        //上下ギミック起動装置から離れた時
+        if (other.CompareTag("Player1")) player1_Ongimic = false;
+        if (other.CompareTag("Player2")) player2_Ongimic = false;
+        if (other.gameObject.layer == LayerMask.NameToLayer("BringObj")) treasureBox_Ongimic = false;
+    }
+}

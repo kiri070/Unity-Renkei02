@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 public class PlayerCnt : MonoBehaviour
@@ -65,6 +66,8 @@ public class PlayerCnt : MonoBehaviour
     //ゴール関連
     GoalScr goalScr; //ゴールスクリプト
     public GameObject pos1, pos2, treasurePos;
+
+    [HideInInspector]public bool OnUnder_OverGimic = false; //上下ギミック起動中のフラグ
 
 
     public Camera[] targetCameras; //カメラの対象設定用の配列 *追加部分
@@ -236,30 +239,58 @@ public class PlayerCnt : MonoBehaviour
     //Player1:ジャンプ(マルチ用)
     void OnPlayer1Jump(InputAction.CallbackContext ctx)
     {
-        if (mover1 != null && mover1.canJump && mover2 != null && mover2.canJump)
+        if (!OnUnder_OverGimic) //通常時
         {
-            mover1.jumpForce = jumpForce;
-            mover1.jumping = true;
+            if (mover1 != null && mover1.canJump && mover2 != null && mover2.canJump)
+            {
+                mover1.jumpForce = jumpForce;
+                mover1.jumping = true;
 
-            mover2.jumpForce = jumpForce;
-            mover2.jumping = true;
+                mover2.jumpForce = jumpForce;
+                mover2.jumping = true;
 
-            soundManager.OnPlaySE(soundsList.jumpSE);
+                soundManager.OnPlaySE(soundsList.jumpSE);
+            }
         }
+        else if (OnUnder_OverGimic) //上下ギミック起動時
+        {
+            if (mover1 != null && mover1.canJump)
+            {
+                mover1.jumpForce = jumpForce;
+                mover1.jumping = true;
+
+                soundManager.OnPlaySE(soundsList.jumpSE);
+            }
+        }
+        
     }
     //Player2:ジャンプ(マルチ用)
     void OnPlayer2Jump(InputAction.CallbackContext ctx)
     {
-        if (mover2 != null && mover2.canJump && mover1 != null && mover1.canJump)
+        if (!OnUnder_OverGimic) //通常時
         {
-            mover1.jumpForce = jumpForce;
-            mover1.jumping = true;
+            if (mover2 != null && mover2.canJump && mover1 != null && mover1.canJump)
+            {
+                mover1.jumpForce = jumpForce;
+                mover1.jumping = true;
 
-            mover2.jumpForce = jumpForce;
-            mover2.jumping = true;
+                mover2.jumpForce = jumpForce;
+                mover2.jumping = true;
 
-            soundManager.OnPlaySE(soundsList.jumpSE);
+                soundManager.OnPlaySE(soundsList.jumpSE);
+            }
         }
+        else if (OnUnder_OverGimic) //上下ギミック起動時
+        {
+            if (mover1 != null && mover1.canJump)
+            {
+                mover1.jumpForce = jumpForce;
+                mover1.jumping = true;
+
+                soundManager.OnPlaySE(soundsList.jumpSE);
+            }
+        }
+        
     }
 
     //シングルプレイ用
@@ -268,42 +299,99 @@ public class PlayerCnt : MonoBehaviour
         if (GameManager.state == GameManager.GameState.Playing)
         {
             //Player1:移動(キーボードとコントローラー対応)
-            Vector2 input1 = controls.Player.Move1.ReadValue<Vector2>();
-            Vector3 moveDir1 = new Vector3(input1.x, 0f, input1.y); // y→Z軸へ
-            mover1.Assignment(moveDir1 * moveSpeed);
+            if (!OnUnder_OverGimic) //通常時
+            {
+                Vector2 input1 = controls.Player.Move1.ReadValue<Vector2>();
+                Vector3 moveDir1 = new Vector3(input1.x, 0f, input1.y); // y→Z軸へ
+                mover1.Assignment(moveDir1 * moveSpeed);
+            }
+            else if (OnUnder_OverGimic) //上下ギミック起動時
+            {
+                Vector2 input1 = controls.Player.Move1.ReadValue<Vector2>();
+
+                // X方向の入力を無視して、Z方向だけ使う
+                Vector3 moveDir1 = new Vector3(0f, 0f, input1.x);
+
+                mover1.Assignment(moveDir1 * moveSpeed);
+            }
+
 
             //Player2:移動(キーボードとコントローラー対応)
-            Vector2 input2 = controls.Player.Move2.ReadValue<Vector2>();
-            Vector3 moveDir2 = new Vector3(input2.x, 0f, input2.y); // y→Z軸へ
-            mover2.Assignment(moveDir2 * moveSpeed);
+            if (!OnUnder_OverGimic) //通常時
+            {
+                Vector2 input2 = controls.Player.Move2.ReadValue<Vector2>();
+                Vector3 moveDir2 = new Vector3(input2.x, 0f, input2.y); // y→Z軸へ
+                mover2.Assignment(moveDir2 * moveSpeed);
+            }
+            else if (OnUnder_OverGimic) //上下ギミック起動時
+            {
+                Vector2 input2 = controls.Player.Move2.ReadValue<Vector2>();
+
+                // Z軸＝左右、Y軸＝上下
+                Vector3 moveDir2 = new Vector3(0f, input2.y, input2.x);
+
+                mover2.Assignment(moveDir2 * moveSpeed);
+
+                // 常に重力オフ（ふわふわ）
+                mover2.GetComponent<Rigidbody>().useGravity = false;
+            }
+
 
             //ジャンプ入力1
             controls.Player.Jump.performed += ctx =>
             {
-                if (mover1.canJump && mover2.canJump)
+                if (!OnUnder_OverGimic) //通常時
                 {
-                    mover1.jumpForce = this.jumpForce;
-                    mover1.jumping = true;
+                    if (mover1.canJump && mover2.canJump)
+                    {
+                        mover1.jumpForce = this.jumpForce;
+                        mover1.jumping = true;
 
-                    mover2.jumpForce = this.jumpForce;
-                    mover2.jumping = true;
+                        mover2.jumpForce = this.jumpForce;
+                        mover2.jumping = true;
 
-                    soundManager.OnPlaySE(soundsList.jumpSE);
+                        soundManager.OnPlaySE(soundsList.jumpSE);
+                    }
                 }
+                else if (OnUnder_OverGimic) //上下ギミック起動時
+                {
+                    if (mover1.canJump)
+                    {
+                        mover1.jumpForce = this.jumpForce;
+                        mover1.jumping = true;
+
+                        soundManager.OnPlaySE(soundsList.jumpSE);
+                    }
+                }
+                
             };
             //ジャンプ入力2
             controls.Player.Jump2.performed += ContextMenu =>
             {
-                if (mover1.canJump && mover2.canJump)
+                if (!OnUnder_OverGimic) //通常時
                 {
-                    mover1.jumpForce = this.jumpForce;
-                    mover1.jumping = true;
+                    if (mover1.canJump && mover2.canJump)
+                    {
+                        mover1.jumpForce = this.jumpForce;
+                        mover1.jumping = true;
 
-                    mover2.jumpForce = this.jumpForce;
-                    mover2.jumping = true;
+                        mover2.jumpForce = this.jumpForce;
+                        mover2.jumping = true;
 
-                    soundManager.OnPlaySE(soundsList.jumpSE);
+                        soundManager.OnPlaySE(soundsList.jumpSE);
+                    }
                 }
+                else if (OnUnder_OverGimic) //上下ギミック起動時
+                {
+                    if (mover1.canJump)
+                    {
+                        mover1.jumpForce = this.jumpForce;
+                        mover1.jumping = true;
+
+                        soundManager.OnPlaySE(soundsList.jumpSE);
+                    }
+                }
+                
             };
 
             //*追加部分
@@ -323,14 +411,39 @@ public class PlayerCnt : MonoBehaviour
         if (GameManager.state == GameManager.GameState.Playing)
         {
             //Player1:移動(キーボードとコントローラー対応)
-            Vector2 input1 = controls1.Player1.Move.ReadValue<Vector2>();
-            Vector3 moveDir1 = new Vector3(input1.x, 0f, input1.y); // y→Z軸へ
-            mover1.Assignment(moveDir1 * moveSpeed);
+            if (!OnUnder_OverGimic) //通常時
+            {
+                Vector2 input1 = controls1.Player1.Move.ReadValue<Vector2>();
+                Vector3 moveDir1 = new Vector3(input1.x, 0f, input1.y); // y→Z軸へ
+                mover1.Assignment(moveDir1 * moveSpeed);
+            }
+            else if (OnUnder_OverGimic) //上下ギミック起動時
+            {
+                Vector2 input1 = controls1.Player1.Move.ReadValue<Vector2>();
+                // X方向の入力を無視して、Z方向だけ使う
+                Vector3 moveDir1 = new Vector3(0f, 0f, input1.x);
+                mover1.Assignment(moveDir1 * moveSpeed);
+            }
 
             //Player2:移動(キーボードとコントローラー対応)
-            Vector2 input2 = controls2.Player2.Move.ReadValue<Vector2>();
-            Vector3 moveDir2 = new Vector3(input2.x, 0f, input2.y); // y→Z軸へ
-            mover2.Assignment(moveDir2 * moveSpeed);
+            if (!OnUnder_OverGimic) //通常時
+            {
+                Vector2 input2 = controls2.Player2.Move.ReadValue<Vector2>();
+                Vector3 moveDir2 = new Vector3(input2.x, 0f, input2.y); // y→Z軸へ
+                mover2.Assignment(moveDir2 * moveSpeed);
+            }
+            else if (OnUnder_OverGimic) //上下ギミック起動時
+            {
+                Vector2 input2 = controls2.Player2.Move.ReadValue<Vector2>();
+
+                // Z軸＝左右、Y軸＝上下
+                Vector3 moveDir2 = new Vector3(0f, input2.y, input2.x);
+
+                mover2.Assignment(moveDir2 * moveSpeed);
+
+                // 常に重力オフ（ふわふわ）
+                mover2.GetComponent<Rigidbody>().useGravity = false;
+            }           
         }
     }
     void SwapPlayerControl() //*追加部分
