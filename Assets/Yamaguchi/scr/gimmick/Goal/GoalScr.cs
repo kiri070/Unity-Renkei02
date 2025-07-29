@@ -36,7 +36,7 @@ public class GoalScr : MonoBehaviour
         // {
         //    PlayerMover.GameClear();
         // }
-        
+
         //ゴールしたら
         if (!isClearTriggered && GoalOne && GoalTwo && GoalTreasure)
         {
@@ -68,6 +68,23 @@ public class GoalScr : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("BringObj"))
         {
             GoalTreasure = true;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        //Goalに触れたら
+        if (other.CompareTag("Player1"))
+        {
+            GoalOne = false;
+        }
+        if (other.CompareTag("Player2"))
+        {
+            GoalTwo = false;
+        }
+        if (other.gameObject.layer == LayerMask.NameToLayer("BringObj"))
+        {
+            GoalTreasure = false;
         }
     }
 

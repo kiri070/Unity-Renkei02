@@ -11,6 +11,10 @@ public class CannonBall : MonoBehaviour
 
     [Header("エフェクト")]
     [Tooltip("弾が当たった時")][SerializeField] GameObject hitEffect;
+    [Header("自動削除")]
+
+    [Tooltip("弾が自動的に消えるまでの秒数")][SerializeField] float lifeTime = 7f;
+
 
     void Start()
     {
@@ -43,7 +47,7 @@ public class CannonBall : MonoBehaviour
     //指定の秒数後に削除
     IEnumerator DestroyBall()
     {
-        yield return new WaitForSeconds(7f);
+        yield return new WaitForSeconds(lifeTime);
         Destroy(gameObject);
     }
 }

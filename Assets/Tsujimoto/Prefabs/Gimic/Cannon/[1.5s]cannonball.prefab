@@ -160,3 +160,4 @@ MonoBehaviour:
   radius: 5
   upForce: 0.3
   hitEffect: {fileID: 3991241384374552678, guid: 38be265d79ac849df8d39a7af1df61b6, type: 3}
+  lifeTime: 1.5
