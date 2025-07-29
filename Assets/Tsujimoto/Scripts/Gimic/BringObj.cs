@@ -19,6 +19,7 @@ public class BringObj : MonoBehaviour
 
     [Header("エフェクト")]
     [Tooltip("攻撃を食らった時")] public GameObject damegedEffect;
+    [Tooltip("宝箱を運んでいない時")] public GameObject boxPos_Effeect;
 
     Camera gameCamera;
     CameraCnt cameraCnt;
@@ -49,6 +50,17 @@ public class BringObj : MonoBehaviour
         {
             col.isTrigger = false;
             rb.useGravity = true;
+        }
+
+        //宝箱が運ばれていない時
+        if (!playerCnt.isPlayer1BringObj && !playerCnt.isPlayer2BringObj)
+        {
+            boxPos_Effeect.SetActive(true);
+        }
+        //運ばれている時
+        else
+        {
+            boxPos_Effeect.SetActive(false);
         }
     }
 
