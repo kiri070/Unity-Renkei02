@@ -116,9 +116,21 @@ public class PlayerMover : MonoBehaviour
         // 物体を検索
         Collider[] hits = Physics.OverlapBox(center, boxSize / 2, Quaternion.identity, objLayer);
 
+        BringObj bringObj = FindObjectOfType<BringObj>();
+
         //オブジェクトが範囲内かつ、持つボタンを押したら
         if (hits.Length > 0 && isBring)
         {
+            //宝箱を運んでいる時は運搬中フラグを立てる
+            if (playerIndex == 1)
+            {
+                bringObj.player1_isBringing = true;
+            }
+            else
+            {
+                bringObj.player2_isBringing = true;
+            }
+
             heldObject = hits[0].attachedRigidbody;
             if (heldObject != null)
             {
@@ -139,6 +151,19 @@ public class PlayerMover : MonoBehaviour
         {
             if (heldObject != null)
             {
+                //宝箱を運んでいない時は運搬中フラグをオフ
+                if (bringObj != null)
+                {
+                    if (playerIndex == 1)
+                    {
+                        bringObj.player1_isBringing = false;
+                    }
+                    else
+                    {
+                        bringObj.player2_isBringing = false;
+                    }
+                }
+
                 if (!playerCnt.OnUnder_OverGimic) //通常時
                 {
                     Collider obj_Col = heldObject.GetComponent<Collider>();
@@ -146,7 +171,6 @@ public class PlayerMover : MonoBehaviour
                     heldObject.useGravity = true;
                     heldObject = null;
                 }
-                //バグありかも
                 else if (playerCnt.OnUnder_OverGimic && playerIndex == 1) //上下ギミック起動時
                 {
                     Collider obj_Col = heldObject.GetComponent<Collider>();

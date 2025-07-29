@@ -11,6 +11,9 @@ public class BringObj : MonoBehaviour
     GameManager gameManager;
     PlayerCnt playerCnt;
 
+    public bool player1_isBringing = false; //宝箱が運ばれているか
+    public bool player2_isBringing = false; //宝箱が運ばれているか
+
     [Header("宝箱")]
     public GameObject treasure_full;
     public GameObject treasure_half;
@@ -53,7 +56,7 @@ public class BringObj : MonoBehaviour
         }
 
         //宝箱が運ばれていない時
-        if (!playerCnt.isPlayer1BringObj && !playerCnt.isPlayer2BringObj)
+        if (!player1_isBringing && !player2_isBringing)
         {
             boxPos_Effeect.SetActive(true);
         }
