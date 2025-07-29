@@ -167,6 +167,7 @@ public class PlayerCnt : MonoBehaviour
         controls.Player.Bring1.canceled += ctx =>
         {
             if (GameManager.state != GameManager.GameState.Playing) return;
+            if (OnUnder_OverGimic) return; //上下ギミック中は宝箱を常に持った状態
             isPlayer1BringObj = false;
         };
         //Player2:荷物を持つ
@@ -199,6 +200,7 @@ public class PlayerCnt : MonoBehaviour
         controls1.Player1.Bring.canceled += ctx =>
         {
             if (GameManager.state != GameManager.GameState.Playing) return;
+            if (OnUnder_OverGimic) return; //上下ギミック中は宝箱を常に持った状態
             isPlayer1BringObj = false;
         };
         //L2
@@ -210,6 +212,7 @@ public class PlayerCnt : MonoBehaviour
         controls1.Player1.Bring2.canceled += ctx =>
         {
             if (GameManager.state != GameManager.GameState.Playing) return;
+            if (OnUnder_OverGimic) return; //上下ギミック中は宝箱を常に持った状態
             isPlayer1BringObj = false;
         };
         //Player2:荷物を持つ

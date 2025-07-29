@@ -163,7 +163,7 @@ public class PlayerMover : MonoBehaviour
                     }
                     heldObject = null;
                 }
-                
+
             }
         }
     }
@@ -198,7 +198,7 @@ public class PlayerMover : MonoBehaviour
             {
                 rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
             }
-            
+
         }
 
         // 向き変更（移動中のみ）
@@ -217,17 +217,6 @@ public class PlayerMover : MonoBehaviour
 
                 Quaternion targetRotation = Quaternion.LookRotation(lookDir.normalized);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f);
-            }
-            else if (playerIndex == 1 && playerCnt.OnUnder_OverGimic) //上下ギミック起動中かつ、player2なら
-            {
-                // Y軸回転だけに制限するため、moveのY成分を0にする（水平成分だけに）
-                lookDir = new Vector3(move.x, 0f, move.z);
-
-                // moveの水平成分が0なら回転しない（正面向きのまま）
-                if (lookDir.sqrMagnitude < 0.001f) return;
-
-                Quaternion targetRotation = Quaternion.LookRotation(lookDir.normalized);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 20f);
             }
             else
             {
