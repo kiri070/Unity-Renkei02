@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
 
         //初期化
         ToPausedState(); //ポーズ状態
-        
+
         StartCoroutine(CountDown()); //スタートまでのカウントダウン開始
     }
 

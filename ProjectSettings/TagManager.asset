@@ -22,7 +22,6 @@ TagManager:
   - Bound
   - CannonBall
   - Treasure
-  - UnderOverGimic
   layers:
   - Default
   - TransparentFX

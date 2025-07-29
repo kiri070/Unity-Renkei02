@@ -611,7 +611,7 @@ Transform:
   m_GameObject: {fileID: 115655349}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2, y: 10.900001, z: -4}
+  m_LocalPosition: {x: -1.87, y: 10.900001, z: -4}
   m_LocalScale: {x: 1, y: 34.077, z: 118.52897}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4044,7 +4044,7 @@ Transform:
   m_GameObject: {fileID: 838482364}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.0999985, y: 10.900001, z: -4}
+  m_LocalPosition: {x: 2.53, y: 10.900001, z: -4}
   m_LocalScale: {x: 1, y: 34.077, z: 118.52897}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6734,7 +6734,7 @@ GameObject:
   - component: {fileID: 1362917661}
   m_Layer: 0
   m_Name: UnderOverGimic
-  m_TagString: UnderOverGimic
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9937,6 +9937,7 @@ MonoBehaviour:
   pos1: {fileID: 0}
   pos2: {fileID: 0}
   treasurePos: {fileID: 0}
+  OnUnder_OverGimic: 0
   targetCameras:
   - {fileID: 900573868}
   playerFirePoint1: {fileID: 504670551}
