@@ -477,6 +477,11 @@ public class PlayerCnt : MonoBehaviour
     //スタート地点にスポーンさせる関数
     public void SpwanStartPoint()
     {
+        //宝箱の運搬中フラグをオフ
+        BringObj bringobj = FindObjectOfType<BringObj>();
+        bringobj.player1_isBringing = false;
+        bringobj.player2_isBringing = false;
+
         //動かないように
         mover1.GetComponent<Rigidbody>().velocity = Vector3.zero;
         mover2.GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -488,7 +493,7 @@ public class PlayerCnt : MonoBehaviour
         //スポーンエフェクト再生
         Instantiate(spawnEffect, player1_SpawnEffectPoint.transform.position, spawnEffect.transform.rotation);
         Instantiate(spawnEffect, player2_SpawnEffectPoint.transform.position, spawnEffect.transform.rotation);
-        
+
         mover1.transform.position = player1_StartPoint.transform.position;
         mover2.transform.position = player2_StartPoint.transform.position;
 
@@ -498,6 +503,11 @@ public class PlayerCnt : MonoBehaviour
     //チェックポイントにスポーンさせる関数
     public void SpawnCheckPoint()
     {
+        //宝箱の運搬中フラグをオフ
+        BringObj bringobj = FindObjectOfType<BringObj>();
+        bringobj.player1_isBringing = false;
+        bringobj.player2_isBringing = false;
+        
         //動かないように
         mover1.GetComponent<Rigidbody>().velocity = Vector3.zero;
         mover2.GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -507,7 +517,7 @@ public class PlayerCnt : MonoBehaviour
         foreach (BringObj bo in bringObj) bo.ReSpawnBox();
 
         //スポーンポイントを格納
-        GameObject spawn1 = currentCheckPoint.transform.Find("Player1_Spawn").gameObject; 
+        GameObject spawn1 = currentCheckPoint.transform.Find("Player1_Spawn").gameObject;
         GameObject spawn2 = currentCheckPoint.transform.Find("Player2_Spawn").gameObject;
         GameObject spawn3 = currentCheckPoint.transform.Find("Treasure_Spawn").gameObject;
         //スポーンエフェクト再生
