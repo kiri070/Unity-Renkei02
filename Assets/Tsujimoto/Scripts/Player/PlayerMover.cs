@@ -52,6 +52,7 @@ public class PlayerMover : MonoBehaviour
     Queue<GameObject> effectPool = new Queue<GameObject>(); //キュー
 
     bool canMove = true; //動けるかどうか
+    [HideInInspector] public bool useTrampoline = false; //トランポリンを使用中かどうか
 
     [Header("敵衝突時のノックバック:水平方向")][SerializeField] float nockBack_Horizontal = 30f;
     [Header("敵衝突時のノックバック:垂直方向")][SerializeField] float nockBack_Vertical = 10f;
@@ -116,9 +117,21 @@ public class PlayerMover : MonoBehaviour
         // 物体を検索
         Collider[] hits = Physics.OverlapBox(center, boxSize / 2, Quaternion.identity, objLayer);
 
+        BringObj bringObj = FindObjectOfType<BringObj>();
+
         //オブジェクトが範囲内かつ、持つボタンを押したら
         if (hits.Length > 0 && isBring)
         {
+            //宝箱を運んでいる時は運搬中フラグを立てる
+            if (playerIndex == 1)
+            {
+                bringObj.player1_isBringing = true;
+            }
+            else
+            {
+                bringObj.player2_isBringing = true;
+            }
+
             heldObject = hits[0].attachedRigidbody;
             if (heldObject != null)
             {
@@ -139,6 +152,19 @@ public class PlayerMover : MonoBehaviour
         {
             if (heldObject != null)
             {
+                //宝箱を運んでいない時は運搬中フラグをオフ
+                if (bringObj != null)
+                {
+                    if (playerIndex == 1)
+                    {
+                        bringObj.player1_isBringing = false;
+                    }
+                    else
+                    {
+                        bringObj.player2_isBringing = false;
+                    }
+                }
+
                 if (!playerCnt.OnUnder_OverGimic) //通常時
                 {
                     Collider obj_Col = heldObject.GetComponent<Collider>();
@@ -146,24 +172,6 @@ public class PlayerMover : MonoBehaviour
                     heldObject.useGravity = true;
                     heldObject = null;
                 }
-                //バグありかも
-                else if (playerCnt.OnUnder_OverGimic && playerIndex == 1) //上下ギミック起動時
-                {
-                    Collider obj_Col = heldObject.GetComponent<Collider>();
-                    if (obj_Col != null) obj_Col.isTrigger = false;
-
-                    heldObject.useGravity = true;
-
-                    Rigidbody heldRb = heldObject.GetComponent<Rigidbody>();
-                    if (heldRb != null)
-                    {
-                        Vector3 targetPos = transform.position + transform.forward * 0.5f;
-                        Vector3 direction = (targetPos - heldRb.position);
-                        heldRb.velocity = direction * 10f; // 10f はスピード。調整可
-                    }
-                    heldObject = null;
-                }
-
             }
         }
     }
@@ -190,44 +198,18 @@ public class PlayerMover : MonoBehaviour
         //通常の移動
         else
         {
-            if (playerIndex == 2 && playerCnt.OnUnder_OverGimic) //上下ギミック起動中かつ、プレイヤー2なら
-            {
-                rb.velocity = new Vector3(move.x, move.y, move.z);
-            }
-            else
-            {
-                rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
-            }
-
+            rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
         }
 
         // 向き変更（移動中のみ）
         if (move.magnitude > 0.1f)
         {
-            // Quaternion targetRotation = Quaternion.LookRotation(move);
-            // transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f);
-            Vector3 lookDir;
-            if (playerIndex == 2 && playerCnt.OnUnder_OverGimic) //上下ギミック起動中かつ、player2なら
-            {
-                // Y軸回転だけに制限するため、moveのY成分を0にする（水平成分だけに）
-                lookDir = new Vector3(move.x, 0f, move.z);
-
-                // moveの水平成分が0なら回転しない（正面向きのまま）
-                if (lookDir.sqrMagnitude < 0.001f) return;
-
-                Quaternion targetRotation = Quaternion.LookRotation(lookDir.normalized);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f);
-            }
-            else
-            {
-                // Player1などは今まで通りの回転
-                Quaternion targetRotation = Quaternion.LookRotation(move);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f);
-            }
+            Quaternion targetRotation = Quaternion.LookRotation(move);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f);
         }
 
         //ジャンプ
-        if (jumping)
+        if (jumping && !useTrampoline)
         {
             rb.AddForce(0f, jumpForce, 0f, ForceMode.Impulse);
             jumping = false;
@@ -322,6 +304,14 @@ public class PlayerMover : MonoBehaviour
             canJump = true;
             touchDeathArea = false;
             Instantiate(jumpEffect, transform.position, Quaternion.identity);
+        }
+        //トランポリン使用後に地面に触れたら
+        if (other.gameObject.CompareTag("Floor") && useTrampoline) useTrampoline = false; //トランポリン使用中フラグをオフ
+        //トランポリンに触れたら
+        if (other.gameObject.CompareTag("Bound"))
+        {
+            rb.AddForce(0f, 50f, 0f, ForceMode.Impulse);
+            useTrampoline = true; //トランポリン使用中フラグを立てる
         }
         //敵に触れたら
         if (other.gameObject.CompareTag("Enemy"))
@@ -456,7 +446,7 @@ public class PlayerMover : MonoBehaviour
                 StartCoroutine(RecoveryKnockback(recoveryKnockbackTime));
                 StartCoroutine(cameraCnt.ShakeCamera(0.7f, 1f)); //カメラを揺らす
             }
-            
+
         }
         //お宝回復に触れたら
         if (other.CompareTag("Treasure"))

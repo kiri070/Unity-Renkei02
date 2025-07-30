@@ -11,6 +11,9 @@ public class BringObj : MonoBehaviour
     GameManager gameManager;
     PlayerCnt playerCnt;
 
+    public bool player1_isBringing = false; //宝箱が運ばれているか
+    public bool player2_isBringing = false; //宝箱が運ばれているか
+
     [Header("宝箱")]
     public GameObject treasure_full;
     public GameObject treasure_half;
@@ -19,6 +22,7 @@ public class BringObj : MonoBehaviour
 
     [Header("エフェクト")]
     [Tooltip("攻撃を食らった時")] public GameObject damegedEffect;
+    [Tooltip("宝箱を運んでいない時")] public GameObject boxPos_Effeect;
 
     Camera gameCamera;
     CameraCnt cameraCnt;
@@ -49,6 +53,17 @@ public class BringObj : MonoBehaviour
         {
             col.isTrigger = false;
             rb.useGravity = true;
+        }
+
+        //宝箱が運ばれていない時
+        if (!player1_isBringing && !player2_isBringing)
+        {
+            boxPos_Effeect.SetActive(true);
+        }
+        //運ばれている時
+        else
+        {
+            boxPos_Effeect.SetActive(false);
         }
     }
 
