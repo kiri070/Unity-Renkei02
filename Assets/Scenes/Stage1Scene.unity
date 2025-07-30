@@ -4860,6 +4860,7 @@ MonoBehaviour:
   nockBackEffect: {fileID: 3342264271403622667, guid: 22f9c3e8141d94239b9f581787ce2342, type: 3}
   jumpEffect: {fileID: 4016476391329389970, guid: 97f466f58e0d3418c94ff139f0428d87, type: 3}
   frozenEffect: {fileID: 8181396932745774138, guid: fbe4c939d632e459ba44bd93dae32381, type: 3}
+  useTrampoline: 0
   nockBack_Horizontal: 20
   nockBack_Vertical: 7
   recoveryKnockbackTime: 0.5
@@ -5663,6 +5664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceFactor: 0.15
+  trampolineZoomout: 4
 --- !u!81 &1640535789
 AudioListener:
   m_ObjectHideFlags: 0
@@ -6305,7 +6307,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3744461032846205915, guid: 48138d6d25f8a4d06a9604313e35bd25, type: 3}
       propertyPath: m_TagString
-      value: DeathArea
+      value: GameOverWall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7302,6 +7304,7 @@ MonoBehaviour:
   nockBackEffect: {fileID: 3342264271403622667, guid: 22f9c3e8141d94239b9f581787ce2342, type: 3}
   jumpEffect: {fileID: 4016476391329389970, guid: 97f466f58e0d3418c94ff139f0428d87, type: 3}
   frozenEffect: {fileID: 8181396932745774138, guid: fbe4c939d632e459ba44bd93dae32381, type: 3}
+  useTrampoline: 0
   nockBack_Horizontal: 20
   nockBack_Vertical: 7
   recoveryKnockbackTime: 0.5

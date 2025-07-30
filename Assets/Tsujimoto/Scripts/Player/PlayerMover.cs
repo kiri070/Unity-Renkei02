@@ -377,6 +377,33 @@ public class PlayerMover : MonoBehaviour
             // StartCoroutine(DelayLoadScene2(1.5f)); //遅延してシーン変遷
             // GameManager.ToGameOverState();
         }
+        //画面外判定なら
+        if (other.CompareTag("GameOverWall") && !playerCnt.invincible)
+        {
+            soundManager.OnPlaySE(soundsList.fallSE); //SE
+            if (!playerCnt.currentCheckPoint)
+            {
+                touchDeathArea = true;
+                //タイマー減少
+                gameManager.DecreaseTimer(gameManager.decreaseFallTimer);
+
+                //スタート地点に戻る
+                playerCnt.SpwanStartPoint();
+            }
+            else
+            {
+                touchDeathArea = true;
+                //タイマー減少
+                gameManager.DecreaseTimer(gameManager.decreaseFallTimer);
+                playerCnt.SpawnCheckPoint();
+            }
+
+
+            // GameOverManager.becauseGameOver = "落下してしまった!!"; //死因
+            // soundManager.OnPlaySE(soundsList.explosionSE);
+            // StartCoroutine(DelayLoadScene2(1.5f)); //遅延してシーン変遷
+            // GameManager.ToGameOverState();
+        }
         //魔法に当たったら
         if (other.CompareTag("Majic"))
         {
