@@ -263,9 +263,9 @@ public class PlayerCnt : MonoBehaviour
         //プレイヤー2がトランポリンを使用中の場合
         else if (mover1.canJump && mover2.useTrampoline)
         {
-            //プレイヤー2をジャンプさせる
-            mover2.jumpForce = jumpForce;
-            mover2.jumping = true;
+            //プレイヤー1をジャンプさせる
+            mover1.jumpForce = jumpForce;
+            mover1.jumping = true;
 
             soundManager.OnPlaySE(soundsList.jumpSE);
         }
@@ -297,9 +297,9 @@ public class PlayerCnt : MonoBehaviour
         //プレイヤー2がトランポリンを使用中の場合
         else if (mover1.canJump && mover2.useTrampoline)
         {
-            //プレイヤー2をジャンプさせる
-            mover2.jumpForce = jumpForce;
-            mover2.jumping = true;
+            //プレイヤー1をジャンプさせる
+            mover1.jumpForce = jumpForce;
+            mover1.jumping = true;
 
             soundManager.OnPlaySE(soundsList.jumpSE);
         }
