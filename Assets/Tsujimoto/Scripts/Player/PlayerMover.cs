@@ -52,6 +52,7 @@ public class PlayerMover : MonoBehaviour
     Queue<GameObject> effectPool = new Queue<GameObject>(); //キュー
 
     bool canMove = true; //動けるかどうか
+    [HideInInspector] public bool useTrampoline = false; //トランポリンを使用中かどうか
 
     [Header("敵衝突時のノックバック:水平方向")][SerializeField] float nockBack_Horizontal = 30f;
     [Header("敵衝突時のノックバック:垂直方向")][SerializeField] float nockBack_Vertical = 10f;
@@ -197,15 +198,7 @@ public class PlayerMover : MonoBehaviour
         //通常の移動
         else
         {
-            if (playerIndex == 2 && playerCnt.OnUnder_OverGimic) //上下ギミック起動中かつ、プレイヤー2なら
-            {
-                rb.velocity = new Vector3(move.x, move.y, move.z);
-            }
-            else
-            {
-                rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
-            }
-
+            rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
         }
 
         // 向き変更（移動中のみ）
@@ -216,7 +209,7 @@ public class PlayerMover : MonoBehaviour
         }
 
         //ジャンプ
-        if (jumping)
+        if (jumping && !useTrampoline)
         {
             rb.AddForce(0f, jumpForce, 0f, ForceMode.Impulse);
             jumping = false;
@@ -311,6 +304,14 @@ public class PlayerMover : MonoBehaviour
             canJump = true;
             touchDeathArea = false;
             Instantiate(jumpEffect, transform.position, Quaternion.identity);
+        }
+        //トランポリン使用後に地面に触れたら
+        if (other.gameObject.CompareTag("Floor") && useTrampoline) useTrampoline = false; //トランポリン使用中フラグをオフ
+        //トランポリンに触れたら
+        if (other.gameObject.CompareTag("Bound"))
+        {
+            rb.AddForce(0f, 50f, 0f, ForceMode.Impulse);
+            useTrampoline = true; //トランポリン使用中フラグを立てる
         }
         //敵に触れたら
         if (other.gameObject.CompareTag("Enemy"))
@@ -445,7 +446,7 @@ public class PlayerMover : MonoBehaviour
                 StartCoroutine(RecoveryKnockback(recoveryKnockbackTime));
                 StartCoroutine(cameraCnt.ShakeCamera(0.7f, 1f)); //カメラを揺らす
             }
-            
+
         }
         //お宝回復に触れたら
         if (other.CompareTag("Treasure"))
