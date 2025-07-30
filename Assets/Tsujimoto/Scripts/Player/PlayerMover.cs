@@ -171,23 +171,6 @@ public class PlayerMover : MonoBehaviour
                     heldObject.useGravity = true;
                     heldObject = null;
                 }
-                else if (playerCnt.OnUnder_OverGimic && playerIndex == 1) //上下ギミック起動時
-                {
-                    Collider obj_Col = heldObject.GetComponent<Collider>();
-                    if (obj_Col != null) obj_Col.isTrigger = false;
-
-                    heldObject.useGravity = true;
-
-                    Rigidbody heldRb = heldObject.GetComponent<Rigidbody>();
-                    if (heldRb != null)
-                    {
-                        Vector3 targetPos = transform.position + transform.forward * 0.5f;
-                        Vector3 direction = (targetPos - heldRb.position);
-                        heldRb.velocity = direction * 10f; // 10f はスピード。調整可
-                    }
-                    heldObject = null;
-                }
-
             }
         }
     }
@@ -228,26 +211,8 @@ public class PlayerMover : MonoBehaviour
         // 向き変更（移動中のみ）
         if (move.magnitude > 0.1f)
         {
-            // Quaternion targetRotation = Quaternion.LookRotation(move);
-            // transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f);
-            Vector3 lookDir;
-            if (playerIndex == 2 && playerCnt.OnUnder_OverGimic) //上下ギミック起動中かつ、player2なら
-            {
-                // Y軸回転だけに制限するため、moveのY成分を0にする（水平成分だけに）
-                lookDir = new Vector3(move.x, 0f, move.z);
-
-                // moveの水平成分が0なら回転しない（正面向きのまま）
-                if (lookDir.sqrMagnitude < 0.001f) return;
-
-                Quaternion targetRotation = Quaternion.LookRotation(lookDir.normalized);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f);
-            }
-            else
-            {
-                // Player1などは今まで通りの回転
-                Quaternion targetRotation = Quaternion.LookRotation(move);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f);
-            }
+            Quaternion targetRotation = Quaternion.LookRotation(move);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f);
         }
 
         //ジャンプ
