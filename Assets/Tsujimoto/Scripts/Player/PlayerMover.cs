@@ -41,6 +41,7 @@ public class PlayerMover : MonoBehaviour
     [Tooltip("敵と衝突")] public GameObject nockBackEffect;
     [Tooltip("ジャンプ")] public GameObject jumpEffect;
     [Tooltip("氷の床")] public GameObject frozenEffect;
+    [Tooltip("トランポリン")] public GameObject tranpolineEffect;
 
     Renderer[] renderers; // 複数のRenderer（子オブジェクト含む）を管理
     List<Material[]> defaultMaterials = new List<Material[]>(); // 各Rendererの初期マテリアルを保存
@@ -310,7 +311,8 @@ public class PlayerMover : MonoBehaviour
         //トランポリンに触れたら
         if (other.gameObject.CompareTag("Bound"))
         {
-            rb.AddForce(0f, 50f, 0f, ForceMode.Impulse);
+            rb.AddForce(0f, 50f, 0f, ForceMode.Impulse); //ジャンプさせる
+            Instantiate(tranpolineEffect, transform.position, tranpolineEffect.transform.rotation); //エフェクトを生成
             useTrampoline = true; //トランポリン使用中フラグを立てる
         }
         //敵に触れたら
