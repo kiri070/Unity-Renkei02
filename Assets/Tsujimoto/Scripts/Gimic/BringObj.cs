@@ -14,6 +14,10 @@ public class BringObj : MonoBehaviour
     public bool player1_isBringing = false; //宝箱が運ばれているか
     public bool player2_isBringing = false; //宝箱が運ばれているか
 
+    //ステージ2の上下ギミック時の位置
+    public bool top = false;
+    public bool bottom = false;
+
     [Header("宝箱")]
     public GameObject treasure_full;
     public GameObject treasure_half;
@@ -46,12 +50,18 @@ public class BringObj : MonoBehaviour
 
     void Update()
     {
-        //上下ギミック起動中、プレイヤー1は天井に張り付く
-        if (playerCnt.OnUnder_OverGimic)
+        //上下ギミック起動中に天井フラグが立ったら
+        if (playerCnt.OnUnder_OverGimic && top && !bottom)
         {
             rb.useGravity = false; //重力をオフ
             rb.AddForce(Vector3.up * 10f, ForceMode.Acceleration); //擬似的な重力を上方向に作る
             transform.rotation = Quaternion.Euler(0f, 0f, 180f);
+        }
+        //上下ギミック起動中に地面フラグが立ったら
+        else if (playerCnt.OnUnder_OverGimic && bottom && !top)
+        {
+            rb.useGravity = true; //重力をオン
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         }
 
         ChangeTreasureModel(); //お宝の状態変遷

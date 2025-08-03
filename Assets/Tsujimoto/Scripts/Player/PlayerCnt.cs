@@ -532,15 +532,9 @@ public class PlayerCnt : MonoBehaviour
     //上下ギミックのスタート地点にスポーンさせる関数
     public void SpwanStartPoint_Gimic()
     {
-        //宝箱の運搬中フラグをオフ
-        BringObj bringobj = FindObjectOfType<BringObj>();
-        bringobj.player1_isBringing = false;
-        bringobj.player2_isBringing = false;
-        mover1.heldObject = null; //オブジェクトを空に
-        mover2.heldObject = null; //オブジェクトを空に
-        bringobj.GetComponent<Collider>().isTrigger = false; //当たり判定を戻す
-
         OnUnder_OverGimic = true; //上下ギミック起動フラグ
+        //プレイヤー,宝箱を天井と地面に設定(スポーンは別)
+        ChangeTopBottom(mover1.gameObject, mover2.gameObject, treasure, true);
 
         //動かないように
         mover1.GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -566,6 +560,45 @@ public class PlayerCnt : MonoBehaviour
         invincible = true; //無敵状態に
         yield return new WaitForSeconds(1f);
         invincible = false; //解除
+    }
+
+    //上下ギミックで扱う反転(天井に設定するプレイヤー, 地面に設定するプレイヤー, 宝箱, 宝箱の位置)
+    public void ChangeTopBottom(GameObject topPlayer, GameObject bottomPlayer, GameObject treasureBox, bool treasureBox_Top)
+    {
+        //プレイヤーの天井と地面を切り替える
+        topPlayer.GetComponent<PlayerMover>().onRoof = true;
+        bottomPlayer.GetComponent<PlayerMover>().onRoof = false;
+
+        //重力の切り替え
+        topPlayer.GetComponent<Rigidbody>().useGravity = false;
+        bottomPlayer.GetComponent<Rigidbody>().useGravity = true;
+
+        //宝箱を天井にする場合
+        if (treasureBox_Top)
+        {
+            BringObj bringObj = treasureBox.GetComponent<BringObj>();
+            bringObj.top = true;
+            bringObj.bottom = false;
+        }
+        //宝箱を地面にする場合
+        else if (!treasureBox_Top)
+        {
+            BringObj bringObj = treasureBox.GetComponent<BringObj>();
+            bringObj.top = false;
+            bringObj.bottom = true;
+        }
+
+
+        //宝箱の運搬中フラグをオフ
+        BringObj bringobj = FindObjectOfType<BringObj>();
+        bringobj.player1_isBringing = false;
+        bringobj.player2_isBringing = false;
+        bringobj.GetComponent<Collider>().isTrigger = false; //当たり判定を戻す
+
+        //プレイヤーの運搬オブジェクトを空にする
+        topPlayer.GetComponent<PlayerMover>().heldObject = null;
+        bottomPlayer.GetComponent<PlayerMover>().heldObject = null;
+        
     }
 
     //入力イベントを削除

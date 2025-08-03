@@ -48,15 +48,19 @@ public class UnderOverGimic_Manager : MonoBehaviour
         player2.transform.position = player2_SpawnPos;
         treasureBox.transform.position = treasureBox_SpawnPos;
 
-        //最初はプレイヤー1を天井判定にする
-        player1.GetComponent<PlayerMover>().onRoof = true;
-        //宝箱の運搬中フラグをオフ
-        BringObj bringobj = FindObjectOfType<BringObj>();
-        bringobj.player1_isBringing = false;
-        bringobj.player2_isBringing = false;
-        player1.GetComponent<PlayerMover>().heldObject = null; //オブジェクトを空に
-        player2.GetComponent<PlayerMover>().heldObject = null; //オブジェクトを空に
-        bringobj.GetComponent<Collider>().isTrigger = false; //当たり判定を戻す
+        PlayerCnt playerCnt = FindObjectOfType<PlayerCnt>();
+        //プレイヤー,宝箱を天井と地面に設定(スポーンは別)
+        playerCnt.ChangeTopBottom(player1, player2, treasureBox, true);
+
+        // //最初はプレイヤー1を天井判定にする
+        // player1.GetComponent<PlayerMover>().onRoof = true;
+        // //宝箱の運搬中フラグをオフ
+        // BringObj bringobj = FindObjectOfType<BringObj>();
+        // bringobj.player1_isBringing = false;
+        // bringobj.player2_isBringing = false;
+        // player1.GetComponent<PlayerMover>().heldObject = null; //オブジェクトを空に
+        // player2.GetComponent<PlayerMover>().heldObject = null; //オブジェクトを空に
+        // bringobj.GetComponent<Collider>().isTrigger = false; //当たり判定を戻す
     }
     private void OnTriggerEnter(Collider other)
     {

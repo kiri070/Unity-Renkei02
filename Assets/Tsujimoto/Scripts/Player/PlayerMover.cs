@@ -155,8 +155,19 @@ public class PlayerMover : MonoBehaviour
                 //上下ギミック時
                 else if (playerCnt.OnUnder_OverGimic)
                 {
-                    Vector3 targetPos = transform.position + transform.forward * 1.5f + Vector3.down * 1f;
-                    heldObject.MovePosition(targetPos);
+                    //天井の場合,少し下で運ぶ
+                    if (bringObj.top)
+                    {
+                        Vector3 targetPos = transform.position + transform.forward * 1.5f + Vector3.down * 1f;
+                        heldObject.MovePosition(targetPos);
+                    }
+                    //地面の場合,少し上で運ぶ
+                    else if (bringObj.bottom)
+                    {
+                        Vector3 targetPos = transform.position + transform.forward * 1.5f + Vector3.up * 1f;
+                        heldObject.MovePosition(targetPos);
+                    }
+                    
                 }
             }
         }
@@ -188,12 +199,25 @@ public class PlayerMover : MonoBehaviour
                 //上下ギミック時
                 else if (playerCnt.OnUnder_OverGimic)
                 {
-                    Collider obj_Col = heldObject.GetComponent<Collider>();
-                    Vector3 targetPos = transform.position + transform.forward * 1.5f + Vector3.down * 1f;
-                    heldObject.MovePosition(targetPos);
-                    if (obj_Col != null) obj_Col.isTrigger = false;
-                    heldObject.useGravity = true;
-                    heldObject = null;
+                    //天井の場合,少し下でおろす
+                    if (bringObj.top)
+                    {
+                        Collider obj_Col = heldObject.GetComponent<Collider>();
+                        Vector3 targetPos = transform.position + transform.forward * 1.5f + Vector3.down * 1f;
+                        heldObject.MovePosition(targetPos);
+                        if (obj_Col != null) obj_Col.isTrigger = false;
+                        heldObject.useGravity = true;
+                        heldObject = null;
+                    }
+                    //地面の場合,少し上でおろす
+                    else if (bringObj.bottom)
+                    {
+                        Collider obj_Col = heldObject.GetComponent<Collider>();
+                        if (obj_Col != null) obj_Col.isTrigger = false;
+                        heldObject.useGravity = true;
+                        heldObject = null;
+                    }
+                    
                 }
             }
         }
@@ -234,16 +258,6 @@ public class PlayerMover : MonoBehaviour
             {
                 rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
             }
-
-        // // 向き変更（移動中のみ）(旧)
-        // if (move.magnitude > 0.1f)
-        // {
-        //     // Player1は天井にいるときはY軸が逆
-        //     Vector3 customUp = (playerIndex == 1 && playerCnt.OnUnder_OverGimic) ? Vector3.down : Vector3.up;
-
-        //     Quaternion targetRotation = Quaternion.LookRotation(move, customUp);
-        //     transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f);
-        // }
         //向き変更(移動中のみ)
         if (move.magnitude > 0.1f)
         {
@@ -253,8 +267,8 @@ public class PlayerMover : MonoBehaviour
             // 通常のターゲット回転
             Quaternion targetRotation = Quaternion.LookRotation(move, customUp);
 
-            // 天井に張り付いているPlayer1はZ軸180度を維持した回転に変換
-            if (playerIndex == 1 && onRoof && playerCnt.OnUnder_OverGimic)
+            // 天井に張り付いているプレイヤーはZ軸180度を維持した回転に変換
+            if (onRoof && playerCnt.OnUnder_OverGimic)
             {
                 // Y軸とX軸だけをSlerpで変化、Zは180に固定する
                 Vector3 euler = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f).eulerAngles;
