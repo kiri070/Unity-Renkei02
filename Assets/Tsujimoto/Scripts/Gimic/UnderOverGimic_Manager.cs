@@ -50,6 +50,13 @@ public class UnderOverGimic_Manager : MonoBehaviour
 
         //最初はプレイヤー1を天井判定にする
         player1.GetComponent<PlayerMover>().onRoof = true;
+        //宝箱の運搬中フラグをオフ
+        BringObj bringobj = FindObjectOfType<BringObj>();
+        bringobj.player1_isBringing = false;
+        bringobj.player2_isBringing = false;
+        player1.GetComponent<PlayerMover>().heldObject = null; //オブジェクトを空に
+        player2.GetComponent<PlayerMover>().heldObject = null; //オブジェクトを空に
+        bringobj.GetComponent<Collider>().isTrigger = false; //当たり判定を戻す
     }
     private void OnTriggerEnter(Collider other)
     {
