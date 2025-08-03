@@ -48,8 +48,9 @@ public class PlayerCnt : MonoBehaviour
     [Tooltip("スポーンエフェクト")][SerializeField] GameObject spawnEffect;
     GameObject player1_SpawnEffectPoint, player2_SpawnEffectPoint; //スポーンエフェクトの発生位置
     [HideInInspector] public GameObject currentCheckPoint; //最新のチェックポイント
-    public bool invincible = false;//プレイヤーが無敵時間かどうか
 
+    //bool関連
+    public bool invincible = false;//プレイヤーが無敵時間かどうか
 
     //弾を発射できるかどうか
     private bool canPlayer1Bullet = true;
@@ -58,7 +59,8 @@ public class PlayerCnt : MonoBehaviour
     //荷物を持っているかどうか
     [HideInInspector] public bool isPlayer1BringObj = false;
     [HideInInspector] public bool isPlayer2BringObj = false;
-
+    
+    [HideInInspector] public bool OnUnder_OverGimic = false; //上下ギミック起動中のフラグ
 
     SoundManager soundManager; //SoundManagerのインスタンス
     SoundsList soundsList; //SoundsListのインスタンス
@@ -66,8 +68,6 @@ public class PlayerCnt : MonoBehaviour
     //ゴール関連
     GoalScr goalScr; //ゴールスクリプト
     public GameObject pos1, pos2, treasurePos;
-
-    [HideInInspector]public bool OnUnder_OverGimic = false; //上下ギミック起動中のフラグ
 
 
     public Camera[] targetCameras; //カメラの対象設定用の配列 *追加部分
@@ -528,6 +528,37 @@ public class PlayerCnt : MonoBehaviour
         mover2.transform.position = spawn2.transform.position;
         treasure.transform.position = spawn3.transform.position; //お宝
         StartCoroutine(InvincibleTimer());
+    }
+    //上下ギミックのスタート地点にスポーンさせる関数
+    public void SpwanStartPoint_Gimic()
+    {
+        //宝箱の運搬中フラグをオフ
+        BringObj bringobj = FindObjectOfType<BringObj>();
+        bringobj.player1_isBringing = false;
+        bringobj.player2_isBringing = false;
+        mover1.heldObject = null; //オブジェクトを空に
+        mover2.heldObject = null; //オブジェクトを空に
+        bringobj.GetComponent<Collider>().isTrigger = false; //当たり判定を戻す
+
+        OnUnder_OverGimic = true; //上下ギミック起動フラグ
+
+        //動かないように
+        mover1.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        mover2.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+        //箱のスクリプトから箱を初期位置に戻す
+        BringObj[] bringObj = FindObjectsOfType<BringObj>();
+        foreach (BringObj bo in bringObj) bo.ReSpawnBox();
+
+        //スポーンエフェクト再生
+        Instantiate(spawnEffect, player1_SpawnEffectPoint.transform.position, spawnEffect.transform.rotation);
+        Instantiate(spawnEffect, player2_SpawnEffectPoint.transform.position, spawnEffect.transform.rotation);
+
+        mover1.transform.position = GameObject.Find("Player1_GimicSpawnPos").gameObject.transform.position;
+        mover2.transform.position = GameObject.Find("Player2_GimicSpawnPos").gameObject.transform.position;
+
+        treasure.transform.position = GameObject.Find("TreasureBox_GimicSpawnPos").gameObject.transform.position; //お宝
+        // StartCoroutine(InvincibleTimer()); //バグるため無敵をつけない
     }
     //無敵時間管理
     IEnumerator InvincibleTimer()

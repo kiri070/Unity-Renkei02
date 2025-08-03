@@ -30,11 +30,11 @@ public class GimicCameraManager : MonoBehaviour
 
     void Update()
     {
-        // 2人のプレイヤーのZ座標の中間を計算
+        // 2人のプレイヤーのX座標の中間を計算
         float centerZ = (player1.transform.position.z + player2.transform.position.z) / 2f;
 
         // 現在のX/Yを維持しつつ、Zだけ変更
-        Vector3 newPosition = new Vector3(transform.position.x, transform.position.y, centerZ);
+        Vector3 newPosition = new Vector3(transform.position.x, transform.position.y, centerZ - 25f);
 
         // カメラを移動
         transform.position = newPosition;

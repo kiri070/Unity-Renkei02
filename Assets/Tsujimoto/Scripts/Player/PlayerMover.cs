@@ -12,7 +12,7 @@ public class PlayerMover : MonoBehaviour
     PlayerCnt playerCnt;
     GameManager gameManager;
     // 持っているオブジェクトを記録
-    Rigidbody heldObject;
+    [HideInInspector] public Rigidbody heldObject;
 
     [Header("物体を持てる範囲")][SerializeField] Vector3 boxSize = new Vector3(1f, 0.2f, 1f);
     [SerializeField] Vector3 offSet = new Vector3(0f, 0f, 0f);
@@ -54,6 +54,7 @@ public class PlayerMover : MonoBehaviour
 
     bool canMove = true; //動けるかどうか
     [HideInInspector] public bool useTrampoline = false; //トランポリンを使用中かどうか
+    [HideInInspector] public bool onRoof = false; //天井にいるかどうか
 
     [Header("敵衝突時のノックバック:水平方向")][SerializeField] float nockBack_Horizontal = 30f;
     [Header("敵衝突時のノックバック:垂直方向")][SerializeField] float nockBack_Vertical = 10f;
@@ -145,8 +146,18 @@ public class PlayerMover : MonoBehaviour
             // 既に持っている場合は、位置を前方に維持
             if (heldObject != null && isBring)
             {
-                Vector3 targetPos = transform.position + transform.forward * 1.5f + Vector3.up * 1f;
-                heldObject.MovePosition(targetPos);
+                //通常時
+                if (!playerCnt.OnUnder_OverGimic)
+                {
+                    Vector3 targetPos = transform.position + transform.forward * 1.5f + Vector3.up * 1f;
+                    heldObject.MovePosition(targetPos);
+                }
+                //上下ギミック時
+                else if (playerCnt.OnUnder_OverGimic)
+                {
+                    Vector3 targetPos = transform.position + transform.forward * 1.5f + Vector3.down * 1f;
+                    heldObject.MovePosition(targetPos);
+                }
             }
         }
         else if (!isBring)
@@ -166,9 +177,20 @@ public class PlayerMover : MonoBehaviour
                     }
                 }
 
-                if (!playerCnt.OnUnder_OverGimic) //通常時
+                //通常時
+                if (!playerCnt.OnUnder_OverGimic)
                 {
                     Collider obj_Col = heldObject.GetComponent<Collider>();
+                    if (obj_Col != null) obj_Col.isTrigger = false;
+                    heldObject.useGravity = true;
+                    heldObject = null;
+                }
+                //上下ギミック時
+                else if (playerCnt.OnUnder_OverGimic)
+                {
+                    Collider obj_Col = heldObject.GetComponent<Collider>();
+                    Vector3 targetPos = transform.position + transform.forward * 1.5f + Vector3.down * 1f;
+                    heldObject.MovePosition(targetPos);
                     if (obj_Col != null) obj_Col.isTrigger = false;
                     heldObject.useGravity = true;
                     heldObject = null;
@@ -180,41 +202,98 @@ public class PlayerMover : MonoBehaviour
     //移動処理
     void Move()
     {
-        //氷の上の場合
-        if (onIce)
+        //上下ギミック起動中、天井のキャラは擬似的に重力かける
+        if (playerCnt.OnUnder_OverGimic && onRoof)
         {
-            //入力がある場合
-            if (move.magnitude > 0.1f)
+            rb.useGravity = false; //重力をオフ
+            rb.AddForce(Vector3.up * 100f, ForceMode.Acceleration); //擬似的な重力を上方向に作る
+        }
+        else if (!playerCnt.OnUnder_OverGimic)
+        {
+            rb.useGravity = true; //重力をオン
+        }
+
+        //氷の上の場合
+            if (onIce)
             {
-                slideVelocity = move;
+                //入力がある場合
+                if (move.magnitude > 0.1f)
+                {
+                    slideVelocity = move;
+                }
+                //入力がない場合
+                else
+                {
+                    slideVelocity *= 0.96f; //少し滑らせる
+                }
+
+                rb.velocity = new Vector3(slideVelocity.x, rb.velocity.y, slideVelocity.z);
             }
-            //入力がない場合
+            //通常の移動
             else
             {
-                slideVelocity *= 0.96f; //少し滑らせる
+                rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
             }
 
-            rb.velocity = new Vector3(slideVelocity.x, rb.velocity.y, slideVelocity.z);
-        }
-        //通常の移動
-        else
-        {
-            rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
-        }
+        // // 向き変更（移動中のみ）(旧)
+        // if (move.magnitude > 0.1f)
+        // {
+        //     // Player1は天井にいるときはY軸が逆
+        //     Vector3 customUp = (playerIndex == 1 && playerCnt.OnUnder_OverGimic) ? Vector3.down : Vector3.up;
 
-        // 向き変更（移動中のみ）
+        //     Quaternion targetRotation = Quaternion.LookRotation(move, customUp);
+        //     transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f);
+        // }
+        //向き変更(移動中のみ)
         if (move.magnitude > 0.1f)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(move);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f);
+            // カスタムアップベクトルを決定
+            Vector3 customUp = (playerIndex == 1 && playerCnt.OnUnder_OverGimic) ? Vector3.down : Vector3.up;
+
+            // 通常のターゲット回転
+            Quaternion targetRotation = Quaternion.LookRotation(move, customUp);
+
+            // 天井に張り付いているPlayer1はZ軸180度を維持した回転に変換
+            if (playerIndex == 1 && onRoof && playerCnt.OnUnder_OverGimic)
+            {
+                // Y軸とX軸だけをSlerpで変化、Zは180に固定する
+                Vector3 euler = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f).eulerAngles;
+                transform.rotation = Quaternion.Euler(euler.x, euler.y, 180f);
+            }
+            else
+            {
+                // 通常の回転
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+            }
         }
 
         //ジャンプ
-        if (jumping && !useTrampoline)
+        if (!playerCnt.OnUnder_OverGimic)
         {
-            rb.AddForce(0f, jumpForce, 0f, ForceMode.Impulse);
-            jumping = false;
-            canJump = false;
+            if (jumping && !useTrampoline)
+            {
+                rb.AddForce(0f, jumpForce, 0f, ForceMode.Impulse);
+                jumping = false;
+                canJump = false;
+            }
+        }
+        //上下ギミック中
+        else if (playerCnt.OnUnder_OverGimic)
+        {
+            //地面にいる時
+            if (jumping && !useTrampoline && !onRoof)
+            {
+                rb.AddForce(0f, jumpForce, 0f, ForceMode.Impulse);
+                jumping = false;
+                canJump = false;
+            }
+            //天井にいる時
+            else if (jumping && !useTrampoline && onRoof)
+            {
+                rb.AddForce(0f, -jumpForce, 0f, ForceMode.Impulse);
+                jumping = false;
+                canJump = false;
+            }
         }
     }
 
@@ -397,6 +476,8 @@ public class PlayerMover : MonoBehaviour
                 touchDeathArea = true;
                 //タイマー減少
                 gameManager.DecreaseTimer(gameManager.decreaseFallTimer);
+
+                //スタート地点に戻る
                 playerCnt.SpawnCheckPoint();
             }
 
@@ -405,6 +486,17 @@ public class PlayerMover : MonoBehaviour
             // soundManager.OnPlaySE(soundsList.explosionSE);
             // StartCoroutine(DelayLoadScene2(1.5f)); //遅延してシーン変遷
             // GameManager.ToGameOverState();
+        }
+        //上下ギミック中の画面外判定なら
+        if (other.CompareTag("GameOverWall_Gimic") && !playerCnt.invincible)
+        {
+            soundManager.OnPlaySE(soundsList.fallSE); //SE
+            touchDeathArea = true;
+            //タイマー減少
+            gameManager.DecreaseTimer(gameManager.decreaseFallTimer);
+
+            //スタート地点に戻る
+            playerCnt.SpwanStartPoint_Gimic();
         }
         //魔法に当たったら
         if (other.CompareTag("Majic"))

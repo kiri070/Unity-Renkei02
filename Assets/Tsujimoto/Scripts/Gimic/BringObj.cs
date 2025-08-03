@@ -46,6 +46,14 @@ public class BringObj : MonoBehaviour
 
     void Update()
     {
+        //上下ギミック起動中、プレイヤー1は天井に張り付く
+        if (playerCnt.OnUnder_OverGimic)
+        {
+            rb.useGravity = false; //重力をオフ
+            rb.AddForce(Vector3.up * 10f, ForceMode.Acceleration); //擬似的な重力を上方向に作る
+            transform.rotation = Quaternion.Euler(0f, 0f, 180f);
+        }
+
         ChangeTreasureModel(); //お宝の状態変遷
         // OffScreen();           //お宝の画面外検知
         //運ばれていないときはバグ回避のため、ここでも重力をオンにする
@@ -102,24 +110,39 @@ public class BringObj : MonoBehaviour
            viewPos.y < 0 || viewPos.y > 1 ||
            viewPos.z < 0)
         {
-            if (!playerCnt.currentCheckPoint)
+            //通常
+            if (!playerCnt.OnUnder_OverGimic)
+            {
+                if (!playerCnt.currentCheckPoint)
+                {
+                    //タイマー減少
+                    gameManager.DecreaseTimer(gameManager.decreaseFallTimer);
+
+                    //スタート地点に戻る
+                    playerCnt.SpwanStartPoint();
+                    gameManager.MinusBoxValue(5);
+                }
+                //チェックポイントがあったら
+                else
+                {
+                    //タイマー減少
+                    gameManager.DecreaseTimer(gameManager.decreaseFallTimer);
+
+                    playerCnt.SpawnCheckPoint();
+                    gameManager.MinusBoxValue(5);
+                }
+            }
+            //上下ギミック中
+            else if (playerCnt.OnUnder_OverGimic)
             {
                 //タイマー減少
                 gameManager.DecreaseTimer(gameManager.decreaseFallTimer);
 
                 //スタート地点に戻る
-                playerCnt.SpwanStartPoint();
+                playerCnt.SpwanStartPoint_Gimic();
                 gameManager.MinusBoxValue(5);
             }
-            //チェックポイントがあったら
-            else
-            {
-                //タイマー減少
-                gameManager.DecreaseTimer(gameManager.decreaseFallTimer);
-
-                playerCnt.SpawnCheckPoint();
-                gameManager.MinusBoxValue(5);
-            }
+            
         }
     }
 
@@ -143,6 +166,19 @@ public class BringObj : MonoBehaviour
                 //初期位置にスポーン
                 playerCnt.SpwanStartPoint();
             }
+        }
+
+        //上下ギミック中の画面外判定なら
+        if (other.CompareTag("GameOverWall_Gimic") && !playerCnt.invincible)
+        {
+            soundManager.OnPlaySE(soundsList.fallSE); //SE
+            //タイマー減少
+            gameManager.DecreaseTimer(gameManager.decreaseFallTimer);
+            //お宝の価値を減少
+            gameManager.MinusBoxValue(5);
+
+            //スタート地点に戻る
+            playerCnt.SpwanStartPoint_Gimic();
         }
 
         //魔法に当たったら魔法を消す

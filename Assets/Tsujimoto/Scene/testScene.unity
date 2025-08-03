@@ -9996,6 +9996,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3010095748638398989, guid: 4fd6615ac552b4cebb708cb344cf3ab9, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3072381289790922673, guid: 4fd6615ac552b4cebb708cb344cf3ab9, type: 3}
       propertyPath: m_Name
       value: underOverGimic_effect

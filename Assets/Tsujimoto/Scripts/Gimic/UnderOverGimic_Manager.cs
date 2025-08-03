@@ -47,6 +47,9 @@ public class UnderOverGimic_Manager : MonoBehaviour
         player1.transform.position = player1_SpawnPos;
         player2.transform.position = player2_SpawnPos;
         treasureBox.transform.position = treasureBox_SpawnPos;
+
+        //最初はプレイヤー1を天井判定にする
+        player1.GetComponent<PlayerMover>().onRoof = true;
     }
     private void OnTriggerEnter(Collider other)
     {
