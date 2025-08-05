@@ -261,10 +261,8 @@ public class PlayerMover : MonoBehaviour
         //向き変更(移動中のみ)
         if (move.magnitude > 0.1f)
         {
-            // カスタムアップベクトルを決定
-            Vector3 customUp = (playerIndex == 1 && playerCnt.OnUnder_OverGimic) ? Vector3.down : Vector3.up;
-
-            // 通常のターゲット回転
+            //カスタムベクトルを設定
+            Vector3 customUp = (playerCnt.OnUnder_OverGimic && onRoof) ? Vector3.down : Vector3.up;
             Quaternion targetRotation = Quaternion.LookRotation(move, customUp);
 
             // 天井に張り付いているプレイヤーはZ軸180度を維持した回転に変換

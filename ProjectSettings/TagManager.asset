@@ -24,6 +24,7 @@ TagManager:
   - Treasure
   - UnderOverGimic
   - GameOverWall_Gimic
+  - reverse_Gimic
   layers:
   - Default
   - TransparentFX
