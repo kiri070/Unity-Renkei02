@@ -188,7 +188,8 @@ public class BringObj : MonoBehaviour
             gameManager.MinusBoxValue(5);
 
             //スタート地点に戻る
-            playerCnt.SpwanStartPoint_Gimic();
+            if (!playerCnt.currentCheckPoint_TopBottom) playerCnt.SpwanStartPoint_Gimic(); //チェックポイントがない場合
+            else if (playerCnt.currentCheckPoint_TopBottom) playerCnt.SpwanCheckPoint_Gimic(); //チェックポイントがある場合
         }
 
         //魔法に当たったら魔法を消す

@@ -62,6 +62,10 @@ public class PlayerMover : MonoBehaviour
 
     SoundManager soundManager;
     SoundsList soundsList;
+
+    //こるーちん
+    Coroutine gimicBlock_coroutine = null; //ギミックブロック
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -508,7 +512,8 @@ public class PlayerMover : MonoBehaviour
             gameManager.DecreaseTimer(gameManager.decreaseFallTimer);
 
             //スタート地点に戻る
-            playerCnt.SpwanStartPoint_Gimic();
+            if (!playerCnt.currentCheckPoint_TopBottom) playerCnt.SpwanStartPoint_Gimic(); //チェックポイントがない場合
+            else if (playerCnt.currentCheckPoint_TopBottom) playerCnt.SpwanCheckPoint_Gimic(); //チェックポイントがある場合
         }
         //魔法に当たったら
         if (other.CompareTag("Majic"))
@@ -541,6 +546,22 @@ public class PlayerMover : MonoBehaviour
             canMove = false;
             StartCoroutine(RecoveryKnockback(recoveryKnockbackTime));
         }
+        //GimicBlock_Bombに触れたら
+        if (other.CompareTag("GimicBlock_Bomb"))
+        {
+            GameObject gimicBlock = GameObject.Find("GimicBlock"); 
+            if (gimicBlock != null)
+            {
+                if (gimicBlock_coroutine != null)
+                {
+                    StopCoroutine(gimicBlock_coroutine);
+                }
+                // 毎回新しくスタート
+                gimicBlock_coroutine = StartCoroutine(DelayActive_GameObject(gimicBlock, 2));
+            }
+            canMove = false;
+            StartCoroutine(RecoveryKnockback(recoveryKnockbackTime));
+        }
         //チェックポイントに触れたら
         if (other.CompareTag("CheckPoint"))
         {
@@ -560,15 +581,26 @@ public class PlayerMover : MonoBehaviour
                 //効果音
                 soundManager.OnPlaySE(soundsList.checkPointSE);
             }
-            // //同じチェックポイントなら処理をスキップ
-            // if (playerCnt.currentCheckPoint == other.gameObject) return;
+        }
+        //チェックポイントに触れたら
+        if (other.CompareTag("CheckPoint_TopBottom"))
+        {
+            CheckPointManager cpManager = other.GetComponent<CheckPointManager>();
+            //チェックポイントのスクリプトのアクティブ状況を確認
+            if (cpManager != null && !cpManager.isActive)
+            {
+                cpManager.isActive = true;
 
-            // //最新チェックポイントを保存
-            // playerCnt.currentCheckPoint = other.gameObject;
-            // //チェックポイントのエフェクトを再生
-            // playerCnt.currentCheckPoint.transform.Find("CheckPointEffect").gameObject.SetActive(true);
-            // //効果音
-            // soundManager.OnPlaySE(soundsList.checkPointSE);
+                //同じチェックポイントなら処理をスキップ
+                if (playerCnt.currentCheckPoint == other.gameObject) return;
+
+                //最新チェックポイントを保存
+                playerCnt.currentCheckPoint_TopBottom = other.gameObject;
+                //チェックポイントのエフェクトを再生
+                playerCnt.currentCheckPoint_TopBottom.transform.Find("CheckPointEffect").gameObject.SetActive(true);
+                //効果音
+                soundManager.OnPlaySE(soundsList.checkPointSE);
+            }
         }
         //大砲の球に触れたら
         if (other.CompareTag("CannonBall"))
@@ -588,6 +620,13 @@ public class PlayerMover : MonoBehaviour
             gameManager.PlusBoxValue(10);
             Destroy(other.gameObject);
         }
+    }
+    //オブジェクトのmeshを切り替える
+    IEnumerator DelayActive_GameObject(GameObject gameObject, int delay)
+    {
+        gameObject.GetComponent<MeshRenderer>().enabled = false;
+        yield return new WaitForSeconds(delay); //遅延
+        gameObject.GetComponent<MeshRenderer>().enabled = true;
     }
 
     //遅延させてゲームオーバーシーンに変遷

@@ -48,6 +48,7 @@ public class PlayerCnt : MonoBehaviour
     [Tooltip("スポーンエフェクト")][SerializeField] GameObject spawnEffect;
     GameObject player1_SpawnEffectPoint, player2_SpawnEffectPoint; //スポーンエフェクトの発生位置
     [HideInInspector] public GameObject currentCheckPoint; //最新のチェックポイント
+    [HideInInspector] public GameObject currentCheckPoint_TopBottom; //上下ギミックのチェックポイント
 
     //bool関連
     public bool invincible = false;//プレイヤーが無敵時間かどうか
@@ -552,6 +553,31 @@ public class PlayerCnt : MonoBehaviour
         mover2.transform.position = GameObject.Find("Player2_GimicSpawnPos").gameObject.transform.position;
 
         treasure.transform.position = GameObject.Find("TreasureBox_GimicSpawnPos").gameObject.transform.position; //お宝
+        // StartCoroutine(InvincibleTimer()); //バグるため無敵をつけない
+    }
+    //上下ギミックのチェックポイント地点にスポーンさせる関数
+    public void SpwanCheckPoint_Gimic()
+    {
+        OnUnder_OverGimic = true; //上下ギミック起動フラグ
+        //プレイヤー,宝箱を天井と地面に設定(スポーンは別)
+        ChangeTopBottom(mover2.gameObject, mover1.gameObject, treasure, true);
+
+        //動かないように
+        mover1.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        mover2.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+        //箱のスクリプトから箱を初期位置に戻す
+        BringObj[] bringObj = FindObjectsOfType<BringObj>();
+        foreach (BringObj bo in bringObj) bo.ReSpawnBox();
+
+        //スポーンエフェクト再生
+        Instantiate(spawnEffect, player1_SpawnEffectPoint.transform.position, spawnEffect.transform.rotation);
+        Instantiate(spawnEffect, player2_SpawnEffectPoint.transform.position, spawnEffect.transform.rotation);
+
+        mover1.transform.position = GameObject.Find("Player1_GimicCheckPointSpawnPos").gameObject.transform.position;
+        mover2.transform.position = GameObject.Find("Player2_GimicCheckPointSpawnPos").gameObject.transform.position;
+
+        treasure.transform.position = GameObject.Find("TreasureBox_GimicCheckPointSpawnPos").gameObject.transform.position; //お宝
         // StartCoroutine(InvincibleTimer()); //バグるため無敵をつけない
     }
     //無敵時間管理

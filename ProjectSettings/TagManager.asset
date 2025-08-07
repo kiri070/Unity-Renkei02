@@ -25,6 +25,8 @@ TagManager:
   - UnderOverGimic
   - GameOverWall_Gimic
   - reverse_Gimic
+  - GimicBlock_Bomb
+  - CheckPoint_TopBottom
   layers:
   - Default
   - TransparentFX

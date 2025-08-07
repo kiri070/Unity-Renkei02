@@ -35,9 +35,8 @@ public class Bomb : MonoBehaviour
                 {
                     //爆発
                     hitRb.AddExplosionForce(explosionForce, transform.position, radius, upForce, ForceMode.Impulse);
-
                     //エフェクト再生
-                    Instantiate(explosionEffect, transform.position, Quaternion.identity);
+                    if (explosionEffect != null) Instantiate(explosionEffect, transform.position, Quaternion.identity);
 
                     //SE再生
                     soundManager.OnPlaySE(soundsList.explosionSE);
