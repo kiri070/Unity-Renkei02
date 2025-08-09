@@ -27,9 +27,16 @@ public class ReverseGimic_Manager : MonoBehaviour
             PlayerCnt playerCnt = FindObjectOfType<PlayerCnt>();
             playerCnt.ChangeTopBottom(player2Obj, player1Obj, treasureBoxObj, true); //パラメーターを反転させる
 
-            player1Obj.transform.position = player1Pos; //プレイヤー1をスポーンポイントに配置
-            player2Obj.transform.position = player2Pos; //プレイヤー2をスポーンポイントに配置
-            treasureBoxObj.transform.position = treasureBoxPos; //宝箱をスポーンポイントに配置
+            //Rigidbodyの位置を動かす
+            Rigidbody rb1 = player1Obj.GetComponent<Rigidbody>();
+            Rigidbody rb2 = player2Obj.GetComponent<Rigidbody>();
+            Rigidbody rb3 = treasureBoxObj.GetComponent<Rigidbody>();
+            rb1.velocity = Vector3.zero;
+            rb2.velocity = Vector3.zero;
+            rb3.velocity = Vector3.zero;
+            rb1.position = player1Pos;
+            rb2.position = player2Pos;
+            rb3.position = treasureBoxPos;
         }
     }
 }
