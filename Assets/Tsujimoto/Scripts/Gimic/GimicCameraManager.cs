@@ -19,13 +19,13 @@ public class GimicCameraManager : MonoBehaviour
         player1 = GameObject.Find("Player1");
         player2 = GameObject.Find("Player2");
 
-        // プレイヤーの中心を基準にオフセットを計算
-        Vector3 center = (player1.transform.position + player2.transform.position) / 2f;
-        baseOffset = transform.position - center;
+        // // プレイヤーの中心を基準にオフセットを計算
+        // Vector3 center = (player1.transform.position + player2.transform.position) / 2f;
+        // baseOffset = transform.position - center;
 
-        //カメラの初期回転値
-        baseRotation = transform.rotation;
-        fixedCenterY = center.y;
+        // //カメラの初期回転値
+        // baseRotation = transform.rotation;
+        // fixedCenterY = center.y;
     }
 
     void Update()
@@ -55,5 +55,14 @@ public class GimicCameraManager : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
+    }
+
+    //カメラの位置を位置を調整する関数
+    public void InitCamera()
+    {
+        Vector3 center = (player1.transform.position + player2.transform.position) / 2f;
+        baseOffset = transform.position - center;
+        baseRotation = transform.rotation;
+        fixedCenterY = center.y;
     }
 }

@@ -55,6 +55,8 @@ public class UnderOverGimic_Manager : MonoBehaviour
         //プレイヤー,宝箱を天井と地面に設定(スポーンは別)
         playerCnt.ChangeTopBottom(player1, player2, treasureBox, true);
 
+        gimicCamera.GetComponent<GimicCameraManager>().InitCamera(); //ギミックカメラの位置を調整する関数を呼ぶ
+
         // //最初はプレイヤー1を天井判定にする
         // player1.GetComponent<PlayerMover>().onRoof = true;
         // //宝箱の運搬中フラグをオフ
