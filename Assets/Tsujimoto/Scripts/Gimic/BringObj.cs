@@ -178,6 +178,25 @@ public class BringObj : MonoBehaviour
             }
         }
 
+        //画面外なら
+        if (other.CompareTag("GameOverWall"))
+        {
+            gameManager.MinusBoxValue(5);
+            //効果音
+            soundManager.OnPlaySE(soundsList.treasureDamagedSE);
+            //チェックポイントがある場合
+            if (playerCnt.currentCheckPoint != null)
+            {
+                playerCnt.SpawnCheckPoint();
+            }
+            //チェックポイントがない場合
+            else
+            {
+                //初期位置にスポーン
+                playerCnt.SpwanStartPoint();
+            }
+        }
+
         //上下ギミック中の画面外判定なら
         if (other.CompareTag("GameOverWall_Gimic") && !playerCnt.invincible)
         {
