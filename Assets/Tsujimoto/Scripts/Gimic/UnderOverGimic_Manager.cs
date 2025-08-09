@@ -7,7 +7,9 @@ public class UnderOverGimic_Manager : MonoBehaviour
     bool player1_Ongimic = false; //プレイヤー1の上下ギミックフラグ
     bool player2_Ongimic = false; //プレイヤー2の上下ギミックフラグ
     bool treasureBox_Ongimic = false; //宝箱の上下ギミックフラグ
+    bool gimicTrigger = false; //ギミックのトリガー
     GameObject gimicCamera, mainCamera; //それぞれのカメラ
+
     void Start()
     {
         //それぞれのカメラを取得
@@ -18,8 +20,9 @@ public class UnderOverGimic_Manager : MonoBehaviour
     void Update()
     {
         //上下ギミックに乗ったら
-        if (player1_Ongimic && player2_Ongimic && treasureBox_Ongimic)
+        if (player1_Ongimic && player2_Ongimic && treasureBox_Ongimic && !gimicTrigger)
         {
+            gimicTrigger = true; //トリガーをオン
             PlayerCnt playerCnt = FindObjectOfType<PlayerCnt>();
             playerCnt.OnUnder_OverGimic = true; //上下ギミック起動フラグを立てる
             //カメラを切り替える
