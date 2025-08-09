@@ -147,6 +147,7 @@ public class PlayerMover : MonoBehaviour
                 heldObject.useGravity = false;
                 heldObject.velocity = Vector3.zero; // 落ちてる途中なら停止
             }
+
             // 既に持っている場合は、位置を前方に維持
             if (heldObject != null && isBring)
             {
@@ -171,7 +172,7 @@ public class PlayerMover : MonoBehaviour
                         Vector3 targetPos = transform.position + transform.forward * 1.5f + Vector3.up * 1f;
                         heldObject.MovePosition(targetPos);
                     }
-                    
+
                 }
             }
         }
@@ -221,7 +222,7 @@ public class PlayerMover : MonoBehaviour
                         heldObject.useGravity = true;
                         heldObject = null;
                     }
-                    
+
                 }
             }
         }
@@ -706,7 +707,7 @@ public class PlayerMover : MonoBehaviour
     }
 
     //ノックバック時間を計測
-    IEnumerator RecoveryKnockback(float time)
+    public IEnumerator RecoveryKnockback(float time)
     {
         yield return new WaitForSeconds(time);
         canMove = true;

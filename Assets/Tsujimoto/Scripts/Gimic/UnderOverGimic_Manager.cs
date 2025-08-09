@@ -8,13 +8,13 @@ public class UnderOverGimic_Manager : MonoBehaviour
     bool player2_Ongimic = false; //プレイヤー2の上下ギミックフラグ
     bool treasureBox_Ongimic = false; //宝箱の上下ギミックフラグ
     bool gimicTrigger = false; //ギミックのトリガー
-    GameObject gimicCamera, mainCamera; //それぞれのカメラ
+    public GameObject gimicCamera, mainCamera; //それぞれのカメラ
 
     void Start()
     {
         //それぞれのカメラを取得
-        mainCamera = GameObject.Find("MainCamera");
-        gimicCamera = GameObject.Find("GimicCamera");
+        // mainCamera = GameObject.Find("MainCamera");
+        // gimicCamera = GameObject.Find("GimicCamera");
     }
 
     void Update()
@@ -25,9 +25,12 @@ public class UnderOverGimic_Manager : MonoBehaviour
             gimicTrigger = true; //トリガーをオン
             PlayerCnt playerCnt = FindObjectOfType<PlayerCnt>();
             playerCnt.OnUnder_OverGimic = true; //上下ギミック起動フラグを立てる
+
             //カメラを切り替える
+            gimicCamera.SetActive(true);
             mainCamera.SetActive(false);
-            gimicCamera.GetComponent<Camera>().enabled = true;
+            
+            // gimicCamera.GetComponent<Camera>().enabled = true;
 
             WarpToGimic(); //上下ギミックにスポーンさせる
         }
@@ -46,16 +49,31 @@ public class UnderOverGimic_Manager : MonoBehaviour
         GameObject player2 = GameObject.Find("Player2");
         GameObject treasureBox = GameObject.Find("TreasureGroup");
 
-        //それぞれのスポーンポイントにスポーン
-        player1.transform.position = player1_SpawnPos;
-        player2.transform.position = player2_SpawnPos;
-        treasureBox.transform.position = treasureBox_SpawnPos;
+        //宝箱の運搬中フラグをオフ
+        BringObj bringobj = FindObjectOfType<BringObj>();
+        bringobj.player1_isBringing = false;
+        bringobj.player2_isBringing = false;
+
+        //Rigidbodyの位置を動かす
+        Rigidbody rb1 = player1.GetComponent<Rigidbody>();
+        Rigidbody rb2 = player2.GetComponent<Rigidbody>();
+        Rigidbody rb3 = treasureBox.GetComponent<Rigidbody>();
+        rb1.velocity = Vector3.zero;
+        rb2.velocity = Vector3.zero;
+        rb3.velocity = Vector3.zero;
+        rb1.position = player1_SpawnPos;
+        rb2.position = player2_SpawnPos;
+        rb3.position = treasureBox_SpawnPos;
+
+        // //それぞれのスポーンポイントにスポーン(旧)
+        // player1.transform.position = player1_SpawnPos;
+        // player2.transform.position = player2_SpawnPos;
+        // treasureBox.transform.position = treasureBox_SpawnPos;
 
         PlayerCnt playerCnt = FindObjectOfType<PlayerCnt>();
         //プレイヤー,宝箱を天井と地面に設定(スポーンは別)
         playerCnt.ChangeTopBottom(player1, player2, treasureBox, true);
 
-        gimicCamera.GetComponent<GimicCameraManager>().InitCamera(); //ギミックカメラの位置を調整する関数を呼ぶ
 
         // //最初はプレイヤー1を天井判定にする
         // player1.GetComponent<PlayerMover>().onRoof = true;

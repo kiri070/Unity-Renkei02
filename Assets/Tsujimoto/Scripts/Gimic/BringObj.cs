@@ -54,7 +54,7 @@ public class BringObj : MonoBehaviour
         if (playerCnt.OnUnder_OverGimic && top && !bottom)
         {
             rb.useGravity = false; //重力をオフ
-            rb.AddForce(Vector3.up * 10f, ForceMode.Acceleration); //擬似的な重力を上方向に作る
+            rb.AddForce(Vector3.up * 70f, ForceMode.Acceleration); //擬似的な重力を上方向に作る
             transform.rotation = Quaternion.Euler(0f, 0f, 180f);
         }
         //上下ギミック起動中に地面フラグが立ったら
