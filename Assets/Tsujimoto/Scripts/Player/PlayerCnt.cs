@@ -306,7 +306,9 @@ public class PlayerCnt : MonoBehaviour
         }
     }
 
-    //シングルプレイ用
+    /// <summary>
+    /// シングルプレイ用のコントローラーです。
+    /// </summary>
     void PlayerControlle()
     {
         if (GameManager.state == GameManager.GameState.Playing)
@@ -423,7 +425,9 @@ public class PlayerCnt : MonoBehaviour
             }
         }
     }
-    //マルチプレイ用
+    /// <summary>
+    /// マルチプレイ用のコントローラーです。
+    /// </summary>
     void MultiPlayerControlle()
     {
         if (GameManager.state == GameManager.GameState.Playing)
@@ -475,7 +479,9 @@ public class PlayerCnt : MonoBehaviour
         canPlayer2Bullet = true;
     }
 
-    //スタート地点にスポーンさせる関数
+    /// <summary>
+    /// スタート地点にスポーンします。
+    /// </summary>
     public void SpwanStartPoint()
     {
         //宝箱の運搬中フラグをオフ
@@ -501,7 +507,9 @@ public class PlayerCnt : MonoBehaviour
         treasure.transform.position = treasure_StartPoint.transform.position; //お宝
         StartCoroutine(InvincibleTimer());
     }
-    //チェックポイントにスポーンさせる関数
+    /// <summary>
+    /// チェックポイントにスポーンします。
+    /// </summary>
     public void SpawnCheckPoint()
     {
         //宝箱の運搬中フラグをオフ
@@ -580,7 +588,10 @@ public class PlayerCnt : MonoBehaviour
         treasure.transform.position = GameObject.Find("TreasureBox_GimicCheckPointSpawnPos").gameObject.transform.position; //お宝
         // StartCoroutine(InvincibleTimer()); //バグるため無敵をつけない
     }
-    //無敵時間管理
+    /// <summary>
+    /// 無敵時間を設定します。
+    /// </summary>
+    /// <returns>invincible = false</returns>
     IEnumerator InvincibleTimer()
     {
         invincible = true; //無敵状態に
@@ -588,7 +599,13 @@ public class PlayerCnt : MonoBehaviour
         invincible = false; //解除
     }
 
-    //上下ギミックで扱う反転(天井に設定するプレイヤー, 地面に設定するプレイヤー, 宝箱, 宝箱の位置)
+    /// <summary>
+    /// ステージ2の上下ギミックで扱う反転処理です。(天井に設定するプレイヤー, 地面に設定するプレイヤー, 宝箱, 宝箱の位置)
+    /// </summary>
+    /// <param name="topPlayer">天井に設定するプレイヤー</param>
+    /// <param name="bottomPlayer">床に設定するプレイヤー</param>
+    /// <param name="treasureBox">宝箱</param>
+    /// <param name="treasureBox_Top">宝箱を 天井に設定する場合:True, 床に設定する場合:False</param>
     public void ChangeTopBottom(GameObject topPlayer, GameObject bottomPlayer, GameObject treasureBox, bool treasureBox_Top)
     {
         //プレイヤーの天井と地面を切り替える
@@ -624,10 +641,11 @@ public class PlayerCnt : MonoBehaviour
         //プレイヤーの運搬オブジェクトを空にする
         topPlayer.GetComponent<PlayerMover>().heldObject = null;
         bottomPlayer.GetComponent<PlayerMover>().heldObject = null;
-        
     }
 
-    //入力イベントを削除
+    /// <summary>
+    /// 登録したイベントを削除します。
+    /// </summary>
     public void OnDestroyEvents()
     {
         controls?.Dispose();

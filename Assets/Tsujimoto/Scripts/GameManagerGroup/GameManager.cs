@@ -248,21 +248,27 @@ public class GameManager : MonoBehaviour
         ToPlayingState(); //プレイ開始
     }
 
-    //ゲームモード:プレイ中に変更
+    /// <summary>
+    /// ゲームモードをPlayingに変更します。
+    /// </summary>
     public static void ToPlayingState()
     {
         state = GameState.Playing;
         Time.timeScale = 1;
     }
 
-    //ゲームモード:ポーズに変更
+    /// <summary>
+    /// ゲームモードをPausedに変更します。
+    /// </summary>
     public static void ToPausedState()
     {
         state = GameState.Paused;
         Time.timeScale = 0;
     }
 
-    //ゲームモード:ゲームオーバーに変更
+    /// <summary>
+    /// ゲームモードをGameOverに変更します。
+    /// </summary>
     public static void ToGameOverState()
     {
         //現在のシーン名を保存
@@ -270,7 +276,9 @@ public class GameManager : MonoBehaviour
         state = GameState.GameOver;
     }
 
-    //ゲームモード:クリアに変更
+    /// <summary>
+    /// ゲームモードをClearに変更します。
+    /// </summary>
     public static void ToClearState()
     {
         //現在のシーン名を保存
