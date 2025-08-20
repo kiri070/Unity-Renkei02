@@ -1927,6 +1927,10 @@ PrefabInstance:
       value: GameOverJudge01
       objectReference: {fileID: 0}
     - target: {fileID: 3744461032846205915, guid: 48138d6d25f8a4d06a9604313e35bd25, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3744461032846205915, guid: 48138d6d25f8a4d06a9604313e35bd25, type: 3}
       propertyPath: m_TagString
       value: GameOverWall
       objectReference: {fileID: 0}
@@ -5160,6 +5164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distanceFactor: 0.2
   trampolineZoomout: 4
+  transparentMat: {fileID: 2100000, guid: 971cbd8b6d8084da6bbbd1c0db0c23f5, type: 2}
 --- !u!81 &1640535789
 AudioListener:
   m_ObjectHideFlags: 0
@@ -6100,6 +6105,10 @@ PrefabInstance:
     - target: {fileID: 1450083823100360109, guid: 3465c7f167e8ef845b8fa3e8b0667120, type: 3}
       propertyPath: m_TagString
       value: Floor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1659912834330982439, guid: 3465c7f167e8ef845b8fa3e8b0667120, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1659912834330982439, guid: 3465c7f167e8ef845b8fa3e8b0667120, type: 3}
       propertyPath: m_TagString
