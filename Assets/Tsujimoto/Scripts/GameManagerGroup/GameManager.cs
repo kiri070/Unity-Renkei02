@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
@@ -122,8 +123,14 @@ public class GameManager : MonoBehaviour
 
         if(currentSecond % 100 == 0 && currentSecond != 0)
         {
+            timeTextGroup.transform.localScale = Vector3.zero;
             leftoverTimeText.text = "残り時間:" + Mathf.Floor(timerValue).ToString();
             timeTextGroup.SetActive(true);
+
+            // ポップアップ演出
+            timeTextGroup.transform.DOScale(0.4f, 0.3f)   // 拡大しながら出てきて
+                 .SetEase(Ease.OutBack);
+
             StopCoroutine(nameof(DelayTimerText));
             StartCoroutine(DelayTimerText());
         }
@@ -132,7 +139,7 @@ public class GameManager : MonoBehaviour
     //残り時間を知らせるUIを非表示にする
     IEnumerator DelayTimerText()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
         timeTextGroup.SetActive(false);
     }
 
@@ -162,6 +169,8 @@ public class GameManager : MonoBehaviour
             minusText.text = "<color=red>" + "-" + value.ToString() + "%" + "</color>";
             StartCoroutine(AnimateAndDestroyText(minusObj, minusText));
         }
+
+        valueText.transform.DOShakePosition(0.5f, new Vector3(3, 3), 50); //お宝の価値のテキストを揺らす
 
     }
     //お宝の価値を回復する関数
@@ -204,6 +213,8 @@ public class GameManager : MonoBehaviour
             text.text = "-" + time.ToString();
             StartCoroutine(AnimateAndDestroyText(obj, text));
         }
+
+        timerText.transform.DOShakePosition(0.5f, new Vector3(3, 3), 50); //残り時間のテキストを揺らす
     }
     //テキストをフェードアウトさせる
     IEnumerator AnimateAndDestroyText(GameObject obj, Text text)

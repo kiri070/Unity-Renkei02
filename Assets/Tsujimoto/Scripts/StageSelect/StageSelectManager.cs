@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
-using Unity.VisualScripting;
 
 public class StageSelectManager : MonoBehaviour
 {
@@ -40,6 +39,7 @@ public class StageSelectManager : MonoBehaviour
 
     SoundManager soundManager;
     SoundsList soundsList;
+
 
     void Start()
     {

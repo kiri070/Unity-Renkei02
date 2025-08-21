@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using DG.Tweening;
 
 public class SettingManager : MonoBehaviour
 {
@@ -111,8 +112,9 @@ public class SettingManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Escape) && !settingUI.activeSelf)
             {
                 settingUI.SetActive(true); //設定画面を表示
+
                 if (padUICnt != null)
-                    padUICnt.OpenSetting();    //設定画面のみ操作
+                padUICnt.OpenSetting();    //設定画面のみ操作
                                                //効果音を再生
                 soundManager.OnPlaySE(soundsList.openSetting);
 

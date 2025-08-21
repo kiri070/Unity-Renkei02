@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using DG.Tweening;
 
 public class Pad_UICnt : MonoBehaviour
 {
@@ -91,7 +92,12 @@ public class Pad_UICnt : MonoBehaviour
         {
             var rtPrev = previousSelected.GetComponent<RectTransform>();
             if (rtPrev != null)
+            {
                 rtPrev.localScale = buttonScale;
+                //ボタンアニメーション関連
+                rtPrev.DOKill(); // 途中のアニメを強制終了
+                rtPrev.localScale = Vector3.one; // 初期スケールに戻す
+            }
         }
 
         //新しいオブジェクトが選択されたら
@@ -104,6 +110,9 @@ public class Pad_UICnt : MonoBehaviour
                 buttonScale = rt.localScale;
                 //大きさを変更
                 rt.localScale += new Vector3(0.1f, 0.1f, 0f);
+
+                // 選択された瞬間に軽くポップ
+                rt.transform.DOPunchScale(Vector3.one * 0.3f, 0.3f, 10, 1f);
             }
         }
 
