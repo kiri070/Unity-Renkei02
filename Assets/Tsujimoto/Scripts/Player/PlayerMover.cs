@@ -24,6 +24,8 @@ public class PlayerMover : MonoBehaviour
     [HideInInspector]
     public bool canJump; //ジャンプが可能か
     bool touchDeathArea = false; //DeathAreaに触れたか
+    bool moving = false; //移動入力があるかどうか
+    Collider collider;
 
     Vector3 originalScale; //プレイヤーの大きさ
 
@@ -75,6 +77,7 @@ public class PlayerMover : MonoBehaviour
         cameraCnt = FindObjectOfType<CameraCnt>();
         originalScale = transform.localScale; //初期の大きさを保存
         gameManager = FindObjectOfType<GameManager>();
+        collider = GetComponent<CapsuleCollider>();
 
         // 子を含むRendererをすべて取得
         renderers = GetComponentsInChildren<Renderer>();
@@ -101,6 +104,10 @@ public class PlayerMover : MonoBehaviour
 
     void Update()
     {
+        //移動入力があるかどうか
+        if (move.magnitude > 0.01) moving = true;
+        else moving = false;
+
         // OffScreen();
         // WallChecker();
     }
@@ -231,16 +238,41 @@ public class PlayerMover : MonoBehaviour
     //移動処理
     void Move()
     {
+        //傾斜を確認
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit))
+        {
+            //上方向の傾斜を取得
+            float angle = Vector3.Angle(hit.normal, Vector3.up);
+            if (hit.collider.gameObject.tag == "Floor")
+            {
+                //30度以上かつ、静止している場合
+                if (angle > 30f && !moving)
+                {
+                    //摩擦を追加
+                    collider.material.frictionCombine = PhysicMaterialCombine.Maximum;
+                    collider.material.staticFriction = 1;
+                }
+                else
+                {
+                    //摩擦を削除
+                    collider.material.frictionCombine = PhysicMaterialCombine.Multiply;
+                    collider.material.staticFriction = 0;
+                }
+            }
+        }
+
+
+
         //上下ギミック起動中、天井のキャラは擬似的に重力かける
-        if (playerCnt.OnUnder_OverGimic && onRoof)
-        {
-            rb.useGravity = false; //重力をオフ
-            rb.AddForce(Vector3.up * 100f, ForceMode.Acceleration); //擬似的な重力を上方向に作る
-        }
-        else if (!playerCnt.OnUnder_OverGimic)
-        {
-            rb.useGravity = true; //重力をオン
-        }
+            if (playerCnt.OnUnder_OverGimic && onRoof)
+            {
+                rb.useGravity = false; //重力をオフ
+                rb.AddForce(Vector3.up * 100f, ForceMode.Acceleration); //擬似的な重力を上方向に作る
+            }
+            else if (!playerCnt.OnUnder_OverGimic)
+            {
+                rb.useGravity = true; //重力をオン
+            }
 
         //氷の上の場合
             if (onIce)
