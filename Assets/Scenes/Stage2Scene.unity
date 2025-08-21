@@ -5101,6 +5101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distanceFactor: 0.15
   trampolineZoomout: 4
+  transparentMat: {fileID: 2100000, guid: 971cbd8b6d8084da6bbbd1c0db0c23f5, type: 2}
 --- !u!81 &1640535789
 AudioListener:
   m_ObjectHideFlags: 0
