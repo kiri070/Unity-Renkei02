@@ -1,85 +1,152 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+/// <summary>
+/// プレイヤーが一定範囲に入ったときに
+/// ・衝突無視（PlayerごとにON/OFF可能）
+/// ・半透明化（機能ON時のみ、自分自身 + 指定オブジェクト群）
+/// を行うスクリプト
+/// </summary>
 public class ColorChecker : MonoBehaviour
 {
-    // ▼ ボックスの中心位置を、オブジェクトの位置からどれだけずらすか（例：頭の上とか）
+    [Header("▼ プレイヤー検知ボックス")]
     public Vector3 boxCenterOffset = Vector3.zero;
-
-    // ▼ ボックスのサイズ（幅, 高さ, 奥行き）を設定。OverlapBoxではこれを半分にして使う。
     public Vector3 boxSize = new Vector3(3f, 3f, 3f);
-
-    // ▼ プレイヤーが所属するレイヤー。無関係なもの（地面など）を除外できる
     public LayerMask playerLayer;
 
-    // ▼ タグ「Player1」との衝突を無視する（true = すり抜ける）
-    public bool ignorePlayer1 = true;
+    [Header("▼ 衝突の無効化")]
+    public bool ignorePlayer1Red = true;
+    public bool ignorePlayer2Blue = false;
 
-    // ▼ タグ「Player2」との衝突を無視する（false = ぶつかる）
-    public bool ignorePlayer2 = false;
+    [Header("▼ 半透明化機能")]
+    public bool enableTransparency = true;          // 半透明化機能自体のON/OFF
+    public bool transparentOnPlayer1Red = true;    // Player1で透明化するか
+    public bool transparentOnPlayer2Blue = true;   // Player2で透明化するか
+    [Range(0f, 1f)] public float transparentAlpha = 0.3f;
 
-    // 自分のコライダーを格納する
+    [Header("▼ 追加で半透明化するオブジェクト")]
+    public GameObject[] extraTransparentObjects;
+
     private Collider myCollider;
-
-    // どの相手と衝突を無視しているかを記録する辞書（無駄な再設定を防ぐため）
     private Dictionary<Collider, bool> ignoreState = new Dictionary<Collider, bool>();
+
+    private Renderer myRenderer;
+    private Color originalColor;
+    private Dictionary<GameObject, Color> extraOriginalColors = new Dictionary<GameObject, Color>();
 
     void Start()
     {
-        // 自分にColliderが付いているか確認し、なければエラーを出す
         myCollider = GetComponent<Collider>();
-        if (myCollider == null)
+        if (myCollider == null) Debug.LogError("Collider がありません！");
+
+        myRenderer = GetComponent<Renderer>();
+        if (myRenderer != null)
         {
-            Debug.LogError("このオブジェクトにColliderがありません！");
+            originalColor = myRenderer.material.color;
+            originalColor.a = 1f;
+            SetMaterialToFade(myRenderer.material);
+        }
+
+        foreach (var obj in extraTransparentObjects)
+        {
+            if (obj == null) continue;
+            Renderer rend = obj.GetComponent<Renderer>();
+            if (rend != null)
+            {
+                Color c = rend.material.color;
+                c.a = 1f;
+                extraOriginalColors[obj] = c;
+                SetMaterialToFade(rend.material);
+            }
         }
     }
 
     void Update()
     {
-        // ボックスの中心位置を計算（自分の位置＋オフセット）
         Vector3 boxCenter = transform.position + boxCenterOffset;
-
-        // 指定した範囲（ボックス）内にあるプレイヤーのColliderをすべて取得
         Collider[] players = Physics.OverlapBox(
             boxCenter,
-            boxSize * 0.5f,       // 半サイズで指定する必要あり！
-            Quaternion.identity,  // ボックスの回転（ここでは無回転）
-            playerLayer           // 検出対象のレイヤー
+            boxSize * 0.5f,
+            Quaternion.identity,
+            playerLayer
         );
 
-        // 検出されたプレイヤーたちを1つずつチェック
+        bool player1InRange = false;
+        bool player2InRange = false;
+
         foreach (Collider col in players)
         {
-            if (col == null || col == myCollider)
-                continue; // 自分自身はスキップ
+            if (col == null || col == myCollider) continue;
 
-            // そのプレイヤーとの衝突を無視するべきかどうかをタグで判断
             bool shouldIgnore = false;
 
             if (col.CompareTag("Player1"))
-                shouldIgnore = ignorePlayer1;
+            {
+                shouldIgnore = ignorePlayer1Red;
+                player1InRange = true;
+            }
             else if (col.CompareTag("Player2"))
-                shouldIgnore = ignorePlayer2;
+            {
+                shouldIgnore = ignorePlayer2Blue;
+                player2InRange = true;
+            }
 
-            // 状態が変わっている場合だけIgnoreCollisionを呼ぶ（パフォーマンス最適化）
             if (!ignoreState.ContainsKey(col) || ignoreState[col] != shouldIgnore)
             {
-                // 実際に衝突を無視する/しないを切り替える
                 Physics.IgnoreCollision(myCollider, col, shouldIgnore);
-
-                // 状態を記録しておく
                 ignoreState[col] = shouldIgnore;
             }
         }
+
+        // 半透明化判定
+        bool shouldBeTransparent = false;
+        if (enableTransparency) // 機能ON時のみ判定
+        {
+            if (player1InRange && transparentOnPlayer1Red)
+                shouldBeTransparent = true;
+            else if (player2InRange && transparentOnPlayer2Blue)
+                shouldBeTransparent = true;
+        }
+
+        // 自分自身の色更新
+        if (myRenderer != null)
+        {
+            Color c = originalColor;
+            c.a = shouldBeTransparent ? transparentAlpha : 1f;
+            myRenderer.material.color = c;
+        }
+
+        // 追加オブジェクトの色更新
+        foreach (var obj in extraTransparentObjects)
+        {
+            if (obj == null) continue;
+            Renderer rend = obj.GetComponent<Renderer>();
+            if (rend == null) continue;
+
+            Color baseColor = extraOriginalColors[obj];
+            baseColor.a = shouldBeTransparent ? transparentAlpha : 1f;
+            rend.material.color = baseColor;
+        }
     }
 
-    // ▼ Unityエディタ上で、検出範囲のボックスを見えるように描く関数
     void OnDrawGizmosSelected()
     {
-        Gizmos.color = new Color(0, 1, 1, 0.25f); // 薄いシアン（透明）
+        Gizmos.color = new Color(0, 1, 1, 0.25f);
         Vector3 boxCenter = transform.position + boxCenterOffset;
-        Gizmos.DrawCube(boxCenter, boxSize);      // 塗りつぶしのキューブ
+        Gizmos.DrawCube(boxCenter, boxSize);
         Gizmos.color = Color.cyan;
-        Gizmos.DrawWireCube(boxCenter, boxSize);  // 枠線だけのキューブ
+        Gizmos.DrawWireCube(boxCenter, boxSize);
+    }
+
+    void SetMaterialToFade(Material mat)
+    {
+        mat.SetFloat("_Mode", 2);
+        mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+        mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+        mat.SetInt("_ZWrite", 0);
+        mat.DisableKeyword("_ALPHATEST_ON");
+        mat.EnableKeyword("_ALPHABLEND_ON");
+        mat.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+        mat.renderQueue = 3000;
     }
 }
