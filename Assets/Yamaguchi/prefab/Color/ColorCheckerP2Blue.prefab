@@ -123,5 +123,10 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
-  ignorePlayer1: 0
-  ignorePlayer2: 1
+  ignorePlayer1Red: 0
+  ignorePlayer2Blue: 1
+  enableTransparency: 0
+  transparentOnPlayer1Red: 1
+  transparentOnPlayer2Blue: 1
+  transparentAlpha: 0.3
+  extraTransparentObjects: []
