@@ -1685,7 +1685,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3909590571799848551, guid: 7e32588525ba1416a8d50577ead040e8, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4032504680570636650, guid: 7e32588525ba1416a8d50577ead040e8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4903,7 +4903,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3909590571799848551, guid: 7e32588525ba1416a8d50577ead040e8, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4032504680570636650, guid: 7e32588525ba1416a8d50577ead040e8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7130,7 +7130,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3909590571799848551, guid: 7e32588525ba1416a8d50577ead040e8, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4032504680570636650, guid: 7e32588525ba1416a8d50577ead040e8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9218,7 +9218,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1001 &2072671800314351882
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12603,8 +12603,13 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
-  ignorePlayer1: 0
-  ignorePlayer2: 0
+  ignorePlayer1Red: 1
+  ignorePlayer2Blue: 0
+  enableTransparency: 1
+  transparentOnPlayer1Red: 1
+  transparentOnPlayer2Blue: 1
+  transparentAlpha: 0.3
+  extraTransparentObjects: []
 --- !u!1001 &8235412778773543062
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13101,7 +13106,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1001 &9179136488639268220
 PrefabInstance:
   m_ObjectHideFlags: 0

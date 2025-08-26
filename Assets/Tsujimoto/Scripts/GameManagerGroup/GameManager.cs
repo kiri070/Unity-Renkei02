@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
+using System.Threading;
 
 public class GameManager : MonoBehaviour
 {
@@ -46,6 +47,10 @@ public class GameManager : MonoBehaviour
 
     SoundManager soundManager;
     SoundsList soundsList;
+
+    TimerNeedle timerNeedle;
+
+    
     //ゲームの状態を管理
     public enum GameState
     {
@@ -67,6 +72,7 @@ public class GameManager : MonoBehaviour
         soundManager = FindObjectOfType<SoundManager>();
         soundsList = FindObjectOfType<SoundsList>();
         playerCnt = FindObjectOfType<PlayerCnt>();
+        timerNeedle = FindObjectOfType<TimerNeedle>();
 
         //お宝の価値を表示
         valueText.text = "<color=yellow>" + "お宝の価値:" + boxValue.ToString() + "%" + "</color>";
@@ -215,6 +221,8 @@ public class GameManager : MonoBehaviour
         }
 
         timerText.transform.DOShakePosition(0.5f, new Vector3(3, 3), 50); //残り時間のテキストを揺らす
+
+        timerNeedle.DecreaseTimerNeedle(); //タイマーの針を動かす
     }
     //テキストをフェードアウトさせる
     IEnumerator AnimateAndDestroyText(GameObject obj, Text text)
