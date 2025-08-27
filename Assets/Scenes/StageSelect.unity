@@ -761,7 +761,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 369.34, y: -180}
+  m_AnchoredPosition: {x: 357, y: -180}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &189979657
@@ -840,7 +840,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ef8dbf7393dc4436b80ce4a33b479d6d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 03edfc029466b4056a8989cedb74adcb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2612,14 +2612,14 @@ RectTransform:
   m_GameObject: {fileID: 638760935}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1886866420}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -369.34, y: -180}
+  m_AnchoredPosition: {x: -359.2, y: -180}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &638760937
@@ -2698,7 +2698,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ef8dbf7393dc4436b80ce4a33b479d6d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1e65cbff035b5439db8c99997c36371d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3091,7 +3091,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 369.34, y: -180}
+  m_AnchoredPosition: {x: 357, y: -180}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &759701020
@@ -3170,7 +3170,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ef8dbf7393dc4436b80ce4a33b479d6d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 03edfc029466b4056a8989cedb74adcb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7595,7 +7595,7 @@ PrefabInstance:
     - target: {fileID: 6803832182769035471, guid: 18d9daa902f6808408aafdfcff953263, type: 3}
       propertyPath: firstButton
       value: 
-      objectReference: {fileID: 723652952}
+      objectReference: {fileID: 0}
     - target: {fileID: 6803832182769035471, guid: 18d9daa902f6808408aafdfcff953263, type: 3}
       propertyPath: MainCanvasGroup
       value: 
