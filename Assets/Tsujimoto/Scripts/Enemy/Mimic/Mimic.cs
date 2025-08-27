@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Mimic : MonoBehaviour
@@ -146,7 +147,8 @@ public class Mimic : MonoBehaviour
         Collider[] hits = Physics.OverlapBox(center + offset, boxSize / 2, transform.rotation, playerLayer);
         if (hits.Length > 0)
         {
-            if (mover1.canJump || mover2.canJump) return; //ジャンプしていなかったらreturn
+            //プレイヤーが上から踏んでいない場合, return
+            if (hits[0].gameObject.GetComponent<Rigidbody>().velocity.y > -0.1f) return;
 
             PlayerMover pm = FindObjectOfType<PlayerMover>();
             pm.OnStepEnemy(); //音をプレイヤー側で鳴らす
@@ -154,6 +156,7 @@ public class Mimic : MonoBehaviour
             Instantiate(step, transform.position, step.transform.rotation); //エフェクト再生
             //キルエフェクト再生
             Instantiate(killed, transform.position, killed.transform.rotation);
+            hits[0].gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero; //プレイヤーを止める
             hits[0].gameObject.GetComponent<Rigidbody>().AddForce(0f, 50f, 0f, ForceMode.Impulse); //プレイヤーを跳ねさせる
             Destroy(gameObject);
         }
