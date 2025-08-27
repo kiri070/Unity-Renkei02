@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class ColorChecker1 : MonoBehaviour
+public class ColorCheckerOld : MonoBehaviour
 {
     // ▼ ボックスの中心位置を、オブジェクトの位置からどれだけずらすか（例：頭の上とか）
     public Vector3 boxCenterOffset = Vector3.zero;
