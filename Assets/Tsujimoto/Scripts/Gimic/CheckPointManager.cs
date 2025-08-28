@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +9,13 @@ public class CheckPointManager : MonoBehaviour
     public GameObject checkPointEffect; //炎
 
     [HideInInspector] public bool isActive = false;
+
+    NoticeSystem noticeSystem;
+
+    private void Start()
+    {
+        noticeSystem = FindObjectOfType<NoticeSystem>();
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -21,6 +28,8 @@ public class CheckPointManager : MonoBehaviour
                 // CheckPointArea を非アクティブにする
                 Transform area = transform.Find("CheckPointArea");
                 area.gameObject.SetActive(false);
+
+                noticeSystem.ActivePanel(); //チェックポイント画面演出
             }
 
         }
