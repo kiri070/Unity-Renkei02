@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -202,12 +202,16 @@ public class Enemy01 : MonoBehaviour
         Collider[] hits = Physics.OverlapBox(center + offset, boxSize / 2, Quaternion.identity, playerLayer);
         if (hits.Length > 0 && stepOnEnemyCollider)
         {
+            //上から踏まれていない場合はreturn
+            if (hits[0].gameObject.GetComponent<Rigidbody>().velocity.y > -0.1f) return;
+
             PlayerMover pm = FindObjectOfType<PlayerMover>();
             pm.OnStepEnemy(); //音をプレイヤー側で鳴らす
             soundManager.OnPlaySE(soundsList.stepOnPlayer);
             Instantiate(step, transform.position, step.transform.rotation); //エフェクト再生
             //キルエフェクト再生
             Instantiate(killed, transform.position, killed.transform.rotation);
+            hits[0].gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
             hits[0].gameObject.GetComponent<Rigidbody>().AddForce(0f, 50f, 0f, ForceMode.Impulse); //プレイヤーを跳ねさせる
             Destroy(gameObject);
         }

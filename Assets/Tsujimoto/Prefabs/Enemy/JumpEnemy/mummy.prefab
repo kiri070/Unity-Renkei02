@@ -51,8 +51,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyState: 0
   player: {fileID: 0}
-  boxSize: {x: 1.24, y: 0.2, z: 1.25}
-  offset: {x: 0, y: 0.24, z: 0}
+  boxSize: {x: 1.5, y: 2, z: 1.95}
+  offset: {x: 0, y: -0.81, z: 0}
   playerLayer:
     serializedVersion: 2
     m_Bits: 8

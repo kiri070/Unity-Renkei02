@@ -49,8 +49,8 @@ MonoBehaviour:
   enemyState: 0
   player: {fileID: 0}
   lastPlayerPosition: {x: 0, y: 0, z: 0}
-  boxSize: {x: 1.42, y: 0.44, z: 1.36}
-  offset: {x: 0, y: 0.72, z: 0}
+  boxSize: {x: 2, y: 2.03, z: 2}
+  offset: {x: 0, y: -0.25, z: 0}
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
