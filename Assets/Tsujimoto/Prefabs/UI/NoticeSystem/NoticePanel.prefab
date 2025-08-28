@@ -92,6 +92,7 @@ MonoBehaviour:
   parentUI: {fileID: 8005929080877272569}
   spawnAnchorPos: {x: 300, y: 0}
   targetUI_CheckPoint: {fileID: 8843228299091183097, guid: 540555917ae1b4646b58950b835d8459, type: 3}
+  tartgetUI_Goal: {fileID: 8843228299091183097, guid: 41706b6251838cf4bb59e59a21b6dd2a, type: 3}
   tartgetUI_Timer400: {fileID: 8843228299091183097, guid: 80b068301a835764684156431ae05454, type: 3}
   tartgetUI_Timer300: {fileID: 8843228299091183097, guid: f1bbe61303d3d6246b5d33aae6d8114d, type: 3}
   tartgetUI_Timer200: {fileID: 8843228299091183097, guid: faf6217d46aa292468e215da2c05bdb5, type: 3}

@@ -15,6 +15,9 @@ public class GoalScr : MonoBehaviour
     public bool isClearTriggered = false;
     SoundManager soundManager;
     SoundsList soundsList;
+
+    NoticeSystem noticeSystem;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +30,7 @@ public class GoalScr : MonoBehaviour
         playerCnt = FindObjectOfType<PlayerCnt>();
         soundManager = FindObjectOfType<SoundManager>();
         soundsList = FindObjectOfType<SoundsList>();
+        noticeSystem = FindObjectOfType<NoticeSystem>();
     }
 
     // Update is called once per frame
@@ -51,6 +55,8 @@ public class GoalScr : MonoBehaviour
             playerCnt.pos1 = transform.Find("Player1_Pos").gameObject;
             playerCnt.pos2 = transform.Find("Player2_Pos").gameObject;
             playerCnt.treasurePos = transform.Find("Treasure_Pos").gameObject;
+
+            noticeSystem.ActivePanel(noticeSystem.tartgetUI_Goal); //通知を表示
         }
     }
 

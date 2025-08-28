@@ -17,6 +17,7 @@ public class NoticeSystem : MonoBehaviour
     // プレハブ（チェックポイントUI）
     [Header("通知するオブジェクト")]
     public GameObject targetUI_CheckPoint;
+    public GameObject tartgetUI_Goal;
     public GameObject tartgetUI_Timer400;
     public GameObject tartgetUI_Timer300;
     public GameObject tartgetUI_Timer200;
