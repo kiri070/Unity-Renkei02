@@ -854,9 +854,9 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: "--Planner--\n\u30FB\u91CE\u3005\u6751 \u8CE2\u4EBA (Kento NoNomura)\n\u30FB\u5965\u6751
     \u6D41\u7FBD (Ryu Okumura)\n\n--Programming--\n\u30FB\u8FBB\u672C \u4F0A\u5439
-    (Ibuki Tsujimoto)\n\u30FB\u5C71\u53E3 \u9065\u751F (Haruki Yamaguti)\n\n--3D
+    (Ibuki Tsujimoto)\n\u30FB\u5C71\u53E3 \u9065\u751F (Haruki Yamaguchi)\n\n--3D
     Modeling--\n\u30FB\u6771\u91CE\u98DB\u71D5 (Hien Higashino)\n\n--2D Illustration--\n\u30FB\u7AF9\u5185\u9F8D\u6C70
-    (Ryuta Takeuti)\n\n\n--Music & Sound--\n\u30FB\u52B9\u679C\u97F3\u30E9\u30DC\n\u30FBAudiostock"
+    (Ryuta Takeuchi)\n\n\n--Music & Sound--\n\u30FB\u52B9\u679C\u97F3\u30E9\u30DC\n\u30FBAudiostock"
 --- !u!222 &711588340
 CanvasRenderer:
   m_ObjectHideFlags: 0
