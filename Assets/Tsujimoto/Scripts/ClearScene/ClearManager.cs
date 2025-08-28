@@ -1,10 +1,12 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using DG.Tweening;
 
 public class ClearManager : MonoBehaviour
 {
@@ -35,6 +37,7 @@ public class ClearManager : MonoBehaviour
     SoundsList soundsList;
 
     [SerializeField]GameObject deleteScoreUI; //スコアランキングを削除した時に表示するUI
+
 
     //スコアを消す関数
     void ClearScoreOnly()
@@ -122,6 +125,12 @@ public class ClearManager : MonoBehaviour
     public void OnStageSelectButton()
     {
         SceneManager.LoadScene("StageSelect");
+    }
+
+    //クレジットを表示するボタン
+    public void OnCreditsButton()
+    {
+        SceneManager.LoadScene("CreditsScene");
     }
 
     //スコアにアニメーションをつける
