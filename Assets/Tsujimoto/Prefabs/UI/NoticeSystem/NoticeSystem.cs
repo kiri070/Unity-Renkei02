@@ -9,40 +9,6 @@ using UnityEngine.UI;
 /// </summary>
 public class NoticeSystem : MonoBehaviour
 {
-
-    //[Header("通知パネル")][SerializeField] GameObject panel;
-    //[SerializeField] private RectTransform targetUI;
-
-    ///// <summary>
-    ///// 通知パネルを表示します。
-    ///// </summary>
-    //public void ActivePanel()
-    //{
-    //    panel.SetActive(true);
-    //    Image fadePanel = panel.GetComponent<Image>();
-    //    fadePanel.DOFade(0.7f, 0.5f); //0.5秒かけて表示する
-    //    MoveImage();
-    //}
-
-    ////画像をスライドさせる
-    //private void MoveImage()
-    //{
-    //    // 0.5秒かけて (0, 0) に移動
-    //    targetUI.DOAnchorPos(new Vector2(0f, 0f), 0.5f).SetEase(Ease.OutCubic);
-    //    StartCoroutine(NonActiveImage());
-    //}
-
-    ////通知システムをオフにする
-    //IEnumerator NonActiveImage()
-    //{
-    //    yield return new WaitForSeconds(2.5f);
-    //    Image fadePanel = panel.GetComponent<Image>();
-    //    fadePanel.DOFade(0f, 1f); //0.5秒かけて非表示にする
-    //    panel.SetActive(false);
-    //    // anchoredPositionを変更
-    //    targetUI.anchoredPosition = new Vector2(300f, 0f);
-    //}
-
     GameObject obj;
     [Header("通知パネル")] [SerializeField] GameObject panel;
     [Header("生成する親(パネル)")][SerializeField] private RectTransform parentUI;
@@ -50,24 +16,28 @@ public class NoticeSystem : MonoBehaviour
 
     // プレハブ（チェックポイントUI）
     [Header("通知するオブジェクト")]
-    [SerializeField] private GameObject targetUI_CheckPoint;
+    public GameObject targetUI_CheckPoint;
+    public GameObject tartgetUI_Timer400;
+    public GameObject tartgetUI_Timer300;
+    public GameObject tartgetUI_Timer200;
+    public GameObject tartgetUI_Timer100;
 
     /// <summary>
-    /// 通知パネルを表示します。
+    /// 通知パネルを表示します。通知するオブジェクトを代入してください
     /// </summary>
-    public void ActivePanel()
+    public void ActivePanel(GameObject targetUI)
     {
         panel.SetActive(true);
         Image fadePanel = panel.GetComponent<Image>();
         fadePanel.DOFade(0.7f, 0.5f); //0.5秒かけて表示する
-        MoveImage();
+        MoveImage(targetUI);
     }
 
     //画像をスライドさせる
-    private void MoveImage()
+    private void MoveImage(GameObject tartgetUI)
     {
         // プレハブを親の下に生成
-        obj = Instantiate(targetUI_CheckPoint, parentUI);
+        obj = Instantiate(tartgetUI, parentUI);
 
         // RectTransformを取得
         RectTransform rt = obj.GetComponent<RectTransform>();

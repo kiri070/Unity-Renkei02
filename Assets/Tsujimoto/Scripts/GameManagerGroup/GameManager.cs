@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -49,6 +49,10 @@ public class GameManager : MonoBehaviour
     SoundsList soundsList;
 
     TimerNeedle timerNeedle;
+    NoticeSystem noticeSystem;
+
+    //残り時間の計測
+    bool time400, time300, time200, time100 = false;
 
     
     //ゲームの状態を管理
@@ -73,6 +77,7 @@ public class GameManager : MonoBehaviour
         soundsList = FindObjectOfType<SoundsList>();
         playerCnt = FindObjectOfType<PlayerCnt>();
         timerNeedle = FindObjectOfType<TimerNeedle>();
+        noticeSystem = FindObjectOfType<NoticeSystem>();
 
         //お宝の価値を表示
         valueText.text = "<color=yellow>" + "お宝の価値:" + boxValue.ToString() + "%" + "</color>";
@@ -102,6 +107,7 @@ public class GameManager : MonoBehaviour
         }
 
         Timer();
+        ShowTime();
     }
 
     //タイマー
@@ -112,7 +118,7 @@ public class GameManager : MonoBehaviour
         {
             timerValue -= Time.deltaTime;
             timerText.text = "残り時間:" + Mathf.Floor(timerValue).ToString();
-            CheckTimerUI();
+            //CheckTimerUI();
         }
         //タイマーが0になったら
         if (timerValue <= 0)
@@ -122,31 +128,30 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    //指定の残り時間ごとにUI表示を切り替える
-    void CheckTimerUI()
+    //残り時間を表示する関数
+    void ShowTime()
     {
-        int currentSecond = Mathf.FloorToInt(timerValue);
-
-        if(currentSecond % 100 == 0 && currentSecond != 0)
+        //400秒以下
+        if (timerValue <= 400f && !time400)
         {
-            timeTextGroup.transform.localScale = Vector3.zero;
-            leftoverTimeText.text = "残り時間:" + Mathf.Floor(timerValue).ToString();
-            timeTextGroup.SetActive(true);
-
-            // ポップアップ演出
-            timeTextGroup.transform.DOScale(0.4f, 0.3f)   // 拡大しながら出てきて
-                 .SetEase(Ease.OutBack);
-
-            StopCoroutine(nameof(DelayTimerText));
-            StartCoroutine(DelayTimerText());
+            noticeSystem.ActivePanel(noticeSystem.tartgetUI_Timer400);
+            time400 = true;
         }
-    }
-
-    //残り時間を知らせるUIを非表示にする
-    IEnumerator DelayTimerText()
-    {
-        yield return new WaitForSeconds(1.5f);
-        timeTextGroup.SetActive(false);
+        else if (timerValue <= 300f && !time300)
+        {
+            noticeSystem.ActivePanel(noticeSystem.tartgetUI_Timer300);
+            time300 = true;
+        }
+        else if (timerValue <= 200f && !time200)
+        {
+            noticeSystem.ActivePanel(noticeSystem.tartgetUI_Timer200);
+            time200 = true;
+        }
+        else if (timerValue <= 100f && !time100)
+        {
+            noticeSystem.ActivePanel(noticeSystem.tartgetUI_Timer100);
+            time100 = true;
+        }
     }
 
     //お宝の価値を下げる関数
