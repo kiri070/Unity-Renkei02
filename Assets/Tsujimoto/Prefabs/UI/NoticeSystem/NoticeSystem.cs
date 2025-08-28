@@ -23,13 +23,15 @@ public class NoticeSystem : MonoBehaviour
     public GameObject tartgetUI_Timer200;
     public GameObject tartgetUI_Timer100;
 
+    Image fadePanel;
+
     /// <summary>
     /// 通知パネルを表示します。通知するオブジェクトを代入してください
     /// </summary>
     public void ActivePanel(GameObject targetUI)
     {
         panel.SetActive(true);
-        Image fadePanel = panel.GetComponent<Image>();
+        fadePanel = panel.GetComponent<Image>();
         fadePanel.DOFade(0.7f, 0.5f); //0.5秒かけて表示する
         MoveImage(targetUI);
     }
@@ -56,12 +58,11 @@ public class NoticeSystem : MonoBehaviour
     IEnumerator NonActiveImage()
     {
         yield return new WaitForSeconds(2.5f);
-        Image fadePanel = panel.GetComponent<Image>();
-        fadePanel.DOFade(0f, 1f); //1秒かけて非表示にする
-        panel.SetActive(false);
+        fadePanel.DOKill();
+        fadePanel.DOFade(0f, 1f).OnComplete(() =>
+        {
+            panel.SetActive(false);
+        });
         Destroy(obj);
     }
-
-
 }
-;
