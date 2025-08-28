@@ -1,0 +1,32 @@
+# すべてのテキストファイルは LF に統一
+* text=auto eol=lf
+
+# Unityのテキストアセットを必ずテキスト扱いにする
+*.cs text
+*.shader text
+*.cginc text
+*.compute text
+*.json text
+*.asmdef text
+*.meta text
+*.mat text
+*.prefab text
+*.unity text
+*.yaml text
+
+# OS依存のファイル
+*.sh  text eol=lf
+*.bat text eol=crlf
+
+# バイナリファイル（改行コード変換しない）
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.psd  binary
+*.fbx  binary
+*.anim binary
+*.ttf  binary
+*.otf  binary
+*.wav  binary
+*.mp3  binary
+*.ogg  binary
