@@ -89,7 +89,7 @@ public class StageSelectManager : MonoBehaviour
                 //ステージ1が選択されている場合
                 case "Stage1_SelectButton":
                     stagePrefabs[1].transform.Rotate(0f, rotateSpeed * Time.deltaTime, 0f); //回転させる
-                    stagePrefabs[1].transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);   //選択中のステージを大きく
+                    stagePrefabs[1].transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);   //選択中のステージを大きく
 
                     //選択しているステージ以外を元の大きさにする
                     for (int i = 0; i < stagePrefabs.Count; i++)

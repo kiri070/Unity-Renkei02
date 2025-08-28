@@ -10,11 +10,11 @@ public class CheckPointManager : MonoBehaviour
 
     [HideInInspector] public bool isActive = false;
 
-    NoticeSystem noticeSystem;
+    //NoticeSystem noticeSystem;
 
     private void Start()
     {
-        noticeSystem = FindObjectOfType<NoticeSystem>();
+        //noticeSystem = FindObjectOfType<NoticeSystem>();
     }
 
     void OnTriggerEnter(Collider other)
@@ -29,7 +29,7 @@ public class CheckPointManager : MonoBehaviour
                 Transform area = transform.Find("CheckPointArea");
                 area.gameObject.SetActive(false);
 
-                noticeSystem.ActivePanel(noticeSystem.targetUI_CheckPoint); //チェックポイント画面演出
+                //noticeSystem.ActivePanel(noticeSystem.targetUI_CheckPoint); //チェックポイント画面演出
             }
 
         }
