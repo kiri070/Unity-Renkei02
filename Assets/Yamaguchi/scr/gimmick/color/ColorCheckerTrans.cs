@@ -2,35 +2,35 @@ using UnityEngine;
 using System.Collections.Generic;
 
 /// <summary>
-/// ƒvƒŒƒCƒ„[‚ªˆê’è”ÍˆÍ‚É“ü‚Á‚½‚Æ‚«‚É
-/// EÕ“Ë–³‹iPlayer‚²‚Æ‚ÉON/OFF‰Â”\j
-/// E”¼“§–¾‰»i‹@”\ON‚Ì‚İA©•ª©g + w’èƒIƒuƒWƒFƒNƒgŒQj
-/// ‚ğs‚¤ƒXƒNƒŠƒvƒg
+/// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒä¸€å®šç¯„å›²ã«å…¥ã£ãŸã¨ãã«
+/// ãƒ»è¡çªç„¡è¦–ï¼ˆPlayerã”ã¨ã«ON/OFFå¯èƒ½ï¼‰
+/// ãƒ»åŠé€æ˜åŒ–ï¼ˆæ©Ÿèƒ½ONæ™‚ã®ã¿ã€è‡ªåˆ†è‡ªèº« + æŒ‡å®šã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç¾¤ï¼‰
+/// ã‚’è¡Œã†ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 /// </summary>
 public class ColorCheckerTrans : MonoBehaviour
 {
-    [Header("¥ ƒvƒŒƒCƒ„[ŒŸ’mƒ{ƒbƒNƒX")]
+    [Header("â–¼ ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æ¤œçŸ¥ãƒœãƒƒã‚¯ã‚¹")]
     public Vector3 boxCenterOffset = Vector3.zero;
     public Vector3 boxSize = new Vector3(3f, 3f, 3f);
     public LayerMask playerLayer;
 
-    [Header("¥ Õ“Ë‚Ì–³Œø‰»")]
+    [Header("â–¼ è¡çªã®ç„¡åŠ¹åŒ–")]
     public bool ignorePlayer1Red = true;
     public bool ignorePlayer2Blue = false;
 
-    [Header("¥ ”¼“§–¾‰»‹@”\")]
-    public bool enableTransparency = true;          // ”¼“§–¾‰»‹@”\©‘Ì‚ÌON/OFF
-    public bool transparentOnPlayer1Red = true;    // Player1‚Å“§–¾‰»‚·‚é‚©
-    public bool transparentOnPlayer2Blue = true;   // Player2‚Å“§–¾‰»‚·‚é‚©
+    [Header("â–¼ åŠé€æ˜åŒ–æ©Ÿèƒ½")]
+    public bool enableTransparency = true;          // åŠé€æ˜åŒ–æ©Ÿèƒ½è‡ªä½“ã®ON/OFF
+    public bool transparentOnPlayer1Red = true;    // Player1ã§é€æ˜åŒ–ã™ã‚‹ã‹
+    public bool transparentOnPlayer2Blue = true;   // Player2ã§é€æ˜åŒ–ã™ã‚‹ã‹
     [Range(0f, 1f)] public float transparentAlpha = 0.3f;
 
-    [Header("¥ ’Ç‰Á‚Å”¼“§–¾‰»‚·‚éƒIƒuƒWƒFƒNƒg")]
+    [Header("â–¼ è¿½åŠ ã§åŠé€æ˜åŒ–ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ")]
     public GameObject[] extraTransparentObjects;
 
     private Collider myCollider;
     private Dictionary<Collider, bool> ignoreState = new Dictionary<Collider, bool>();
 
-    // ƒŒƒ“ƒ_ƒ‰[‚Æ‚»‚Ìƒ}ƒeƒŠƒAƒ‹‚ÌŒ³F‚ğŠÇ—
+    // ãƒ¬ãƒ³ãƒ€ãƒ©ãƒ¼ã¨ãã®ãƒãƒ†ãƒªã‚¢ãƒ«ã®å…ƒè‰²ã‚’ç®¡ç†
     private Renderer myRenderer;
     private Dictionary<Material, Color> myOriginalColors = new Dictionary<Material, Color>();
     private Dictionary<GameObject, Dictionary<Material, Color>> extraOriginalColors =
@@ -38,22 +38,22 @@ public class ColorCheckerTrans : MonoBehaviour
 
     void Start()
     {
-        // ©•ª‚ÌƒRƒ‰ƒCƒ_[
+        // è‡ªåˆ†ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
         myCollider = GetComponent<Collider>();
-        if (myCollider == null) Debug.LogError("Collider ‚ª‚ ‚è‚Ü‚¹‚ñI");
+        if (myCollider == null) Debug.LogError("Collider ãŒã‚ã‚Šã¾ã›ã‚“ï¼");
 
-        // ©•ª‚ÌƒŒƒ“ƒ_ƒ‰[‚Æƒ}ƒeƒŠƒAƒ‹“o˜^
+        // è‡ªåˆ†ã®ãƒ¬ãƒ³ãƒ€ãƒ©ãƒ¼ã¨ãƒãƒ†ãƒªã‚¢ãƒ«ç™»éŒ²
         myRenderer = GetComponent<Renderer>();
         if (myRenderer != null)
         {
             foreach (Material mat in myRenderer.materials)
             {
                 myOriginalColors[mat] = mat.color;
-                SetMaterialToFade(mat); // ‚ ‚ç‚©‚¶‚ß“§–¾‰»‘Î‰
+                SetMaterialToFade(mat); // ã‚ã‚‰ã‹ã˜ã‚é€æ˜åŒ–å¯¾å¿œ
             }
         }
 
-        // ’Ç‰Á‘ÎÛƒIƒuƒWƒFƒNƒg‚ÌƒŒƒ“ƒ_ƒ‰[‚Æƒ}ƒeƒŠƒAƒ‹“o˜^
+        // è¿½åŠ å¯¾è±¡ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ¬ãƒ³ãƒ€ãƒ©ãƒ¼ã¨ãƒãƒ†ãƒªã‚¢ãƒ«ç™»éŒ²
         foreach (var obj in extraTransparentObjects)
         {
             if (obj == null) continue;
@@ -73,7 +73,7 @@ public class ColorCheckerTrans : MonoBehaviour
 
     void Update()
     {
-        // ”ÍˆÍ“à‚ÌƒvƒŒƒCƒ„[ŒŸ’m
+        // ç¯„å›²å†…ã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æ¤œçŸ¥
         Vector3 boxCenter = transform.position + boxCenterOffset;
         Collider[] players = Physics.OverlapBox(
             boxCenter,
@@ -109,7 +109,7 @@ public class ColorCheckerTrans : MonoBehaviour
             }
         }
 
-        // ”¼“§–¾‰»”»’è
+        // åŠé€æ˜åŒ–åˆ¤å®š
         bool shouldBeTransparent = false;
         if (enableTransparency)
         {
@@ -119,7 +119,7 @@ public class ColorCheckerTrans : MonoBehaviour
                 shouldBeTransparent = true;
         }
 
-        // ©•ª©g‚Ìƒ}ƒeƒŠƒAƒ‹XV
+        // è‡ªåˆ†è‡ªèº«ã®ãƒãƒ†ãƒªã‚¢ãƒ«æ›´æ–°
         if (myRenderer != null)
         {
             foreach (Material mat in myRenderer.materials)
@@ -131,7 +131,7 @@ public class ColorCheckerTrans : MonoBehaviour
             }
         }
 
-        // ’Ç‰ÁƒIƒuƒWƒFƒNƒg‚Ìƒ}ƒeƒŠƒAƒ‹XV
+        // è¿½åŠ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒãƒ†ãƒªã‚¢ãƒ«æ›´æ–°
         foreach (var kvp in extraOriginalColors)
         {
             GameObject obj = kvp.Key;
@@ -159,7 +159,7 @@ public class ColorCheckerTrans : MonoBehaviour
     }
 
     /// <summary>
-    /// ƒ}ƒeƒŠƒAƒ‹‚ğ“§‰ßƒ‚[ƒh‚ÉØ‚è‘Ö‚¦
+    /// ãƒãƒ†ãƒªã‚¢ãƒ«ã‚’é€éãƒ¢ãƒ¼ãƒ‰ã«åˆ‡ã‚Šæ›¿ãˆ
     /// </summary>
     void SetMaterialToFade(Material mat)
     {
