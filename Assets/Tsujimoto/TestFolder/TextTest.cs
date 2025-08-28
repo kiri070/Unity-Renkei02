@@ -1,23 +1,24 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Test : MonoBehaviour
+public class TextTest : MonoBehaviour
 {
-    //‚±‚ê‚ÍƒeƒXƒgƒtƒ@ƒCƒ‹‚Å‚·
-    [Header("‚ ‚ ‚ ‚ ‚ ‚ ")]
+    //ã“ã‚Œã¯ãƒ†ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã§ã™
+    [Header("ã‚ã‚ã‚ã‚ã‚ã‚")]
     float a;
-    //–â‘è‚ª‚È‚¢ê‡‚Ííœ‚µ‚Ü‚·
+    //å•é¡ŒãŒãªã„å ´åˆã¯å‰Šé™¤ã—ã¾ã™
+    //ãƒ†ã‚¹ãƒˆã§ã™
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
