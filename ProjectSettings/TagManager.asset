@@ -27,6 +27,8 @@ TagManager:
   - reverse_Gimic
   - GimicBlock_Bomb
   - CheckPoint_TopBottom
+  - ZoomOutPos
+  - HighCameraArea
   layers:
   - Default
   - TransparentFX

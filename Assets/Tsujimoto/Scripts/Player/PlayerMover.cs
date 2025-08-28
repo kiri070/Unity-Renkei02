@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Video;
@@ -67,6 +67,9 @@ public class PlayerMover : MonoBehaviour
 
     //こるーちん
     Coroutine gimicBlock_coroutine = null; //ギミックブロック
+
+    [HideInInspector] public bool isZoomOutPos = false; //カメラのズームアウトエリアにいるかどうか
+    [HideInInspector] public bool isHighCameraPos = false; //カメラのy値を高く設定するエリアにいるかどうか
 
     void Start()
     {
@@ -653,6 +656,16 @@ public class PlayerMover : MonoBehaviour
             gameManager.PlusBoxValue(10);
             Destroy(other.gameObject);
         }
+        //カメラのズームアウトエリアにいたら
+        if (other.CompareTag("ZoomOutPos"))
+        {
+            isZoomOutPos = true;
+        }
+        //カメラのy値を高く設定するエリア
+        if (other.CompareTag("HighCameraArea"))
+        {
+            isHighCameraPos = true;
+        }
     }
     //オブジェクトのmeshを切り替える
     IEnumerator DelayActive_GameObject(GameObject gameObject, int delay)
@@ -706,6 +719,16 @@ public class PlayerMover : MonoBehaviour
         {
             onIce = false;
             slideVelocity = Vector3.zero; //滑りをリセット
+        }
+        //カメラのズームアウトエリアから出たら
+        if(other.CompareTag("ZoomOutPos"))
+        {
+            isZoomOutPos = false;
+        }
+        //カメラのy値を高く設定するエリア
+        if (other.CompareTag("HighCameraArea"))
+        {
+            isHighCameraPos = false;
         }
     }
 

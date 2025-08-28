@@ -1,4 +1,4 @@
-// using System.Collections;
+﻿// using System.Collections;
 // using System.Collections.Generic;
 // using UnityEngine;
 
@@ -150,6 +150,9 @@ public class CameraCnt : MonoBehaviour
     float zoomSpeed = 5f;
     bool isShaking = false;
 
+    [Header("ズームアウトエリアのカメラズームアウト")]
+    [SerializeField] [Range(3f, 30f)] float zoomOutArea_Zoomout = 3f;
+
     // レイキャスト用
     [Header("壁透過設定")]
     [SerializeField] Material transparentMat;   // 半透明マテリアル
@@ -183,16 +186,34 @@ public class CameraCnt : MonoBehaviour
         Vector3 center = (player1.transform.position + player2.transform.position) / 2f;
         center.y = fixedCenterY;
 
+        // 特定エリアならカメラのYを持ち上げる
+        if (mover1.isHighCameraPos && mover2.isHighCameraPos)
+        {
+            center.y += 30f; // 上げたい分だけ調整
+        }
+
         float horizontalDistance = Mathf.Abs(player1.transform.position.x - player2.transform.position.x);
+
+        // ズームアウトエリアなら、最小距離を保証してズームインを抑える
+        if (mover1.isZoomOutPos || mover2.isZoomOutPos)
+        {
+            horizontalDistance = Mathf.Max(horizontalDistance, 15f);
+        }
 
         // トランポリン中ならズームアウト
         targetZoomFactor = (mover1.useTrampoline || mover2.useTrampoline) ? trampolineZoomout : 1f;
+        currentZoomFactor = Mathf.Lerp(currentZoomFactor, targetZoomFactor, Time.deltaTime * zoomSpeed);
+
+        //ズームアウトエリアなら
+        targetZoomFactor = (mover1.isZoomOutPos && !mover1.useTrampoline || mover2.isZoomOutPos && !mover2.useTrampoline) ? zoomOutArea_Zoomout : 1f;
         currentZoomFactor = Mathf.Lerp(currentZoomFactor, targetZoomFactor, Time.deltaTime * zoomSpeed);
 
         Vector3 zoomOffset = new Vector3(0f, horizontalDistance * distanceFactor, -horizontalDistance * distanceFactor);
         zoomOffset *= currentZoomFactor;
 
         Vector3 targetPos = center + baseOffset + zoomOffset;
+
+        
 
         if (!isShaking)
         {
