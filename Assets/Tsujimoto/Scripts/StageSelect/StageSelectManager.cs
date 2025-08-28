@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -113,7 +113,7 @@ public class StageSelectManager : MonoBehaviour
                 //ステージ3が選択されている場合
                 case "Stage3_SelectButton":
                     stagePrefabs[3].transform.Rotate(0f, rotateSpeed * Time.deltaTime, 0f); //回転させる
-                    stagePrefabs[3].transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);   //選択中のステージを大きく
+                    stagePrefabs[3].transform.localScale = new Vector3(0.025f, 0.025f, 0.025f);   //選択中のステージを大きく
 
                     //選択しているステージ以外を元の大きさにする
                     for (int i = 0; i < stagePrefabs.Count; i++)

@@ -222,7 +222,7 @@ public class GameManager : MonoBehaviour
 
         timerText.transform.DOShakePosition(0.5f, new Vector3(3, 3), 50); //残り時間のテキストを揺らす
 
-        //timerNeedle.DecreaseTimerNeedle(); //タイマーの針を動かす
+        timerNeedle.DecreaseTimerNeedle(); //タイマーの針を動かす
     }
     //テキストをフェードアウトさせる
     IEnumerator AnimateAndDestroyText(GameObject obj, Text text)

@@ -34,7 +34,7 @@ public class GimicCameraManager : MonoBehaviour
         float centerZ = (player1.transform.position.z + player2.transform.position.z) / 2f;
 
         // 現在のX/Yを維持しつつ、Zだけ変更
-        Vector3 newPosition = new Vector3(transform.position.x, transform.position.y, centerZ - 25f);
+        Vector3 newPosition = new Vector3(transform.position.x, transform.position.y, centerZ - 30f);
 
         // カメラを移動
         transform.position = newPosition;
