@@ -45,7 +45,6 @@ public class Pad_UICnt : MonoBehaviour
 
     void Update()
     {
-
         var gamepad = Gamepad.current;
         if (gamepad != null)
         {
