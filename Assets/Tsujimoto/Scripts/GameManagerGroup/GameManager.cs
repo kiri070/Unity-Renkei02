@@ -54,6 +54,9 @@ public class GameManager : MonoBehaviour
     //残り時間の計測
     bool time400, time300, time200, time100 = false;
 
+    Image redPanel; //残り時間が少なくなると点滅するパネル
+    bool aleardyRedPanel = false;
+
     
     //ゲームの状態を管理
     public enum GameState
@@ -78,6 +81,8 @@ public class GameManager : MonoBehaviour
         playerCnt = FindObjectOfType<PlayerCnt>();
         timerNeedle = FindObjectOfType<TimerNeedle>();
         noticeSystem = FindObjectOfType<NoticeSystem>();
+
+        redPanel = GameObject.Find("RedPanel").GetComponent<Image>();
 
         //お宝の価値を表示
         valueText.text = "<color=yellow>" + "お宝の価値:" + boxValue.ToString() + "%" + "</color>";
@@ -108,6 +113,16 @@ public class GameManager : MonoBehaviour
 
         Timer();
         ShowTime();
+
+        //時間が少なくなったら画面を点滅させる
+        if (timerValue <= 50 && !aleardyRedPanel) FlashRed();
+    }
+
+    //画面を赤く点滅させる
+    void FlashRed()
+    {
+        aleardyRedPanel = true;
+        redPanel.DOFade(0.3f, 0.5f).SetLoops(6, LoopType.Yoyo);
     }
 
     //タイマー
