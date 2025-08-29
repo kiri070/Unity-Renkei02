@@ -22,6 +22,7 @@ public class StageSelectManager : MonoBehaviour
     [Tooltip("回転するステージのprefab")][SerializeField] private List<GameObject> stagePrefabs;     // ステージオブジェクト（回転させるやつ）
     [Tooltip("セレクトボタン")][SerializeField] private List<GameObject> selectButtons;    // Selectボタン
     [Tooltip("ゲームモード選択UIグループ")][SerializeField] private List<GameObject> gameModeGroups;   // ゲームモード選択ボタンGroup
+    [Tooltip("ページ変遷ボタングループ")] [SerializeField] private List<GameObject> pageButtonGroup; 
     private List<Vector3> stage_StartScale = new List<Vector3>();//ステージの初期の大きさ
     [Tooltip("ステージの回転速度")][SerializeField] float rotateSpeed = 5f;
 
@@ -204,6 +205,12 @@ public class StageSelectManager : MonoBehaviour
     //ステージの切り替え関数
     void ShowStage(int index)
     {
+        //ページ変遷ボタンのグループを非表示
+        foreach(GameObject ui in pageButtonGroup)
+        {
+            ui.SetActive(false);
+        }
+
         for (int i = 0; i < stageGroups.Count; i++)
         {
             bool isSelected = (i == index);
