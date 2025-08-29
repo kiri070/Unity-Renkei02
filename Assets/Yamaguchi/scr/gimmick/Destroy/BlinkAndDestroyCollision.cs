@@ -5,6 +5,7 @@ public class BlinkAndDestroy : MonoBehaviour
     public float blinkDuration = 3f;
     public float blinkInterval = 0.2f;
     private bool isBlinking = false;
+    public float resetTime = 3f;
 
     public void StartBlinking()
     {
@@ -34,6 +35,21 @@ public class BlinkAndDestroy : MonoBehaviour
             elapsed += blinkInterval;
         }
 
-        Destroy(gameObject);
+        //renderer, colliderをオフ
+        foreach (var rend in renderers)
+        {
+            rend.enabled = false;
+            rend.GetComponent<MeshCollider>().enabled = false;
+        }
+
+        //renderer, colliderを戻す
+        yield return new WaitForSeconds(resetTime);
+        foreach (var rend in renderers)
+        {
+            rend.enabled = true;
+            rend.GetComponent<MeshCollider>().enabled = true;
+            isBlinking = false;
+        }
+        // Destroy(gameObject);
     }
 }
