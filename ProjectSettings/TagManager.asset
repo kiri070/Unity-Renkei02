@@ -29,6 +29,7 @@ TagManager:
   - CheckPoint_TopBottom
   - ZoomOutPos
   - HighCameraArea
+  - Blink
   layers:
   - Default
   - TransparentFX
