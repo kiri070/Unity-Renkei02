@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028326, g: 0.22571333, b: 0.30692202, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -551,8 +551,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3170b5958091d45d8b0ac35ea82eb071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blinkDuration: 2
+  blinkDuration: 10
   blinkInterval: 0.2
+  resetTime: 3
+  blinkMode: 0
 --- !u!1 &125642372
 GameObject:
   m_ObjectHideFlags: 0
@@ -664,8 +666,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1251768793}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0.00075}
+  m_AnchorMax: {x: 1, y: 0.00075}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -864,8 +866,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyState: 0
   player: {fileID: 0}
-  defaultMaterial: {fileID: 0}
-  moveMaterial: {fileID: 0}
+  boxSize: {x: 1, y: 0.2, z: 1}
+  offset: {x: 0, y: 0, z: 0}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
   speed: 0
   jumpAttackCoolTime: 0
   isJumping: 0
@@ -874,6 +879,9 @@ MonoBehaviour:
   isPushAttack: 0
   bodyCollider: {fileID: 0}
   smork: {fileID: 0}
+  step: {fileID: 0}
+  killed: {fileID: 0}
+  chargePushAttackEffect: {fileID: 0}
   canJumpAttack: 1
 --- !u!54 &134833290
 Rigidbody:
@@ -1290,18 +1298,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 284c7ac39e8274d49ae321ce74d45642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerIndex: 0
+  heldObject: {fileID: 0}
+  boxSize: {x: 1, y: 0.2, z: 1}
+  offSet: {x: 0, y: 0, z: 0}
+  objLayer:
+    serializedVersion: 2
+    m_Bits: 0
   jumpForce: 0
   jumping: 0
   canJump: 0
   gameCamera: {fileID: 497240102}
   player: {fileID: 162993472}
-  hideMaterial: {fileID: 2100000, guid: baa9f0eee006743b2a4d731dd4203e5d, type: 2}
   nockBackEffect: {fileID: 0}
   jumpEffect: {fileID: 0}
   frozenEffect: {fileID: 0}
+  tranpolineEffect: {fileID: 0}
+  useTrampoline: 0
+  onRoof: 0
   nockBack_Horizontal: 30
   nockBack_Vertical: 10
   recoveryKnockbackTime: 0.7
+  isZoomOutPos: 0
+  isHighCameraPos: 0
 --- !u!1 &170102560
 GameObject:
   m_ObjectHideFlags: 0
@@ -1438,7 +1457,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97f5268f3d6c04aa9ac45b5ccf684443, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  countDownUI: {fileID: 0}
   settingUI: {fileID: 1287532942}
+  isInputPad: 0
 --- !u!4 &179271370
 Transform:
   m_ObjectHideFlags: 0
@@ -1485,16 +1506,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpSE: {fileID: 8300000, guid: a787fd61dc3254e4a9eb25dd2bebe7db, type: 3}
-  shotSE: {fileID: 0}
-  hitShotSE: {fileID: 0}
   nockBackSE: {fileID: 0}
+  fallSE: {fileID: 0}
+  gameoverSE: {fileID: 0}
+  gameclearSE: {fileID: 0}
   explosionSE: {fileID: 0}
+  shotCannonSE: {fileID: 0}
+  treasureDamagedSE: {fileID: 0}
+  checkPointSE: {fileID: 0}
+  touchGoalSE: {fileID: 0}
   mimicMagicSE: {fileID: 0}
   killEnemySE: {fileID: 0}
   jumpAttack: {fileID: 0}
+  stepOnPlayer: {fileID: 0}
   openSetting: {fileID: 0}
   clickButton: {fileID: 0}
-  gameBGM: {fileID: 8300000, guid: 8dd6cc80ecd8d4ffe9d59658b2e962d9, type: 3}
+  clickStage: {fileID: 0}
+  tittleBGM: {fileID: 0}
+  stageSelectBGM: {fileID: 0}
+  stage1BGM: {fileID: 0}
 --- !u!1 &205964371
 GameObject:
   m_ObjectHideFlags: 0
@@ -2138,8 +2168,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1644841102}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0.00075}
+  m_AnchorMax: {x: 1, y: 0.00075}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2427,8 +2457,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyState: 0
   player: {fileID: 0}
-  defaultMaterial: {fileID: 0}
-  moveMaterial: {fileID: 0}
+  boxSize: {x: 1, y: 0.2, z: 1}
+  offset: {x: 0, y: 0, z: 0}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
   speed: 0
   jumpAttackCoolTime: 0
   isJumping: 0
@@ -2437,6 +2470,9 @@ MonoBehaviour:
   isPushAttack: 0
   bodyCollider: {fileID: 0}
   smork: {fileID: 0}
+  step: {fileID: 0}
+  killed: {fileID: 0}
+  chargePushAttackEffect: {fileID: 0}
   canJumpAttack: 1
 --- !u!65 &384591701
 BoxCollider:
@@ -2841,6 +2877,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceFactor: 0.2
+  trampolineZoomout: 4
+  zoomOutArea_Zoomout: 3
+  transparentMat: {fileID: 0}
 --- !u!1 &531313091
 GameObject:
   m_ObjectHideFlags: 0
@@ -2959,11 +2998,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d353e6377bba411dbebfd2ebe299a3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveDirection: 0
-  min: -1
-  max: 1
-  velocity: 2
-  stopTime: 1
 --- !u!1 &540301476
 GameObject:
   m_ObjectHideFlags: 0
@@ -2997,7 +3031,7 @@ RectTransform:
   m_Father: {fileID: 1107255949}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0.00075}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3206,8 +3240,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyState: 0
   player: {fileID: 0}
-  defaultMaterial: {fileID: 0}
-  moveMaterial: {fileID: 0}
+  boxSize: {x: 1, y: 0.2, z: 1}
+  offset: {x: 0, y: 0, z: 0}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
   speed: 0
   jumpAttackCoolTime: 0
   isJumping: 0
@@ -3216,6 +3253,9 @@ MonoBehaviour:
   isPushAttack: 0
   bodyCollider: {fileID: 0}
   smork: {fileID: 0}
+  step: {fileID: 0}
+  killed: {fileID: 0}
+  chargePushAttackEffect: {fileID: 0}
   canJumpAttack: 1
 --- !u!65 &574923104
 BoxCollider:
@@ -4226,6 +4266,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceFactor: 0.2
+  trampolineZoomout: 4
+  zoomOutArea_Zoomout: 3
+  transparentMat: {fileID: 0}
 --- !u!20 &811321957
 Camera:
   m_ObjectHideFlags: 0
@@ -4922,6 +4965,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blinkDuration: 3
   blinkInterval: 0.2
+  resetTime: 3
+  blinkMode: 0
 --- !u!1 &1041860839
 GameObject:
   m_ObjectHideFlags: 0
@@ -6016,11 +6061,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d353e6377bba411dbebfd2ebe299a3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveDirection: 2
-  min: -40
-  max: -20
-  velocity: 2
-  stopTime: 1
 --- !u!65 &1296768317
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6438,18 +6478,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 284c7ac39e8274d49ae321ce74d45642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerIndex: 0
+  heldObject: {fileID: 0}
+  boxSize: {x: 1, y: 0.2, z: 1}
+  offSet: {x: 0, y: 0, z: 0}
+  objLayer:
+    serializedVersion: 2
+    m_Bits: 0
   jumpForce: 0
   jumping: 0
   canJump: 0
   gameCamera: {fileID: 811321957}
   player: {fileID: 1336686137}
-  hideMaterial: {fileID: 2100000, guid: baa9f0eee006743b2a4d731dd4203e5d, type: 2}
   nockBackEffect: {fileID: 0}
   jumpEffect: {fileID: 0}
   frozenEffect: {fileID: 0}
+  tranpolineEffect: {fileID: 0}
+  useTrampoline: 0
+  onRoof: 0
   nockBack_Horizontal: 30
   nockBack_Vertical: 10
   recoveryKnockbackTime: 0.7
+  isZoomOutPos: 0
+  isHighCameraPos: 0
 --- !u!114 &1336686144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6496,7 +6547,7 @@ RectTransform:
   m_Father: {fileID: 1058720154}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0.00075}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -6836,6 +6887,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d8c638b2d6da43f897b461b043293ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isClearTriggered: 0
 --- !u!1 &1467251885
 GameObject:
   m_ObjectHideFlags: 0
@@ -7112,7 +7164,20 @@ MonoBehaviour:
   countDownText: {fileID: 672133580}
   countDownObject: {fileID: 294183128}
   GameUI: {fileID: 1944929780}
+  timeTextGroup: {fileID: 0}
+  leftoverTimeText: {fileID: 0}
   countDown: 3
+  timerValue: 180
+  timerActive: 1
+  timerText: {fileID: 0}
+  decreaseTextPrefab: {fileID: 0}
+  spawnPoint: {fileID: 0}
+  decreaseMimicTimer: 5
+  decreaseFallTimer: 10
+  valueText: {fileID: 0}
+  boxValue: 100
+  valueTextPrefab: {fileID: 0}
+  valueTextPrefab_SpawnPoint: {fileID: 0}
 --- !u!114 &1586551029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7129,7 +7194,6 @@ MonoBehaviour:
   player1: {fileID: 162993476}
   player2: {fileID: 1336686141}
   slider1: {fileID: 2077081336}
-  slider2: {fileID: 1053317447}
 --- !u!1 &1644841101
 GameObject:
   m_ObjectHideFlags: 0
@@ -7702,7 +7766,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1944929781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7906,11 +7970,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d353e6377bba411dbebfd2ebe299a3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveDirection: 0
-  min: -1
-  max: 1
-  velocity: 5
-  stopTime: 0.2
 --- !u!1 &2075380868
 GameObject:
   m_ObjectHideFlags: 0
@@ -8242,6 +8301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mover1: {fileID: 162993478}
   mover2: {fileID: 1336686143}
+  treasure: {fileID: 0}
   player1BulletArea: {fileID: 795157407}
   player2BulletArea: {fileID: 1542965823}
   player1Bullet: {fileID: 2203308906420047698, guid: f2f8ed0d8cf0c474086487c8a9e8a640, type: 3}
@@ -8250,6 +8310,19 @@ MonoBehaviour:
   jumpForce: 30
   player1_BulletCoolDown: 5
   player2_BulletCoolDown: 5
+  player1_StartPoint: {fileID: 0}
+  player2_StartPoint: {fileID: 0}
+  treasure_StartPoint: {fileID: 0}
+  spawnEffect: {fileID: 0}
+  currentCheckPoint: {fileID: 0}
+  currentCheckPoint_TopBottom: {fileID: 0}
+  invincible: 0
+  isPlayer1BringObj: 0
+  isPlayer2BringObj: 0
+  OnUnder_OverGimic: 0
+  pos1: {fileID: 0}
+  pos2: {fileID: 0}
+  treasurePos: {fileID: 0}
   targetCameras:
   - {fileID: 497240102}
   - {fileID: 811321957}
