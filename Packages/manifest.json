@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "com.naosv.oeculogging": "file:/Users/hw23a073/Downloads/OECULogging",
     "com.unity.cinemachine": "2.9.7",
     "com.unity.collab-proxy": "2.8.2",
     "com.unity.feature.development": "1.0.1",
