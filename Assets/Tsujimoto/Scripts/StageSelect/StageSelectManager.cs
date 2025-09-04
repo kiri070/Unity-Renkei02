@@ -78,7 +78,7 @@ public class StageSelectManager : MonoBehaviour
                 //チュートリアルが選択されている場合
                 case "Tutorial_SelectButton":
                     stagePrefabs[0].transform.Rotate(0f, rotateSpeed * Time.deltaTime, 0f); //回転させる
-                    stagePrefabs[0].transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);   //選択中のステージを大きく
+                    stagePrefabs[0].transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);   //選択中のステージを大きく
                                                                                             //選択しているステージ以外を元の大きさにする
                     for (int i = 0; i < stagePrefabs.Count; i++)
                     {
@@ -90,7 +90,7 @@ public class StageSelectManager : MonoBehaviour
                 //ステージ1が選択されている場合
                 case "Stage1_SelectButton":
                     stagePrefabs[1].transform.Rotate(0f, rotateSpeed * Time.deltaTime, 0f); //回転させる
-                    stagePrefabs[1].transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);   //選択中のステージを大きく
+                    stagePrefabs[1].transform.localScale = new Vector3(0.48f, 0.48f, 0.48f);   //選択中のステージを大きく
 
                     //選択しているステージ以外を元の大きさにする
                     for (int i = 0; i < stagePrefabs.Count; i++)
@@ -102,7 +102,7 @@ public class StageSelectManager : MonoBehaviour
                 //ステージ2が選択されている場合
                 case "Stage2_SelectButton":
                     stagePrefabs[2].transform.Rotate(0f, rotateSpeed * Time.deltaTime, 0f); //回転させる
-                    stagePrefabs[2].transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);   //選択中のステージを大きく
+                    stagePrefabs[2].transform.localScale = new Vector3(0.13f, 0.13f, 0.13f);   //選択中のステージを大きく
 
                     //選択しているステージ以外を元の大きさにする
                     for (int i = 0; i < stagePrefabs.Count; i++)

@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/StageSelect.unity
     guid: c48706aed18d2455b9918600cb192c60
   - enabled: 1
-    path: Assets/Scenes/Stage2Scene.unity
+    path: Assets/Scenes/Stage1Scene.unity
     guid: 233cb089e41e94ff39ea473e95e84ba6
   - enabled: 0
     path: Assets/Scenes/GameScene01.unity
@@ -27,7 +27,7 @@ EditorBuildSettings:
     path: Assets/Tsujimoto/Scene/testScene.unity
     guid: 2185b854536024913883d2c0366f9e6a
   - enabled: 1
-    path: Assets/Scenes/Stage1Scene.unity
+    path: Assets/Scenes/Stage2Scene.unity
     guid: e18ce4fdcc85b400db3aaa290a9081e5
   - enabled: 1
     path: Assets/Scenes/DemoMovieScene.unity
