@@ -91,6 +91,9 @@ public class ClearManager : MonoBehaviour
 
         //ヒントをランダムに表示
         RandomTips();
+
+        //ステージをクリアした場合、クリアステージをログに送信
+        if (Score.Instance.SceneName != null) OECULogging.LogInfo("クリア:" + Score.Instance.SceneName);
     }
 
     void Update()

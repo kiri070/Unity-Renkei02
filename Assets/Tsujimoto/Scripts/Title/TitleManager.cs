@@ -47,6 +47,7 @@ public class TitleManager : MonoBehaviour
         //任意のキーを押すとシーン変遷
         if (Input.anyKeyDown && !Input.GetKeyDown(KeyCode.Escape) && !Input.GetMouseButtonDown(0) && !Input.GetMouseButtonDown(1) && completeFadeOut)
         {
+            OECULogging.GameStart(); //ゲーム開始ログ
             SceneManager.LoadScene("StageSelect");
         }
 

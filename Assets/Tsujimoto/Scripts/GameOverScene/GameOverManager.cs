@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -45,6 +45,10 @@ public class GameOverManager : MonoBehaviour
 
         //ヒントをランダムに表示
         RandomTips();
+
+        //ゲームオーバーになったステージをログに送信
+        if(Score.Instance.SceneName != null) OECULogging.LogInfo("ゲームオーバー:" + Score.Instance.SceneName);
+
     }
 
     //ヒントをランダムに抽出して表示

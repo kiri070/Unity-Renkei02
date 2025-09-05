@@ -99,6 +99,7 @@ public class GameManager : MonoBehaviour
         if (state == GameState.GameOver)
         {
             playerCnt.OnDestroyEvents(); //シーン変遷前に入力イベントを削除
+            Score.Instance.SceneName = SceneManager.GetActiveScene().name; //シーン名を代入
             SceneManager.LoadScene("GameOverScene");
         }
         //クリアなら

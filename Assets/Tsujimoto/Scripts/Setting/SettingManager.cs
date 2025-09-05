@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -211,6 +211,9 @@ public class SettingManager : MonoBehaviour
     //タイトルへ戻るボタン
     public void OnBackTitleButton()
     {
+        //StageSelectからTitleに戻る場合は、ゲーム終了ログ
+        if (SceneManager.GetActiveScene().name == "StageSelect") OECULogging.GameEnd();
+
         //ゲームの状態をプレイ中に変更
         GameManager.ToPlayingState();
         SceneManager.LoadScene("Title");

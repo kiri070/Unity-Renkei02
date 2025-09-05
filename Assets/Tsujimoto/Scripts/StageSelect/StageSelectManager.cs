@@ -69,6 +69,12 @@ public class StageSelectManager : MonoBehaviour
 
     void Update()
     {
+        //デバックコマンド
+        //ゲーム開始ログの取り消しを行う
+        if(Input.GetKey(KeyCode.G))
+            if(Input.GetKey(KeyCode.R))
+                OECULogging.GameRevert();
+
         GameObject currentSelectStage = EventSystem.current.currentSelectedGameObject; //現在選択されているボタンを取得
         //選択されているステージの処理
         if (currentSelectStage != null)
