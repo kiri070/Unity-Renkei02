@@ -1,0 +1,16 @@
+{
+    "name": "OECULogging.Runtime",
+    "rootNamespace": "OECU.Logging",
+    "references": [
+        "GUID:38f096a9309e50146815f55749eee5f2"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
