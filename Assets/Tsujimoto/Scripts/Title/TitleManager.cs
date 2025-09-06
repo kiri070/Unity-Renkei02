@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class TitleManager : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class TitleManager : MonoBehaviour
 
     [Header("デモ動画を流すまでの時間")]
     [SerializeField] float delayDemoScene;
+
+    [Header("タイトルロゴ")] [SerializeField] Image logoImage;
 
     void Start()
     {
@@ -41,6 +44,9 @@ public class TitleManager : MonoBehaviour
         StartCoroutine(DelayDemoScene(delayDemoScene)); //指定の秒数後にデモ動画を流す
 
         PlayerPrefs.DeleteKey("PageIndex"); //ステージ選択画面のページ番号をリセット
+
+        //ロゴを動かす SetEaseで動きに緩急をつける
+        logoImage.transform.DOScale(1f, 3f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine);
     }
     void Update()
     {

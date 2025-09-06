@@ -996,6 +996,7 @@ MonoBehaviour:
   keyText: {fileID: 674793326}
   fadeOutImage: {fileID: 1771228173}
   delayDemoScene: 10
+  logoImage: {fileID: 211011129}
 --- !u!4 &638172602
 Transform:
   m_ObjectHideFlags: 0
