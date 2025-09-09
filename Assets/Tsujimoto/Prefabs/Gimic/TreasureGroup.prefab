@@ -133,7 +133,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 579348871597935245}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 6077964f7950f16439b083c15c82932c, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -186,6 +186,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c2394601cc1943c8882c33c7f786fe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player1_isBringing: 0
+  player2_isBringing: 0
+  top: 0
+  bottom: 0
   treasure_full: {fileID: 581092687193544261}
   treasure_half: {fileID: 219767153744361898}
   treasure_little: {fileID: 1670369684342157788}
