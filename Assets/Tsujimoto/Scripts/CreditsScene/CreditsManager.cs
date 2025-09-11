@@ -32,6 +32,7 @@ public class CreditsManager : MonoBehaviour
         //任意のキーを押すとシーン変遷
         if (Input.anyKeyDown && !Input.GetKeyDown(KeyCode.Escape) && !Input.GetMouseButtonDown(0) && !Input.GetMouseButtonDown(1))
         {
+            OECULogging.GameEnd();
             SceneManager.LoadScene("Title");
         }
     }
@@ -56,6 +57,7 @@ public class CreditsManager : MonoBehaviour
         yield return new WaitForSeconds(4f);
         fadeImage.DOFade(1f, 2f).OnComplete(() =>
         {
+            OECULogging.GameEnd();
             SceneManager.LoadScene("Title");
         });
             
