@@ -2,10 +2,16 @@ using UnityEngine;
 
 public class CubeRotator : MonoBehaviour
 {
-    public Rigidbody redCubeRb;
+    [Header("監視する赤キューブたち")]
+    public Rigidbody[] redCubeRbs;  // 赤キューブを複数入れられる配列
+
+    [Header("回転させる青キューブ")]
     public Rigidbody blueCubeRb;
 
+    [Header("赤キューブの角速度がこの値を超えたら反応する")]
     public float detectAngularSpeedThreshold = 10f; // deg/s
+
+    [Header("青キューブの回転速度")]
     public float blueCubeRotationSpeedDeg = 30f;    // deg/s
 
     private bool shouldRotateBlueCube = false;
@@ -17,10 +23,23 @@ public class CubeRotator : MonoBehaviour
 
     void FixedUpdate()
     {
-        // redCube の Y軸角速度（deg/s）
-        float redYAngularVelocityDeg = redCubeRb.angularVelocity.y * Mathf.Rad2Deg;
+        shouldRotateBlueCube = false;
 
-        shouldRotateBlueCube = Mathf.Abs(redYAngularVelocityDeg) > detectAngularSpeedThreshold;
+        // 複数の赤Cubeをチェック
+        foreach (Rigidbody redRb in redCubeRbs)
+        {
+            if (redRb == null) continue;
+
+            // この赤CubeのY軸角速度をdeg/sに変換
+            float redYAngularVelocityDeg = redRb.angularVelocity.y * Mathf.Rad2Deg;
+
+            // どれか1つでもしきい値を超えていたら回転フラグON
+            if (Mathf.Abs(redYAngularVelocityDeg) > detectAngularSpeedThreshold)
+            {
+                shouldRotateBlueCube = true;
+                break;
+            }
+        }
 
         if (shouldRotateBlueCube)
         {
