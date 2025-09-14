@@ -70,6 +70,9 @@ public class PlayerMover : MonoBehaviour
 
     [HideInInspector] public bool isZoomOutPos = false; //カメラのズームアウトエリアにいるかどうか
     [HideInInspector] public bool isHighCameraPos = false; //カメラのy値を高く設定するエリアにいるかどうか
+    [HideInInspector] public bool isBeltconveyorPos = false; //ベルトコンベアの近くにいるかどうか
+    [HideInInspector] public ZoomOutSetting zoomOutSetting; //ズームアウトの設定
+    public bool isZoomoutPos { get; private set; }
 
     void Start()
     {
@@ -666,6 +669,16 @@ public class PlayerMover : MonoBehaviour
         {
             isHighCameraPos = true;
         }
+        //ズームアウトエリアなら
+        if (other.CompareTag("ZoomOutObj"))
+        {
+            zoomOutSetting = other.gameObject.GetComponent<ZoomOutSetting>();
+            if (zoomOutSetting != null)
+            {
+                zoomOutSetting = other.GetComponent<ZoomOutSetting>();
+                isZoomoutPos = true;
+            }
+        }
     }
     //オブジェクトのmeshを切り替える
     IEnumerator DelayActive_GameObject(GameObject gameObject, int delay)
@@ -729,6 +742,18 @@ public class PlayerMover : MonoBehaviour
         if (other.CompareTag("HighCameraArea"))
         {
             isHighCameraPos = false;
+        }
+        //ズームアウトエリアなら
+        if (other.CompareTag("ZoomOutObj"))
+        {
+            if (other.CompareTag("ZoomOutObj"))
+            {
+                if (zoomOutSetting != null && other.gameObject == zoomOutSetting.gameObject)
+                {
+                    zoomOutSetting = null;
+                }
+                isZoomOutPos = false;
+            }
         }
     }
 
