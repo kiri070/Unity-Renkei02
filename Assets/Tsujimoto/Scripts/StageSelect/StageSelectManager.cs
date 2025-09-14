@@ -141,6 +141,18 @@ public class StageSelectManager : MonoBehaviour
                             stagePrefabs[i].transform.localScale = stage_StartScale[i];
                     }
                     break;
+                //ステージ5(マルチ専用ステージ)が選択されている場合
+                case "Stage5_SelectButton":
+                    stagePrefabs[5].transform.Rotate(0f, rotateSpeed * Time.deltaTime, 0f); //回転させる
+                    stagePrefabs[5].transform.localScale = new Vector3(0.06f, 0.06f, 0.06f);   //選択中のステージを大きく
+
+                    //選択しているステージ以外を元の大きさにする
+                    for (int i = 0; i < stagePrefabs.Count; i++)
+                    {
+                        if (i != 5)
+                            stagePrefabs[i].transform.localScale = stage_StartScale[i];
+                    }
+                    break;
             }
         }
     }
