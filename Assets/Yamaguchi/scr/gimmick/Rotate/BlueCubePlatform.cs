@@ -15,9 +15,7 @@ public class BlueCubePlatform : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // 次のフレーム用に現在の位置と回転を保存しておく
-        lastPosition = transform.position;
-        lastRotation = transform.rotation;
+        
     }
 
     private void OnCollisionStay(Collision collision)
@@ -48,6 +46,10 @@ public class BlueCubePlatform : MonoBehaviour
 
                 // 【6】Rigidbody.MovePosition で物理的に安全に移動
                 playerRb.MovePosition(playerRb.position + movement);
+
+                // 次のフレーム用に現在の位置と回転を保存しておく
+                lastPosition = transform.position;
+                lastRotation = transform.rotation;
             }
         }
     }
