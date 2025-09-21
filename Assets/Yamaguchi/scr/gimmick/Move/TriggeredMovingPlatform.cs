@@ -22,6 +22,9 @@ public class TriggeredMovingPlatform : MonoBehaviour
     [Header("プレイヤー検知ボックスサイズ（半径）")]
     public Vector3 detectionHalfExtents = new Vector3(1f, 0.1f, 1f);
 
+    [Header("リスポーン処理")]
+    public bool resetOnRespawn = true; // インスペクターでON/OFF切り替え
+
     // --- 内部変数 ---
     private int currentIndex = 0;    // 現在目標としているポイントのインデックス
     private int direction = 1;       // 移動方向：1=前進、-1=後退
@@ -186,4 +189,23 @@ public class TriggeredMovingPlatform : MonoBehaviour
         }
     }
 #endif
+
+   
+
+    public void ResetPlatform()
+    {
+        if (!resetOnRespawn) return;
+        if (pathPoints == null || pathPoints.Length == 0) return;
+
+        transform.position = pathPoints[0].position;
+        lastPos = transform.position;
+
+        currentIndex = 0;
+        direction = 1;
+        isActive = false;
+        hasTriggered = false;
+        isWaiting = false;
+        waitTimer = 0f;
+    }
+
 }

@@ -498,6 +498,13 @@ public class PlayerMover : MonoBehaviour
 
                 //スタート地点に戻る
                 playerCnt.SpwanStartPoint();
+
+                // 動くオブジェクトをリセットする
+                foreach (TriggeredMovingPlatform platform in FindObjectsOfType<TriggeredMovingPlatform>())
+                {
+                    Debug.Log("Reset対象: " + platform.name);
+                    platform.ResetPlatform();
+                }
             }
             else
             {
@@ -505,6 +512,13 @@ public class PlayerMover : MonoBehaviour
                 //タイマー減少
                 gameManager.DecreaseTimer(gameManager.decreaseFallTimer);
                 playerCnt.SpawnCheckPoint();
+
+                // 動くオブジェクトをリセットする
+                foreach (TriggeredMovingPlatform platform in FindObjectsOfType<TriggeredMovingPlatform>())
+                {
+                    Debug.Log("Reset対象: " + platform.name);
+                    platform.ResetPlatform();
+                }
             }
 
 

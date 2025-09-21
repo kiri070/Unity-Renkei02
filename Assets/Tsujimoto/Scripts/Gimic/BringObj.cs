@@ -169,12 +169,26 @@ public class BringObj : MonoBehaviour
             if (playerCnt.currentCheckPoint != null)
             {
                 playerCnt.SpawnCheckPoint();
+
+                // 動くオブジェクトをリセットする
+                foreach (TriggeredMovingPlatform platform in FindObjectsOfType<TriggeredMovingPlatform>())
+                {
+                    Debug.Log("Reset対象: " + platform.name);
+                    platform.ResetPlatform();
+                }
             }
             //チェックポイントがない場合
             else
             {
                 //初期位置にスポーン
                 playerCnt.SpwanStartPoint();
+
+                // 動くオブジェクトをリセットする
+                foreach (TriggeredMovingPlatform platform in FindObjectsOfType<TriggeredMovingPlatform>())
+                {
+                    Debug.Log("Reset対象: " + platform.name);
+                    platform.ResetPlatform();
+                }
             }
         }
 
