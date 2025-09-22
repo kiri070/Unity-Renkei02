@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 public class PlayerMover : MonoBehaviour
 {
-    [Header("プレイヤーID")][Tooltip("1~2")] public int playerIndex;
+    [Header("プレイヤーID")] [Tooltip("1~2")] public int playerIndex;
     Rigidbody rb;
     Vector3 move; //移動するためのベクトル
     PlayerCnt playerCnt;
@@ -14,7 +14,7 @@ public class PlayerMover : MonoBehaviour
     // 持っているオブジェクトを記録
     [HideInInspector] public Rigidbody heldObject;
 
-    [Header("物体を持てる範囲")][SerializeField] Vector3 boxSize = new Vector3(1f, 0.2f, 1f);
+    [Header("物体を持てる範囲")] [SerializeField] Vector3 boxSize = new Vector3(1f, 0.2f, 1f);
     [SerializeField] Vector3 offSet = new Vector3(0f, 0f, 0f);
     [Header("物体のレイヤー")] public LayerMask objLayer;
     [HideInInspector]
@@ -54,13 +54,13 @@ public class PlayerMover : MonoBehaviour
     float frozenEffectTime; //エフェクトの生成時間
     Queue<GameObject> effectPool = new Queue<GameObject>(); //キュー
 
-    bool canMove = true; //動けるかどうか
+    [HideInInspector] public bool canMove = true; //動けるかどうか
     [HideInInspector] public bool useTrampoline = false; //トランポリンを使用中かどうか
     [HideInInspector] public bool onRoof = false; //天井にいるかどうか
 
     [Header("敵衝突時のノックバック:水平方向")][SerializeField] float nockBack_Horizontal = 30f;
     [Header("敵衝突時のノックバック:垂直方向")][SerializeField] float nockBack_Vertical = 10f;
-    [Header("ノックバック時の操作不能から回復する時間")][SerializeField] float recoveryKnockbackTime = 0.7f; //ノックバックの操作の操作不能から回復する時間
+    [Header("ノックバック時の操作不能から回復する時間")]public float recoveryKnockbackTime = 0.7f; //ノックバックの操作の操作不能から回復する時間
 
     SoundManager soundManager;
     SoundsList soundsList;
