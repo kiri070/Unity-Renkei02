@@ -85,7 +85,8 @@ public class GameManager : MonoBehaviour
         redPanel = GameObject.Find("RedPanel").GetComponent<Image>();
 
         //お宝の価値を表示
-        valueText.text = "<color=yellow>" + "お宝の価値:" + boxValue.ToString() + "%" + "</color>";
+        //valueText.text = "<color=yellow>" + "お宝の価値:" + boxValue.ToString() + "%" + "</color>";
+        valueText.text = boxValue.ToString() + "%";
 
         //初期化
         ToPausedState(); //ポーズ状態
@@ -176,14 +177,22 @@ public class GameManager : MonoBehaviour
         boxValue -= value;
         if (boxValue <= 0) boxValue = 0;
         //お宝の価値を更新
+        //if (boxValue >= 80) //80以上なら文字色:黄色
+        //    valueText.text = "<color=yellow>" + "お宝の価値:" + boxValue.ToString() + "%" + "</color>";
+        //else if (boxValue < 80 && boxValue >= 50) //80未満,50以上なら文字色:青色
+        //    valueText.text = "<color=yellow>" + "お宝の価値:" + "<color=blue>" + boxValue.ToString() + "%" + "</color>" + "</color>";
+        //else if (boxValue < 50 && boxValue >= 10) //50未満,10以上なら文字色:赤色
+        //    valueText.text = "<color=yellow>" + "お宝の価値:" + "<color=red>" + boxValue.ToString() + "%" + "</color>" + "</color>";
+        //else if (boxValue < 10) //10未満なら茶色
+        //    valueText.text = "<color=yellow>" + "お宝の価値:" + "<color=brown>" + boxValue.ToString() + "%" + "</color>" + "</color>";
         if (boxValue >= 80) //80以上なら文字色:黄色
-            valueText.text = "<color=yellow>" + "お宝の価値:" + boxValue.ToString() + "%" + "</color>";
+            valueText.text = boxValue.ToString() + "%";
         else if (boxValue < 80 && boxValue >= 50) //80未満,50以上なら文字色:青色
-            valueText.text = "<color=yellow>" + "お宝の価値:" + "<color=blue>" + boxValue.ToString() + "%" + "</color>" + "</color>";
+            valueText.text = boxValue.ToString() + "%";
         else if (boxValue < 50 && boxValue >= 10) //50未満,10以上なら文字色:赤色
-            valueText.text = "<color=yellow>" + "お宝の価値:" + "<color=red>" + boxValue.ToString() + "%" + "</color>" + "</color>";
+            valueText.text = boxValue.ToString() + "%";
         else if (boxValue < 10) //10未満なら茶色
-            valueText.text = "<color=yellow>" + "お宝の価値:" + "<color=brown>" + boxValue.ToString() + "%" + "</color>" + "</color>";
+            valueText.text = boxValue.ToString() + "%";
 
         // マイナステキストを表示
         GameObject minusObj = Instantiate(valueTextPrefab, valueTextPrefab_SpawnPoint);
