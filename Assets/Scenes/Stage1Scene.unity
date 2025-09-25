@@ -5521,6 +5521,10 @@ PrefabInstance:
       propertyPath: ignorePlayer2
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7521601387620087640, guid: 4a21bb6e99fc14a1a8303cc19f102dd6, type: 3}
+      propertyPath: ignorePlayer2Blue
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8836787412185018674, guid: 4a21bb6e99fc14a1a8303cc19f102dd6, type: 3}
       propertyPath: m_Name
       value: ColorCheckerP2Blue
@@ -8873,6 +8877,10 @@ PrefabInstance:
       propertyPath: ignorePlayer2
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7521601387620087640, guid: 4a21bb6e99fc14a1a8303cc19f102dd6, type: 3}
+      propertyPath: ignorePlayer2Blue
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8836787412185018674, guid: 4a21bb6e99fc14a1a8303cc19f102dd6, type: 3}
       propertyPath: m_Name
       value: ColorCheckerP2Blue (4)
@@ -9241,6 +9249,10 @@ PrefabInstance:
       propertyPath: ignorePlayer2
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7521601387620087640, guid: 4a21bb6e99fc14a1a8303cc19f102dd6, type: 3}
+      propertyPath: ignorePlayer2Blue
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8836787412185018674, guid: 4a21bb6e99fc14a1a8303cc19f102dd6, type: 3}
       propertyPath: m_Name
       value: ColorCheckerP2Blue (5)
@@ -9411,6 +9423,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7521601387620087640, guid: 4a21bb6e99fc14a1a8303cc19f102dd6, type: 3}
       propertyPath: ignorePlayer2
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7521601387620087640, guid: 4a21bb6e99fc14a1a8303cc19f102dd6, type: 3}
+      propertyPath: ignorePlayer2Blue
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8836787412185018674, guid: 4a21bb6e99fc14a1a8303cc19f102dd6, type: 3}
