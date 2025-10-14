@@ -23,6 +23,7 @@ public class SettingManager : MonoBehaviour
     InputCnt inputCnt; //アクションマップ
     public bool isInputPad = false; //コントローラーを使っているかどうか
     bool isInputMouse = false; //マウスを使っているかどうか
+    public bool isTutorial = false; //チュートリアル中かどうか
 
     void Start()
     {
@@ -106,6 +107,8 @@ public class SettingManager : MonoBehaviour
         }
         //カウントダウン中は設定画面を開かない
         if (countDownUI != null && countDownUI.activeSelf) return;
+
+        if (isTutorial) return;
         
         
         //設定画面を表示
@@ -146,6 +149,11 @@ public class SettingManager : MonoBehaviour
     //設定画面を表示,非表示管理する関数(コントローラー)
     public void Pad_OnOffSettingUI()
     {
+        //チュートリアル中なら
+        if (isTutorial)
+        {
+            return;
+        }
         //ステージを選択中ならバグ回避のため、設定画面を開かない
         if (stageSelectManager != null)
         {

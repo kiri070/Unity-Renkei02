@@ -36,7 +36,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Stage3Scene.unity
     guid: c2fd91a688a88405195e64aad7f7a51c
   - enabled: 1
-    path: Assets/Scenes/TutorialScene.unity
+    path: Assets/Tsujimoto/Scene/TutorialScene_origin.unity
     guid: baa7548edc75a4a10b841ad8caaaf3d5
   - enabled: 1
     path: Assets/Scenes/CreditsScene.unity
@@ -47,5 +47,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Stage5Scene.unity
     guid: 6299359dd24f959448337024f456ad08
+  - enabled: 1
+    path: Assets/Scenes/TutorialScene.unity
+    guid: 60bce93d955b0434ea72a9a6891ed7d4
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: d848eacadfad14dda9f73ff5a110a37b, type: 2}

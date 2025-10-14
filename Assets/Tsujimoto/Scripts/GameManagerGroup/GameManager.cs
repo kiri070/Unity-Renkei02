@@ -91,7 +91,13 @@ public class GameManager : MonoBehaviour
         //初期化
         ToPausedState(); //ポーズ状態
 
-        StartCoroutine(CountDown()); //スタートまでのカウントダウン開始
+        if ("TutorialScene" == SceneManager.GetActiveScene().name)
+        {
+            ToPlayingState(); //プレイ開始
+            Time.timeScale = 0f;
+        }
+        else 
+           StartCoroutine(CountDown()); //スタートまでのカウントダウン開始
     }
 
     void Update()
