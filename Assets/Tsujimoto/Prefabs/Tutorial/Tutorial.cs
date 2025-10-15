@@ -36,9 +36,26 @@ public class Tutorial : MonoBehaviour
 
     void Update()
     {
+        //シングルプレイヤー
+        if (GameManager.gameMode == GameManager.GameMode.SinglePlayer)
+        {
+            SinglePlayerTutorial();
+        }
+        //マルチプレイヤー
+        else
+        {
+            //シングルプレイヤーの項目を削除
+            RemoveSingleObj();
+        }
+
+    }
+
+    //シングルプレイヤー時のチュートリアル処理
+    void SinglePlayerTutorial()
+    {
         var gamepad = Gamepad.current;
         //チュートリアルスキップ
-        if (gamepad != null && gamepad.startButton.wasPressedThisFrame || Input.GetKeyDown(KeyCode.Tab) || GameManager.gameMode == GameManager.GameMode.MultiPlayer)
+        if (gamepad != null && gamepad.startButton.wasPressedThisFrame || Input.GetKeyDown(KeyCode.Tab))
         {
             Time.timeScale = 1f;
             settingManager.isTutorial = false;
@@ -52,7 +69,7 @@ public class Tutorial : MonoBehaviour
         //コントローラー接続がなければreturn
         if (gamepad == null) return;
 
-        
+
         Vector2 stick;
 
         // 左スティック
@@ -109,7 +126,7 @@ public class Tutorial : MonoBehaviour
         if (carryBox)
         {
             //ジャンプエリアなら
-            if(jumpArea)
+            if (jumpArea)
             {
                 Time.timeScale = 0f; //時間を止める
                 epText.text = "[ジャンプ]\n" +
@@ -126,15 +143,27 @@ public class Tutorial : MonoBehaviour
 
             if (isjump)
             {
-                Complete(); //チュートリアル完了
+                Complete_SinglePlayerTutorial(); //チュートリアル完了
             }
 
         }
-        
+
+    }
+    
+    //シングルプレイヤーのチュートリアルオブジェクトを削除
+    void RemoveSingleObj()
+    {
+        Time.timeScale = 1f;
+        settingManager.isTutorial = false;
+        tutorialUI.SetActive(false);
+        wall1.SetActive(false);
+        wall2.SetActive(false);
+        movePos1.SetActive(false);
+        movePos2.SetActive(false);
     }
 
-    //完了したら
-    void Complete()
+    //シングルプレイヤーのチュートリアルが完了したら
+    void Complete_SinglePlayerTutorial()
     {
         Time.timeScale = 1f;
         tutorialUI.SetActive(false);
