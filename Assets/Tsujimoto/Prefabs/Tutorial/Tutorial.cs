@@ -38,7 +38,7 @@ public class Tutorial : MonoBehaviour
     {
         var gamepad = Gamepad.current;
         //チュートリアルスキップ
-        if (gamepad.startButton.wasPressedThisFrame || Input.GetKeyDown(KeyCode.Tab) || GameManager.gameMode == GameManager.GameMode.MultiPlayer)
+        if (gamepad != null && gamepad.startButton.wasPressedThisFrame || Input.GetKeyDown(KeyCode.Tab) || GameManager.gameMode == GameManager.GameMode.MultiPlayer)
         {
             Time.timeScale = 1f;
             settingManager.isTutorial = false;
@@ -48,6 +48,9 @@ public class Tutorial : MonoBehaviour
             movePos1.SetActive(false);
             movePos2.SetActive(false);
         }
+
+        //コントローラー接続がなければreturn
+        if (gamepad == null) return;
 
         
         Vector2 stick;
