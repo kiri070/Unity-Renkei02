@@ -28,10 +28,22 @@ public class Tutorial : MonoBehaviour
 
     [HideInInspector] public bool jumpArea = false; //ジャンプエリアかどうか
     bool isjump = false; //ジャンプの完了
+
+    //コントローラー
+    public Gamepad Pad1, Pad2;
+
     void Start()
     {
         settingManager = FindObjectOfType<SettingManager>();
         settingManager.isTutorial = true;
+
+        //マルチプレイヤーの場合、コントローラーを識別
+        if (GameManager.gameMode == GameManager.GameMode.MultiPlayer)
+        {
+            var pads = Gamepad.all;
+            if (pads.Count > 0) Pad1 = pads[0];
+            if (pads.Count > 1) Pad2 = pads[1];
+        }
     }
 
     void Update()
@@ -44,10 +56,8 @@ public class Tutorial : MonoBehaviour
         //マルチプレイヤー
         else
         {
-            //シングルプレイヤーの項目を削除
-            RemoveSingleObj();
+            MultiPlayerTutorial();
         }
-
     }
 
     //シングルプレイヤー時のチュートリアル処理
@@ -168,5 +178,107 @@ public class Tutorial : MonoBehaviour
         Time.timeScale = 1f;
         tutorialUI.SetActive(false);
         settingManager.isTutorial = false;
+    }
+
+
+    //マルチプレイヤー時のチュートリアル処理
+    void MultiPlayerTutorial()
+    {
+        //チュートリアルスキップ
+        if (Pad1.startButton.wasPressedThisFrame || Pad2.startButton.wasPressedThisFrame || Input.GetKeyDown(KeyCode.Tab))
+        {
+            Time.timeScale = 1f;
+            settingManager.isTutorial = false;
+            tutorialUI.SetActive(false);
+            wall1.SetActive(false);
+            wall2.SetActive(false);
+            movePos1.SetActive(false);
+            movePos2.SetActive(false);
+        }
+
+        //コントローラー接続がなければreturn
+        if (Pad1 == null || Pad2 == null) return;
+
+
+        Vector2 stick;
+
+        // プレイヤー1の移動
+        if (!isLeftStick && !isMove_player1)
+        {
+            epText.text = "プレイヤー1は\n" +
+                "LStickで<color=red>赤</color>のキャラクターを移動";
+            stick = Pad1.leftStick.ReadValue();
+            if (stick.magnitude > 0.1f)
+            {
+                isLeftStick = true;
+                Time.timeScale = 1f;
+            }
+        }
+
+        // プレイヤー2の移動
+        else if (isLeftStick && !isRightStick && !isMove_player2)
+        {
+            epText.text = "プレイヤー2は\n" +
+                "LStickで<color=blue>青</color>のキャラクターを移動";
+            stick = Pad2.leftStick.ReadValue();
+            if (stick.magnitude > 0.1f)
+            {
+                isRightStick = true;
+            }
+        }
+
+        // 両方完了したらテキストを消す
+        else if (isMove_player1 && isMove_player2)
+        {
+            epText.text = "";
+            wall1.SetActive(false);
+            movePos1.SetActive(false);
+        }
+
+
+        //宝箱
+        if (isMove_player1 && isMove_player2 && !carryBox)
+        {
+            movePos2.SetActive(true); //移動位置2をアクティブ
+            epText.text = "[宝箱を運ぶ]\n" +
+                "宝箱の前で\n" +
+                "R2 または L2を長押し";
+
+            BringObj bringObj = FindObjectOfType<BringObj>();
+            if (bringObj.player1_isBringing || bringObj.player2_isBringing) carryBox = true;
+        }
+        else if (carryBox)
+        {
+            movePos2.SetActive(false);
+            epText.text = "";
+        }
+
+        //ジャンプ
+        if (carryBox)
+        {
+            //ジャンプエリアなら
+            if (jumpArea)
+            {
+                Time.timeScale = 0f; //時間を止める
+                epText.text = "[ジャンプ]\n" +
+                    "R1 or L1で敵を踏みつける";
+
+                if (Pad1.leftShoulder.wasPressedThisFrame || Pad1.rightShoulder.wasPressedThisFrame ||
+                    Pad2.leftShoulder.wasPressedThisFrame || Pad2.rightShoulder.wasPressedThisFrame)
+                {
+                    isjump = true;
+                    wall1.SetActive(false);
+                    Time.timeScale = 1f; //時間を進める
+                }
+            }
+
+
+            if (isjump)
+            {
+                Complete_SinglePlayerTutorial(); //チュートリアル完了
+            }
+
+        }
+
     }
 }

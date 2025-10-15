@@ -1590,6 +1590,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2135123953}
   - {fileID: 96030338}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1605,7 +1606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ddc5fd226da97c47af174a22eff17d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tutorialUI: {fileID: 437612936}
+  tutorialUI: {fileID: 96030337}
   epText: {fileID: 1522272705}
   wall1: {fileID: 264056143}
   wall2: {fileID: 2098929299}
@@ -2126,7 +2127,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'skip: OPTIONS'
+  m_Text: 'SKIP: OPTIONS'
 --- !u!222 &473793986
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9813,8 +9814,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2135123952}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.32750642, y: 9, z: -85.7}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.0405755, y: 0.010344505, z: 9.256081}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9822,7 +9823,7 @@ Transform:
   - {fileID: 2098929303}
   - {fileID: 391213139}
   - {fileID: 129287378}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 437612937}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &295944316089580749
 PrefabInstance:
@@ -14665,4 +14666,3 @@ SceneRoots:
   - {fileID: 1726667740}
   - {fileID: 1490500339}
   - {fileID: 437612937}
-  - {fileID: 2135123953}
