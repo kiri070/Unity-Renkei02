@@ -16,7 +16,9 @@ public class Tutorial : MonoBehaviour
     [Tooltip("壁")] public GameObject wall1;
     public GameObject wall2;
     public GameObject wall3;
-    
+    public GameObject wall4;
+
+
     [Tooltip("移動位置1")] public GameObject movePos1;
     [Tooltip("移動位置2")] public GameObject movePos2;
 
@@ -31,6 +33,8 @@ public class Tutorial : MonoBehaviour
     [HideInInspector] public bool jumpArea = false; //ジャンプエリアかどうか
     bool isjump = false; //ジャンプの完了
     [HideInInspector] public bool isCheckPoint = false; //チェックポイント
+    [HideInInspector] public bool isColor = false; //カラー
+
 
     //コントローラー
     public Gamepad Pad1, Pad2;
@@ -74,6 +78,8 @@ public class Tutorial : MonoBehaviour
             tutorialUI.SetActive(false);
             wall1.SetActive(false);
             wall2.SetActive(false);
+            wall3.SetActive(false);
+            wall4.SetActive(false);
             movePos1.SetActive(false);
             movePos2.SetActive(false);
             jumpArea = false; //ジャンプチュートリアルをオフにするため
@@ -162,7 +168,26 @@ public class Tutorial : MonoBehaviour
         {
             epText.text = "<color=yellow>[チェックポイント]</color>\n" +
                  "死亡時にここから再開できる";
-            StartCoroutine(DeleteTutorial(3f));
+            wall3.SetActive(false);
+
+            //StartCoroutine(DeleteTutorial(3f));
+        }
+
+        //カラーギミックチュートリアル、wall4に触れることで発動
+        if (isColor)
+        {
+            epText.text = "<color=yellow>[カラーギミック]</color>\n" +
+                "<color=blue>青</color>は<color=blue>青色</color>、<color=red>赤</color>は<color=red>赤色</color>とそれぞれに\n" +
+                "対応した色のみ通過できる\n" +
+                "×ボタンを押して進む";
+            wall4.SetActive(false);
+            Time.timeScale = 0f;   
+            if (gamepad.buttonSouth.wasPressedThisFrame)
+            {
+                isColor = false;
+                Time.timeScale = 1f;
+                StartCoroutine(DeleteTutorial(3f));
+            }
         }
 
     }
@@ -193,6 +218,8 @@ public class Tutorial : MonoBehaviour
             tutorialUI.SetActive(false);
             wall1.SetActive(false);
             wall2.SetActive(false);
+            wall3.SetActive(false);
+            wall4.SetActive(false);
             movePos1.SetActive(false);
             movePos2.SetActive(false);
             jumpArea = false; //ジャンプチュートリアルをオフにするため
@@ -282,7 +309,25 @@ public class Tutorial : MonoBehaviour
         {
             epText.text = "<color=yellow>[チェックポイント]</color>\n" +
                  "死亡時にここから再開できる";
-            StartCoroutine(DeleteTutorial(3f));
+            //StartCoroutine(DeleteTutorial(3f));
+        }
+        
+        //カラーギミックチュートリアル、wall4に触れることで発動
+        if (isColor)
+        {
+            epText.text = "<color=yellow>[カラーギミック]</color>\n" +
+                "<color=blue>青</color>は<color=blue>青色</color>、<color=red>赤</color>は<color=red>赤色</color>とそれぞれに\n" +
+                "対応した色のみ通過できる\n" +
+                "×ボタンを押して進む";
+
+            Time.timeScale = 0f;
+            wall4.SetActive(false);
+            if (Pad1.buttonSouth.wasPressedThisFrame || Pad2.buttonSouth.wasPressedThisFrame)
+            {
+                isColor = false;
+                Time.timeScale = 1f;
+                StartCoroutine(DeleteTutorial(3f));
+            }
         }
 
     }
