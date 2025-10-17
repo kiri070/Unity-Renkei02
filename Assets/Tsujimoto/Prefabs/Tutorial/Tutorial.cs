@@ -6,45 +6,47 @@ using UnityEngine.InputSystem;
 using DG.Tweening;
 
 /// <summary>
-/// シングルプレイヤーのみチュートリアル
+/// シングル／マルチ両対応のチュートリアル管理（元の挙動を保持しつつ整理）
 /// </summary>
 public class Tutorial : MonoBehaviour
 {
+    [Header("UI / Objects")]
     [Tooltip("チュートリアルUI")] public GameObject tutorialUI;
-    SettingManager settingManager;
     [Tooltip("説明テキスト")] public Text epText;
+
     [Tooltip("壁")] public GameObject wall1;
     public GameObject wall2;
     public GameObject wall3;
     public GameObject wall4;
 
+    [Tooltip("移動位置")] public GameObject movePos1;
+    public GameObject movePos2;
 
-    [Tooltip("移動位置1")] public GameObject movePos1;
-    [Tooltip("移動位置2")] public GameObject movePos2;
-
-    //完了状況
+    // 状態フラグ
     bool isLeftStick = false;
     bool isRightStick = false;
 
-    [HideInInspector] public bool isMove_player1; //赤キャラの移動完了
-    [HideInInspector] public bool isMove_player2; //青キャラの移動完了
-    bool carryBox = false; //宝箱
+    [HideInInspector] public bool isMove_player1; // 赤キャラ移動済み
+    [HideInInspector] public bool isMove_player2; // 青キャラ移動済み
+    bool carryBox = false;
 
-    [HideInInspector] public bool jumpArea = false; //ジャンプエリアかどうか
-    bool isjump = false; //ジャンプの完了
-    [HideInInspector] public bool isCheckPoint = false; //チェックポイント
-    [HideInInspector] public bool isColor = false; //カラー
+    [HideInInspector] public bool jumpArea = false;
+    bool isjump = false;
+    [HideInInspector] public bool isCheckPoint = false;
+    [HideInInspector] public bool isColor = false;
 
-
-    //コントローラー
+    // コントローラ（マルチ用）
     public Gamepad Pad1, Pad2;
+
+    // 設定参照
+    SettingManager settingManager;
 
     void Start()
     {
         settingManager = FindObjectOfType<SettingManager>();
-        settingManager.isTutorial = true;
+        if (settingManager != null) settingManager.isTutorial = true;
 
-        //マルチプレイヤーの場合、コントローラーを識別
+        // マルチプレイ時に接続済みパッドを取得（元処理と同様）
         if (GameManager.gameMode == GameManager.GameMode.MultiPlayer)
         {
             var pads = Gamepad.all;
@@ -55,44 +57,49 @@ public class Tutorial : MonoBehaviour
 
     void Update()
     {
-        //シングルプレイヤー
         if (GameManager.gameMode == GameManager.GameMode.SinglePlayer)
-        {
             SinglePlayerTutorial();
-        }
-        //マルチプレイヤー
         else
-        {
             MultiPlayerTutorial();
-        }
     }
 
-    //シングルプレイヤー時のチュートリアル処理
+    // --------------------------
+    // Single Player
+    // --------------------------
     void SinglePlayerTutorial()
     {
         var gamepad = Gamepad.current;
-        //チュートリアルスキップ
+
+        // チュートリアルスキップ（元の優先順位・挙動を維持）
         if (gamepad != null && gamepad.startButton.wasPressedThisFrame || Input.GetKeyDown(KeyCode.Tab))
         {
-            settingManager.isTutorial = false;
-            tutorialUI.SetActive(false);
-            wall1.SetActive(false);
-            wall2.SetActive(false);
-            wall3.SetActive(false);
-            wall4.SetActive(false);
-            movePos1.SetActive(false);
-            movePos2.SetActive(false);
-            jumpArea = false; //ジャンプチュートリアルをオフにするため
-            Time.timeScale = 1f;
+            SkipTutorialAll();
+            return; // スキップしたら早期returnでも問題なし
         }
 
-        //コントローラー接続がなければreturn
+        // コントローラが無ければここで抜ける（元の挙動）
         if (gamepad == null) return;
 
+        // 左／右スティック確認
+        HandleMoveSticks_Single(gamepad);
 
+        // 宝箱（運搬）チュートリアル
+        HandleCarryBox(gamepad);
+
+        // ジャンプチュートリアル（時間停止含む）
+        HandleJump_Single(gamepad);
+
+        // チュートリアルギミック(wall3に触れて発動)
+        HandleCheckpoint_Single(gamepad);
+
+        // カラーギミック（wall4触れで発動）
+        HandleColor_Single(gamepad);
+    }
+
+    void HandleMoveSticks_Single(Gamepad gamepad)
+    {
         Vector2 stick;
 
-        // 左スティック
         if (!isLeftStick && !isMove_player1)
         {
             epText.text = "LStickで<color=red>赤</color>のキャラクターを移動";
@@ -103,8 +110,6 @@ public class Tutorial : MonoBehaviour
                 Time.timeScale = 1f;
             }
         }
-
-        // 右スティック（左が終わってから実行）
         else if (isLeftStick && !isRightStick && !isMove_player2)
         {
             epText.text = "RStickで<color=blue>青</color>のキャラクターを移動";
@@ -114,129 +119,118 @@ public class Tutorial : MonoBehaviour
                 isRightStick = true;
             }
         }
-
-        // 両方完了したらテキストを消す
         else if (isMove_player1 && isMove_player2)
         {
             epText.text = "";
-            wall1.SetActive(false);
-            movePos1.SetActive(false);
+            if (wall1 != null) wall1.SetActive(false);
+            if (movePos1 != null) movePos1.SetActive(false);
         }
+    }
 
-
-        //宝箱
+    void HandleCarryBox(Gamepad gamepad)
+    {
         if (isMove_player1 && isMove_player2 && !carryBox)
         {
-            movePos2.SetActive(true); //移動位置2をアクティブ
+            if (movePos2 != null) movePos2.SetActive(true);
             epText.text = "<color=yellow>[宝箱を運ぶ]</color>\n" +
-                "宝箱の前で\n" +
-                "<color=red>赤</color>のキャラはL2長押し\n" +
-                "<color=blue>青</color>のキャラはR2長押し";
+                         "宝箱の前で\n" +
+                         "<color=red>赤</color>のキャラはL2長押し\n" +
+                         "<color=blue>青</color>のキャラはR2長押し";
 
             BringObj bringObj = FindObjectOfType<BringObj>();
-            if (bringObj.player1_isBringing || bringObj.player2_isBringing) carryBox = true;
+            if (bringObj != null && (bringObj.player1_isBringing || bringObj.player2_isBringing))
+            {
+                carryBox = true;
+            }
         }
         else if (carryBox)
         {
-            movePos2.SetActive(false);
+            if (movePos2 != null) movePos2.SetActive(false);
             epText.text = "";
         }
+    }
 
-        //ジャンプ
-        if (carryBox)
+    void HandleJump_Single(Gamepad gamepad)
+    {
+        if (!carryBox) return;
+
+        if (jumpArea && !isjump)
         {
-            //ジャンプエリアなら
-            if (jumpArea && !isjump)
+            Time.timeScale = 0f;
+            epText.text = "<color=yellow>[ジャンプ]</color>\n" +
+                         "R1 or L1で敵を踏みつける";
+
+            if (gamepad.leftShoulder.wasPressedThisFrame || gamepad.rightShoulder.wasPressedThisFrame)
             {
-                Time.timeScale = 0f; //時間を止める
-                epText.text = "<color=yellow>[ジャンプ]</color>\n" +
-                    "R1 or L1で敵を踏みつける";
-
-                if (gamepad.leftShoulder.wasPressedThisFrame || gamepad.rightShoulder.wasPressedThisFrame)
-                {
-                    isjump = true;
-                    jumpArea = false;
-                    wall1.SetActive(false);
-                    Time.timeScale = 1f; //時間を進める
-                }
+                isjump = true;
+                jumpArea = false;
+                if (wall1 != null) wall1.SetActive(false);
+                Time.timeScale = 1f;
             }
-           
         }
+    }
 
-        //ジャンプが完了かつチェックポイントなら
+    void HandleCheckpoint_Single(Gamepad gamepad)
+    {
+        // チェックポイント表示
         if (isCheckPoint)
         {
             epText.text = "<color=yellow>[チェックポイント]</color>\n" +
-                 "死亡時にここから再開できる";
-            wall3.SetActive(false);
-
-            //StartCoroutine(DeleteTutorial(3f));
+                          "死亡時にここから再開できる";
+            if (wall3 != null) wall3.SetActive(false);
+            if (isColor) isCheckPoint = false;
         }
+    }
 
-        //カラーギミックチュートリアル、wall4に触れることで発動
-        if (isColor)
+    void HandleColor_Single(Gamepad gamepad)
+    {
+        if (!isColor) return;
+        epText.text = "<color=yellow>[カラーギミック]</color>\n" +
+                      "<color=blue>青</color>は<color=blue>青色</color>、<color=red>赤</color>は<color=red>赤色</color>とそれぞれに\n" +
+                      "対応した色のみ通過できる\n" +
+                      "×ボタンを押して進む";
+
+        if (wall4 != null) wall4.SetActive(false);
+
+        // 元の挙動どおり時間停止して入力待ち
+        Time.timeScale = 0f;
+        if (gamepad.buttonSouth.wasPressedThisFrame)
         {
-            epText.text = "<color=yellow>[カラーギミック]</color>\n" +
-                "<color=blue>青</color>は<color=blue>青色</color>、<color=red>赤</color>は<color=red>赤色</color>とそれぞれに\n" +
-                "対応した色のみ通過できる\n" +
-                "×ボタンを押して進む";
-            wall4.SetActive(false);
-            Time.timeScale = 0f;   
-            if (gamepad.buttonSouth.wasPressedThisFrame)
-            {
-                isColor = false;
-                Time.timeScale = 1f;
-                StartCoroutine(DeleteTutorial(3f));
-            }
+            isColor = false;
+            Time.timeScale = 1f;
+            StartCoroutine(DeleteTutorial(3f));
         }
-
-    }
-    
-    //完了後、指定の秒数でチュートリアルを削除
-    IEnumerator DeleteTutorial(float time)
-    {
-        yield return new WaitForSeconds(time);
-        Complete_Tutorial();
     }
 
-    //シングルプレイヤーのチュートリアルが完了したら
-    void Complete_Tutorial()
-    {
-        Time.timeScale = 1f;
-        tutorialUI.SetActive(false);
-        settingManager.isTutorial = false;
-    }
-
-
-    //マルチプレイヤー時のチュートリアル処理
+    // --------------------------
+    // Multi Player
+    // --------------------------
     void MultiPlayerTutorial()
     {
-        //チュートリアルスキップ
+        // チュートリアルスキップ（元の優先順位を保持）
         if (Pad1.startButton.wasPressedThisFrame || Pad2.startButton.wasPressedThisFrame || Input.GetKeyDown(KeyCode.Tab))
         {
-            settingManager.isTutorial = false;
-            tutorialUI.SetActive(false);
-            wall1.SetActive(false);
-            wall2.SetActive(false);
-            wall3.SetActive(false);
-            wall4.SetActive(false);
-            movePos1.SetActive(false);
-            movePos2.SetActive(false);
-            jumpArea = false; //ジャンプチュートリアルをオフにするため
-            Time.timeScale = 1f;
+            SkipTutorialAll();
+            return;
         }
 
-        //コントローラー接続がなければreturn
+        // 元コードと同様、Pad1/Pad2がnullならreturn
         if (Pad1 == null || Pad2 == null) return;
 
+        HandleMoveSticks_Multi();
+        HandleCarryBox_Multi();
+        HandleJump_Multi();
+        HandleCheckpoint_Multi();
+        HandleColor_Multi();
+    }
 
+    void HandleMoveSticks_Multi()
+    {
         Vector2 stick;
 
-        // プレイヤー1の移動
         if (!isLeftStick && !isMove_player1)
         {
-            epText.text = "プレイヤー1は\n" +
-                "LStickで<color=red>赤</color>のキャラクターを移動";
+            epText.text = "プレイヤー1は\nLStickで<color=red>赤</color>のキャラクターを移動";
             stick = Pad1.leftStick.ReadValue();
             if (stick.magnitude > 0.1f)
             {
@@ -244,91 +238,127 @@ public class Tutorial : MonoBehaviour
                 Time.timeScale = 1f;
             }
         }
-
-        // プレイヤー2の移動
         else if (isLeftStick && !isRightStick && !isMove_player2)
         {
-            epText.text = "プレイヤー2は\n" +
-                "LStickで<color=blue>青</color>のキャラクターを移動";
+            epText.text = "プレイヤー2は\nLStickで<color=blue>青</color>のキャラクターを移動";
             stick = Pad2.leftStick.ReadValue();
             if (stick.magnitude > 0.1f)
             {
                 isRightStick = true;
             }
         }
-
-        // 両方完了したらテキストを消す
         else if (isMove_player1 && isMove_player2)
         {
             epText.text = "";
-            wall1.SetActive(false);
-            movePos1.SetActive(false);
+            if (wall1 != null) wall1.SetActive(false);
+            if (movePos1 != null) movePos1.SetActive(false);
         }
+    }
 
-
-        //宝箱
+    void HandleCarryBox_Multi()
+    {
         if (isMove_player1 && isMove_player2 && !carryBox)
         {
-            movePos2.SetActive(true); //移動位置2をアクティブ
+            if (movePos2 != null) movePos2.SetActive(true);
             epText.text = "<color=yellow>[宝箱を運ぶ]</color>\n" +
-                "宝箱の前で\n" +
-                "R2 または L2を長押し";
+                         "宝箱の前で\n" +
+                         "R2 または L2を長押し";
 
             BringObj bringObj = FindObjectOfType<BringObj>();
-            if (bringObj.player1_isBringing || bringObj.player2_isBringing) carryBox = true;
+            if (bringObj != null && (bringObj.player1_isBringing || bringObj.player2_isBringing))
+            {
+                carryBox = true;
+            }
         }
         else if (carryBox)
         {
-            movePos2.SetActive(false);
+            if (movePos2 != null) movePos2.SetActive(false);
             epText.text = "";
         }
+    }
 
-        //ジャンプ
-        if (carryBox)
+    void HandleJump_Multi()
+    {
+        if (!carryBox) return;
+
+        if (jumpArea && !isjump)
         {
-            //ジャンプエリアなら
-            if (jumpArea && !isjump)
-            {
-                Time.timeScale = 0f; //時間を止める
-                epText.text = "<color=yellow>[ジャンプ]</color>\n" +
-                    "R1 or L1で敵を踏みつける";
+            Time.timeScale = 0f;
+            epText.text = "<color=yellow>[ジャンプ]</color>\n" +
+                         "R1 or L1で敵を踏みつける";
 
-                if (Pad1.leftShoulder.wasPressedThisFrame || Pad1.rightShoulder.wasPressedThisFrame ||
-                    Pad2.leftShoulder.wasPressedThisFrame || Pad2.rightShoulder.wasPressedThisFrame)
-                {
-                    isjump = true;
-                    jumpArea = false;
-                    wall1.SetActive(false);
-                    Time.timeScale = 1f; //時間を進める
-                }
+            if (Pad1.leftShoulder.wasPressedThisFrame || Pad1.rightShoulder.wasPressedThisFrame ||
+                Pad2.leftShoulder.wasPressedThisFrame || Pad2.rightShoulder.wasPressedThisFrame)
+            {
+                isjump = true;
+                jumpArea = false;
+                if (wall1 != null) wall1.SetActive(false);
+                Time.timeScale = 1f;
             }
         }
+    }
 
-        //チェックポイントなら
+    void HandleCheckpoint_Multi()
+    {
         if (isjump && isCheckPoint)
         {
             epText.text = "<color=yellow>[チェックポイント]</color>\n" +
-                 "死亡時にここから再開できる";
-            //StartCoroutine(DeleteTutorial(3f));
+                          "死亡時にここから再開できる";
+            if (wall3 != null) wall3.SetActive(false);
+            if (isColor) isCheckPoint = false;
+
         }
-        
-        //カラーギミックチュートリアル、wall4に触れることで発動
-        if (isColor)
+    }
+
+    void HandleColor_Multi()
+    {
+        if (!isColor) return;
+
+        epText.text = "<color=yellow>[カラーギミック]</color>\n" +
+                      "<color=blue>青</color>は<color=blue>青色</color>、<color=red>赤</color>は<color=red>赤色</color>とそれぞれに\n" +
+                      "対応した色のみ通過できる\n" +
+                      "×ボタンを押して進む";
+
+        // 元の挙動どおり時間停止して入力待ち
+        Time.timeScale = 0f;
+        if (Pad1.buttonSouth.wasPressedThisFrame || Pad2.buttonSouth.wasPressedThisFrame)
         {
-            epText.text = "<color=yellow>[カラーギミック]</color>\n" +
-                "<color=blue>青</color>は<color=blue>青色</color>、<color=red>赤</color>は<color=red>赤色</color>とそれぞれに\n" +
-                "対応した色のみ通過できる\n" +
-                "×ボタンを押して進む";
-
-            Time.timeScale = 0f;
-            wall4.SetActive(false);
-            if (Pad1.buttonSouth.wasPressedThisFrame || Pad2.buttonSouth.wasPressedThisFrame)
-            {
-                isColor = false;
-                Time.timeScale = 1f;
-                StartCoroutine(DeleteTutorial(3f));
-            }
+            isColor = false;
+            Time.timeScale = 1f;
+            StartCoroutine(DeleteTutorial(3f));
         }
+    }
 
+    // --------------------------
+    // 共通ユーティリティ
+    // --------------------------
+    void SkipTutorialAll()
+    {
+        if (settingManager != null) settingManager.isTutorial = false;
+        if (tutorialUI != null) tutorialUI.SetActive(false);
+
+        if (wall1 != null) wall1.SetActive(false);
+        if (wall2 != null) wall2.SetActive(false);
+        if (wall3 != null) wall3.SetActive(false);
+        if (wall4 != null) wall4.SetActive(false);
+
+        if (movePos1 != null) movePos1.SetActive(false);
+        if (movePos2 != null) movePos2.SetActive(false);
+
+        jumpArea = false;
+        Time.timeScale = 1f;
+    }
+
+    IEnumerator DeleteTutorial(float time)
+    {
+        yield return new WaitForSeconds(time);
+        Complete_Tutorial();
+    }
+
+    void Complete_Tutorial()
+    {
+        Time.timeScale = 1f;
+        if (tutorialUI != null) tutorialUI.SetActive(false);
+        if (settingManager != null) settingManager.isTutorial = false;
     }
 }
