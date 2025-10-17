@@ -14288,6 +14288,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cannon
       objectReference: {fileID: 0}
+    - target: {fileID: 3694925445326702480, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8940504583644379417, guid: 2b4a160aa4ab3409b94030e0658d5552, type: 3}
       propertyPath: shotForce
       value: 500

@@ -67,13 +67,14 @@ public class Tutorial : MonoBehaviour
         //チュートリアルスキップ
         if (gamepad != null && gamepad.startButton.wasPressedThisFrame || Input.GetKeyDown(KeyCode.Tab))
         {
-            Time.timeScale = 1f;
             settingManager.isTutorial = false;
             tutorialUI.SetActive(false);
             wall1.SetActive(false);
             wall2.SetActive(false);
             movePos1.SetActive(false);
             movePos2.SetActive(false);
+            jumpArea = false; //ジャンプチュートリアルをオフにするため
+            Time.timeScale = 1f;
         }
 
         //コントローラー接続がなければreturn
@@ -163,13 +164,13 @@ public class Tutorial : MonoBehaviour
     //シングルプレイヤーのチュートリアルオブジェクトを削除
     void RemoveSingleObj()
     {
-        Time.timeScale = 1f;
         settingManager.isTutorial = false;
         tutorialUI.SetActive(false);
         wall1.SetActive(false);
         wall2.SetActive(false);
         movePos1.SetActive(false);
         movePos2.SetActive(false);
+        Time.timeScale = 1f;
     }
 
     //シングルプレイヤーのチュートリアルが完了したら
@@ -187,13 +188,14 @@ public class Tutorial : MonoBehaviour
         //チュートリアルスキップ
         if (Pad1.startButton.wasPressedThisFrame || Pad2.startButton.wasPressedThisFrame || Input.GetKeyDown(KeyCode.Tab))
         {
-            Time.timeScale = 1f;
             settingManager.isTutorial = false;
             tutorialUI.SetActive(false);
             wall1.SetActive(false);
             wall2.SetActive(false);
             movePos1.SetActive(false);
             movePos2.SetActive(false);
+            jumpArea = false; //ジャンプチュートリアルをオフにするため
+            Time.timeScale = 1f;
         }
 
         //コントローラー接続がなければreturn
