@@ -14,7 +14,9 @@ public class Tutorial : MonoBehaviour
     SettingManager settingManager;
     [Tooltip("説明テキスト")] public Text epText;
     [Tooltip("壁")] public GameObject wall1;
-    [Tooltip("壁")] public GameObject wall2;
+    public GameObject wall2;
+    public GameObject wall3;
+    
     [Tooltip("移動位置1")] public GameObject movePos1;
     [Tooltip("移動位置2")] public GameObject movePos2;
 
@@ -28,6 +30,7 @@ public class Tutorial : MonoBehaviour
 
     [HideInInspector] public bool jumpArea = false; //ジャンプエリアかどうか
     bool isjump = false; //ジャンプの完了
+    [HideInInspector] public bool isCheckPoint = false; //チェックポイント
 
     //コントローラー
     public Gamepad Pad1, Pad2;
@@ -119,7 +122,7 @@ public class Tutorial : MonoBehaviour
         if (isMove_player1 && isMove_player2 && !carryBox)
         {
             movePos2.SetActive(true); //移動位置2をアクティブ
-            epText.text = "[宝箱を運ぶ]\n" +
+            epText.text = "<color=yellow>[宝箱を運ぶ]</color>\n" +
                 "宝箱の前で\n" +
                 "<color=red>赤</color>のキャラはL2長押し\n" +
                 "<color=blue>青</color>のキャラはR2長押し";
@@ -137,44 +140,42 @@ public class Tutorial : MonoBehaviour
         if (carryBox)
         {
             //ジャンプエリアなら
-            if (jumpArea)
+            if (jumpArea && !isjump)
             {
                 Time.timeScale = 0f; //時間を止める
-                epText.text = "[ジャンプ]\n" +
+                epText.text = "<color=yellow>[ジャンプ]</color>\n" +
                     "R1 or L1で敵を踏みつける";
 
                 if (gamepad.leftShoulder.wasPressedThisFrame || gamepad.rightShoulder.wasPressedThisFrame)
                 {
                     isjump = true;
+                    jumpArea = false;
                     wall1.SetActive(false);
                     Time.timeScale = 1f; //時間を進める
                 }
             }
+           
+        }
 
-
-            if (isjump)
-            {
-                Complete_SinglePlayerTutorial(); //チュートリアル完了
-            }
-
+        //ジャンプが完了かつチェックポイントなら
+        if (isCheckPoint)
+        {
+            epText.text = "<color=yellow>[チェックポイント]</color>\n" +
+                 "死亡時にここから再開できる";
+            StartCoroutine(DeleteTutorial(3f));
         }
 
     }
     
-    //シングルプレイヤーのチュートリアルオブジェクトを削除
-    void RemoveSingleObj()
+    //完了後、指定の秒数でチュートリアルを削除
+    IEnumerator DeleteTutorial(float time)
     {
-        settingManager.isTutorial = false;
-        tutorialUI.SetActive(false);
-        wall1.SetActive(false);
-        wall2.SetActive(false);
-        movePos1.SetActive(false);
-        movePos2.SetActive(false);
-        Time.timeScale = 1f;
+        yield return new WaitForSeconds(time);
+        Complete_Tutorial();
     }
 
     //シングルプレイヤーのチュートリアルが完了したら
-    void Complete_SinglePlayerTutorial()
+    void Complete_Tutorial()
     {
         Time.timeScale = 1f;
         tutorialUI.SetActive(false);
@@ -242,7 +243,7 @@ public class Tutorial : MonoBehaviour
         if (isMove_player1 && isMove_player2 && !carryBox)
         {
             movePos2.SetActive(true); //移動位置2をアクティブ
-            epText.text = "[宝箱を運ぶ]\n" +
+            epText.text = "<color=yellow>[宝箱を運ぶ]</color>\n" +
                 "宝箱の前で\n" +
                 "R2 または L2を長押し";
 
@@ -259,27 +260,29 @@ public class Tutorial : MonoBehaviour
         if (carryBox)
         {
             //ジャンプエリアなら
-            if (jumpArea)
+            if (jumpArea && !isjump)
             {
                 Time.timeScale = 0f; //時間を止める
-                epText.text = "[ジャンプ]\n" +
+                epText.text = "<color=yellow>[ジャンプ]</color>\n" +
                     "R1 or L1で敵を踏みつける";
 
                 if (Pad1.leftShoulder.wasPressedThisFrame || Pad1.rightShoulder.wasPressedThisFrame ||
                     Pad2.leftShoulder.wasPressedThisFrame || Pad2.rightShoulder.wasPressedThisFrame)
                 {
                     isjump = true;
+                    jumpArea = false;
                     wall1.SetActive(false);
                     Time.timeScale = 1f; //時間を進める
                 }
             }
+        }
 
-
-            if (isjump)
-            {
-                Complete_SinglePlayerTutorial(); //チュートリアル完了
-            }
-
+        //チェックポイントなら
+        if (isjump && isCheckPoint)
+        {
+            epText.text = "<color=yellow>[チェックポイント]</color>\n" +
+                 "死亡時にここから再開できる";
+            StartCoroutine(DeleteTutorial(3f));
         }
 
     }
