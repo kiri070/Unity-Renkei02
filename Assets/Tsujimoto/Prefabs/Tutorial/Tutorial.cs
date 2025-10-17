@@ -319,6 +319,8 @@ public class Tutorial : MonoBehaviour
                       "対応した色のみ通過できる\n" +
                       "×ボタンを押して進む";
 
+        if (wall4 != null) wall4.SetActive(false);
+
         // 元の挙動どおり時間停止して入力待ち
         Time.timeScale = 0f;
         if (Pad1.buttonSouth.wasPressedThisFrame || Pad2.buttonSouth.wasPressedThisFrame)
