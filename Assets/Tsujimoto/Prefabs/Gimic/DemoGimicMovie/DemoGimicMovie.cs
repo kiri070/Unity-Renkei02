@@ -10,7 +10,7 @@ using DG.Tweening;
 public class DemoGimicMovie : MonoBehaviour
 {
     [Header("チュートリアル動画")][SerializeField] GameObject movieObj;
-    [Header("大きさ")] [SerializeField] Vector3 maxScale = new Vector3(20f, 10f, 5);
+    [Header("大きさ")][SerializeField] Vector3 maxScale = new Vector3(20f, 10f, 5);
     void Start()
     {
         movieObj.SetActive(false);
@@ -43,13 +43,14 @@ public class DemoGimicMovie : MonoBehaviour
     {
         if (active)
         {
+            movieObj.transform.DOKill();
             movieObj.SetActive(true);
             movieObj.transform.DOScale(maxScale, 0.5f).SetEase(Ease.InQuad);
         }
         else if(!active)
         {
+            movieObj.transform.DOKill();
             movieObj.transform.DOScale(new Vector3(0f, 0f, 0f), 0.5f).SetEase(Ease.InQuad).OnComplete(() => { obj.SetActive(active); });
         }
-        
     }
 }
