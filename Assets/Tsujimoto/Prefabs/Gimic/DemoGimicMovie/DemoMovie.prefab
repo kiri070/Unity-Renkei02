@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8213601235746600859}
   - component: {fileID: 1811778742217507338}
   - component: {fileID: 2307281762501376381}
+  - component: {fileID: 5417565285459306115}
   m_Layer: 0
   m_Name: DemoMovie
   m_TagString: Untagged
@@ -143,3 +144,16 @@ VideoPlayer:
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
+--- !u!114 &5417565285459306115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039545790119923313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 835ea048bec884fc69a49040c2aeb5f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 0}
