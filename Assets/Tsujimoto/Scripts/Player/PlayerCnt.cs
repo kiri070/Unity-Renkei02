@@ -18,8 +18,12 @@ public class PlayerCnt : MonoBehaviour
 
     [Header("お宝を格納")]
     public GameObject treasure;
+    BringObj bringObj;
+    [Tooltip("同時運搬の最大距離")][SerializeField] float grabDis = 3f;
     [HideInInspector] public bool player1_isBoxArea = false; //プレイヤー1が宝箱を持っているか
     [HideInInspector] public bool player2_isBoxArea = false; //プレイヤー2が宝箱を持っているか
+    [HideInInspector] public bool isDualCarrying = false; //同時に運搬中かどうか
+
 
     [Header("弾が発射されるエリア")]
     public GameObject player1BulletArea;
@@ -31,8 +35,9 @@ public class PlayerCnt : MonoBehaviour
     [Header("移動速度")]
     [Range(1f, 10f)]
     public float moveSpeed = 5f; //移動速度
+    float originSpeed; //移動速度管理
 
-    [Header("ジャンプ力")]
+   [Header("ジャンプ力")]
     [Range(1f, 50f)]
     [SerializeField]
     private float jumpForce; //ジャンプ力
@@ -85,6 +90,7 @@ public class PlayerCnt : MonoBehaviour
         soundManager = GameObject.FindObjectOfType<SoundManager>();
         soundsList = GameObject.FindObjectOfType<SoundsList>();
         goalScr = FindObjectOfType<GoalScr>();
+        bringObj = FindObjectOfType<BringObj>();
 
         //エフェクトの位置を取得
         player1_SpawnEffectPoint = GameObject.Find("Player1_SpawnEffectPoint");
@@ -98,6 +104,8 @@ public class PlayerCnt : MonoBehaviour
 
         //一部の入力イベントを登録
         RegisterEvents();
+
+        originSpeed = moveSpeed; //元の移動速度を保存
 
         //コントローラーのみ
         if (Gamepad.all.Count >= 2)
@@ -121,6 +129,41 @@ public class PlayerCnt : MonoBehaviour
 
     void Update()
     {
+        //同時に運搬している場合
+        if (isPlayer1BringObj && isPlayer2BringObj)
+        {
+            Debug.Log("同時に運搬");
+            isDualCarrying = true; //同時運搬のフラグを立てる
+
+            moveSpeed = originSpeed * 1.3f; //スピードアップ
+
+            //== プレイヤーと離れすぎた場合 ==
+            //プレイヤーと宝箱の距離を取得
+            float dis1 = Vector3.Distance(mover1.transform.position, bringObj.transform.position);
+            float dis2 = Vector3.Distance(mover2.transform.position, bringObj.transform.position);
+
+            //指定の距離以上離れていたら
+            if (dis1 > grabDis || dis2 > grabDis)
+            {
+                Debug.Log("離れすぎた");
+                isPlayer1BringObj = false;
+                isPlayer2BringObj = false;
+
+                moveSpeed = originSpeed; //スピードを戻す
+                isDualCarrying = false; //同時運搬のフラグをオフ
+            }
+        }
+        //どちらかが運搬を解除したら
+        else if (!isPlayer1BringObj && isDualCarrying || !isPlayer2BringObj && isDualCarrying)
+        {
+            Debug.Log("どちらかが運搬解除");
+            isPlayer1BringObj = false;
+            isPlayer2BringObj = false;
+
+            moveSpeed = originSpeed; //スピードを戻す
+            isDualCarrying = false; //同時運搬のフラグをオフ
+        }
+
         //ゴールしたら動けないように
         if (goalScr.isClearTriggered)
         {

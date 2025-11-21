@@ -45,8 +45,11 @@ public class PlayerMover : MonoBehaviour
     [Header("エフェクト")]
     [Tooltip("敵と衝突")] public GameObject nockBackEffect;
     [Tooltip("ジャンプ")] public GameObject jumpEffect;
-    [Tooltip("氷の床")] public GameObject frozenEffect;
+    [Tooltip("同時運搬中のエフェクト")] public GameObject frozenEffect;
     [Tooltip("トランポリン")] public GameObject tranpolineEffect;
+    //同時運搬中のエフェクト処理関連
+    Queue<GameObject> speedEffectPool = new Queue<GameObject>(); //エフェクトキュー
+    float speedEffectTimer = 0f;
 
     Renderer[] renderers; // 複数のRenderer（子オブジェクト含む）を管理
     List<Material[]> defaultMaterials = new List<Material[]>(); // 各Rendererの初期マテリアルを保存
@@ -116,7 +119,12 @@ public class PlayerMover : MonoBehaviour
         //移動入力があるかどうか
         if (move.magnitude > 0.01) moving = true;
         else moving = false;
-
+        
+        //同時運搬中の処理
+        if (playerCnt.isDualCarrying)
+        {
+            SpawnSpeedEffect(); //エフェクト
+        }
         // OffScreen();
         // WallChecker();
     }
@@ -127,6 +135,29 @@ public class PlayerMover : MonoBehaviour
         Check_IsBoxArea();
         if (canMove)
             Move();
+    }
+    //同時運搬中のエフェクト関数
+    void SpawnSpeedEffect()
+    {
+        speedEffectTimer += Time.deltaTime;
+
+        if (speedEffectTimer > 0.04f) // 生成間隔
+        {
+            // 足元
+            Vector3 pos = transform.position + Vector3.up * 0.1f;
+            //生成
+            GameObject effect = Instantiate(frozenEffect, pos, Quaternion.identity);
+            speedEffectPool.Enqueue(effect);
+
+            // 30個以上たまれば古いものを消す
+            if (speedEffectPool.Count > 30)
+            {
+                GameObject old = speedEffectPool.Dequeue();
+                Destroy(old);
+            }
+
+            speedEffectTimer = 0f;
+        }
     }
 
     //宝箱が範囲内にあるかどうかで持てるかの判断をする関数
@@ -760,24 +791,24 @@ public class PlayerMover : MonoBehaviour
     //OnTriggerStay
     void OnTriggerStay(Collider other)
     {
-        //氷に触れている場合
-        if (other.CompareTag("FrozenArea"))
-        {
-            onIce = true;
-            //エフェクト
-            frozenEffectTime += Time.deltaTime;
-            if (frozenEffectTime > 0.01f)
-            {
-                GameObject effect = Instantiate(frozenEffect, transform.position, Quaternion.identity);
-                effectPool.Enqueue(effect); //キューに入れる
-                if (effectPool.Count > 30)
-                {
-                    GameObject old = effectPool.Dequeue(); //古いものを取り出す
-                    Destroy(old);
-                }
-                frozenEffectTime = 0f;
-            }
-        }
+        ////氷に触れている場合
+        //if (other.CompareTag("FrozenArea"))
+        //{
+        //    onIce = true;
+        //    //エフェクト
+        //    frozenEffectTime += Time.deltaTime;
+        //    if (frozenEffectTime > 0.01f)
+        //    {
+        //        GameObject effect = Instantiate(frozenEffect, transform.position, Quaternion.identity);
+        //        effectPool.Enqueue(effect); //キューに入れる
+        //        if (effectPool.Count > 30)
+        //        {
+        //            GameObject old = effectPool.Dequeue(); //古いものを取り出す
+        //            Destroy(old);
+        //        }
+        //        frozenEffectTime = 0f;
+        //    }
+        //}
     }
 
     //OnTriggerExit

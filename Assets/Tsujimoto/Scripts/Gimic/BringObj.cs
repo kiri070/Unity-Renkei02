@@ -11,6 +11,8 @@ public class BringObj : MonoBehaviour
     GameManager gameManager;
     PlayerCnt playerCnt;
 
+    [HideInInspector] public Vector3 center; //プレイヤーとの距離
+
     public bool player1_isBringing = false; //宝箱が運ばれているか
     public bool player2_isBringing = false; //宝箱が運ばれているか
 
@@ -83,6 +85,29 @@ public class BringObj : MonoBehaviour
         {
             boxPos_Effeect.SetActive(false);
         }
+    }
+
+    //Updateが終わった後に呼ばれる
+    void LateUpdate()
+    {
+        // 上下ギミック中は協力運搬モードを使わない
+        if (playerCnt.OnUnder_OverGimic) return;
+
+        // 両方が持っている状態じゃなければ何もしない
+        if (!playerCnt.isPlayer1BringObj || !playerCnt.isPlayer2BringObj) return;
+
+        // プレイヤーの位置を取得
+        Vector3 p1 = playerCnt.mover1.transform.position;
+        Vector3 p2 = playerCnt.mover2.transform.position;
+
+        // プレイヤー同士の中心
+        center = (p1 + p2) / 2f;
+
+        // 通常：少し上に位置する
+        center += Vector3.up * 1f;
+
+        // なめらかに宝箱を中央に寄せる
+        transform.position = Vector3.Lerp(transform.position, center, 0.2f);
     }
 
     //状態に応じてモデルの入れ替え
