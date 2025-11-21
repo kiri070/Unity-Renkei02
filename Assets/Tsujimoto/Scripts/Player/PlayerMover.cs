@@ -13,8 +13,11 @@ public class PlayerMover : MonoBehaviour
     GameManager gameManager;
     // 持っているオブジェクトを記録
     [HideInInspector] public Rigidbody heldObject;
+    //仮
+    Vector3 center;
 
-    [Header("物体を持てる範囲")] [SerializeField] Vector3 boxSize = new Vector3(1f, 0.2f, 1f);
+
+    [Header("物体を持てる範囲")] public Vector3 boxSize = new Vector3(1f, 0.2f, 1f);
     [SerializeField] Vector3 offSet = new Vector3(0f, 0f, 0f);
     [Header("物体のレイヤー")] public LayerMask objLayer;
     [HideInInspector]
@@ -121,17 +124,56 @@ public class PlayerMover : MonoBehaviour
     void FixedUpdate()
     {
         BringArea();
+        Check_IsBoxArea();
         if (canMove)
             Move();
     }
 
-    //物体を持てる範囲
+    //宝箱が範囲内にあるかどうかで持てるかの判断をする関数
+    void Check_IsBoxArea()
+    {
+
+        Physics.OverlapBox(center, boxSize / 2, Quaternion.identity, objLayer);
+        // 物体を検索
+        Collider[] hits = Physics.OverlapBox(center, boxSize / 2, Quaternion.identity, objLayer);
+
+        //プレイヤー1なら
+        if (playerIndex == 1)
+        {
+            if (hits.Length > 0)
+            {
+                playerCnt.player1_isBoxArea = true;
+            }
+            else
+            {
+                playerCnt.player1_isBoxArea = false;
+            }
+        }
+
+        //プレイヤー2なら
+        if (playerIndex == 2)
+        {
+            if (hits.Length > 0)
+            {
+                playerCnt.player2_isBoxArea = true;
+            }
+            else
+            {
+                playerCnt.player2_isBoxArea = false;
+            }
+        }
+
+    }
+
+        //物体を持てる範囲
     void BringArea()
     {
         //playerIndexが1なら左,それ以外なら右
         bool isBring = (playerIndex == 1) ? playerCnt.isPlayer1BringObj : playerCnt.isPlayer2BringObj;
+        //// プレイヤーの前方＋ちょい上
+        //Vector3 center = transform.position + transform.forward * 1.5f + Vector3.up * 1f;
         // プレイヤーの前方＋ちょい上
-        Vector3 center = transform.position + transform.forward * 1.5f + Vector3.up * 1f;
+        center = transform.position + transform.forward * 1.5f + Vector3.up * 1f;
 
         // 物体を検索
         Collider[] hits = Physics.OverlapBox(center, boxSize / 2, Quaternion.identity, objLayer);

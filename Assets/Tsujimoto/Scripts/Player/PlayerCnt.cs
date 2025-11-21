@@ -18,6 +18,8 @@ public class PlayerCnt : MonoBehaviour
 
     [Header("お宝を格納")]
     public GameObject treasure;
+    [HideInInspector] public bool player1_isBoxArea = false; //プレイヤー1が宝箱を持っているか
+    [HideInInspector] public bool player2_isBoxArea = false; //プレイヤー2が宝箱を持っているか
 
     [Header("弾が発射されるエリア")]
     public GameObject player1BulletArea;
@@ -163,24 +165,38 @@ public class PlayerCnt : MonoBehaviour
         controls.Player.Bring1.started += ctx =>
         {
             if (GameManager.state != GameManager.GameState.Playing) return;
-            isPlayer1BringObj = true;
+            if (player1_isBoxArea && !isPlayer1BringObj)
+            {
+                isPlayer1BringObj = true;
+            }
+            else if (isPlayer1BringObj)
+            {
+                isPlayer1BringObj = false;
+            }
         };
-        controls.Player.Bring1.canceled += ctx =>
-        {
-            if (GameManager.state != GameManager.GameState.Playing) return;
-            isPlayer1BringObj = false;
-        };
+        //controls.Player.Bring1.canceled += ctx =>
+        //{
+        //    if (GameManager.state != GameManager.GameState.Playing) return;
+        //    isPlayer1BringObj = false;
+        //};
         //Player2:荷物を持つ
         controls.Player.Bring2.started += ctx =>
         {
             if (GameManager.state != GameManager.GameState.Playing) return;
-            isPlayer2BringObj = true;
+            if (player2_isBoxArea && !isPlayer2BringObj)
+            {
+                isPlayer2BringObj = true;
+            }
+            else if (isPlayer2BringObj)
+            {
+                isPlayer2BringObj = false;
+            }
         };
-        controls.Player.Bring2.canceled += ctx =>
-        {
-            if (GameManager.state != GameManager.GameState.Playing) return;
-            isPlayer2BringObj = false;
-        };
+        //controls.Player.Bring2.canceled += ctx =>
+        //{
+        //    if (GameManager.state != GameManager.GameState.Playing) return;
+        //    isPlayer2BringObj = false;
+        //};
 
         //--マルチ--//
         //ジャンプ1
@@ -195,47 +211,75 @@ public class PlayerCnt : MonoBehaviour
         controls1.Player1.Bring.started += ctx =>
         {
             if (GameManager.state != GameManager.GameState.Playing) return;
-            isPlayer1BringObj = true;
+            if (player1_isBoxArea && !isPlayer1BringObj)
+            {
+                isPlayer1BringObj = true;
+            }
+            else if (isPlayer1BringObj)
+            {
+                isPlayer1BringObj = false;
+            }
         };
-        controls1.Player1.Bring.canceled += ctx =>
-        {
-            if (GameManager.state != GameManager.GameState.Playing) return;
-            isPlayer1BringObj = false;
-        };
+        //controls1.Player1.Bring.canceled += ctx =>
+        //{
+        //    if (GameManager.state != GameManager.GameState.Playing) return;
+        //    isPlayer1BringObj = false;
+        //};
         //L2
         controls1.Player1.Bring2.started += ctx =>
         {
             if (GameManager.state != GameManager.GameState.Playing) return;
-            isPlayer1BringObj = true;
+            if (player1_isBoxArea && !isPlayer1BringObj)
+            {
+                isPlayer1BringObj = true;
+            }
+            else if (isPlayer1BringObj)
+            {
+                isPlayer1BringObj = false;
+            }
         };
-        controls1.Player1.Bring2.canceled += ctx =>
-        {
-            if (GameManager.state != GameManager.GameState.Playing) return;
-            isPlayer1BringObj = false;
-        };
+        //controls1.Player1.Bring2.canceled += ctx =>
+        //{
+        //    if (GameManager.state != GameManager.GameState.Playing) return;
+        //    isPlayer1BringObj = false;
+        //};
         //Player2:荷物を持つ
         //R2
         controls2.Player2.Bring.started += ctx =>
         {
             if (GameManager.state != GameManager.GameState.Playing) return;
-            isPlayer2BringObj = true;
+            if (player2_isBoxArea && !isPlayer2BringObj)
+            {
+                isPlayer2BringObj = true;
+            }
+            else if (isPlayer2BringObj)
+            {
+                isPlayer2BringObj = false;
+            }
         };
-        controls2.Player2.Bring.canceled += ctx =>
-        {
-            if (GameManager.state != GameManager.GameState.Playing) return;
-            isPlayer2BringObj = false;
-        };
+        //controls2.Player2.Bring.canceled += ctx =>
+        //{
+        //    if (GameManager.state != GameManager.GameState.Playing) return;
+        //    isPlayer2BringObj = false;
+        //};
         //L2
         controls2.Player2.Bring2.started += ctx =>
         {
             if (GameManager.state != GameManager.GameState.Playing) return;
-            isPlayer2BringObj = true;
+            if (player2_isBoxArea && !isPlayer2BringObj)
+            {
+                isPlayer2BringObj = true;
+            }
+            else if (isPlayer2BringObj)
+            {
+                isPlayer2BringObj = false;
+            }
         };
-        controls2.Player2.Bring2.canceled += ctx =>
-        {
-            if (GameManager.state != GameManager.GameState.Playing) return;
-            isPlayer2BringObj = false;
-        };
+        //controls2.Player2.Bring2.canceled += ctx =>
+        //{
+        //    if (GameManager.state != GameManager.GameState.Playing) return;
+        //    isPlayer2BringObj = false;
+        //};
     }
     //Player1:ジャンプ(マルチ用)
     void OnPlayer1Jump(InputAction.CallbackContext ctx)
@@ -506,6 +550,10 @@ public class PlayerCnt : MonoBehaviour
 
         treasure.transform.position = treasure_StartPoint.transform.position; //お宝
         StartCoroutine(InvincibleTimer());
+
+        //プレイヤーの宝箱をおろす
+        isPlayer1BringObj = false;
+        isPlayer2BringObj = false;
     }
     /// <summary>
     /// チェックポイントにスポーンします。
@@ -537,6 +585,10 @@ public class PlayerCnt : MonoBehaviour
         mover2.transform.position = spawn2.transform.position;
         treasure.transform.position = spawn3.transform.position; //お宝
         StartCoroutine(InvincibleTimer());
+
+        //プレイヤーの宝箱をおろす
+        isPlayer1BringObj = false;
+        isPlayer2BringObj = false;
     }
     //上下ギミックのスタート地点にスポーンさせる関数
     public void SpwanStartPoint_Gimic()
@@ -561,6 +613,11 @@ public class PlayerCnt : MonoBehaviour
         mover2.transform.position = GameObject.Find("Player2_GimicSpawnPos").gameObject.transform.position;
 
         treasure.transform.position = GameObject.Find("TreasureBox_GimicSpawnPos").gameObject.transform.position; //お宝
+
+        //プレイヤーの宝箱をおろす
+        isPlayer1BringObj = false;
+        isPlayer2BringObj = false;
+
         // StartCoroutine(InvincibleTimer()); //バグるため無敵をつけない
     }
     //上下ギミックのチェックポイント地点にスポーンさせる関数
@@ -586,6 +643,11 @@ public class PlayerCnt : MonoBehaviour
         mover2.transform.position = GameObject.Find("Player2_GimicCheckPointSpawnPos").gameObject.transform.position;
 
         treasure.transform.position = GameObject.Find("TreasureBox_GimicCheckPointSpawnPos").gameObject.transform.position; //お宝
+
+        //プレイヤーの宝箱をおろす
+        isPlayer1BringObj = false;
+        isPlayer2BringObj = false;
+
         // StartCoroutine(InvincibleTimer()); //バグるため無敵をつけない
     }
     /// <summary>
