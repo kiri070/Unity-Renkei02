@@ -241,68 +241,26 @@ public class PlayerMover : MonoBehaviour
                 if (!playerCnt.OnUnder_OverGimic)
                 {
                     Vector3 targetPos = transform.position + transform.forward * 1.5f + Vector3.up * 1f;
-
-                    // ★ここだけ修正（MovePosition → transform.position）
-                    heldObject.transform.position = Vector3.Lerp(
-                        heldObject.transform.position,
-                        targetPos,
-                        Time.deltaTime * 20f
-                    );
+                    heldObject.MovePosition(targetPos);
                 }
                 //上下ギミック時
                 else if (playerCnt.OnUnder_OverGimic)
                 {
+                    //天井の場合,少し下で運ぶ
                     if (bringObj.top)
                     {
                         Vector3 targetPos = transform.position + transform.forward * 1.5f + Vector3.down * 1f;
-
-                        heldObject.transform.position = Vector3.Lerp(
-                            heldObject.transform.position,
-                            targetPos,
-                            Time.deltaTime * 20f
-                        );
+                        heldObject.MovePosition(targetPos);
                     }
+                    //地面の場合,少し上で運ぶ
                     else if (bringObj.bottom)
                     {
                         Vector3 targetPos = transform.position + transform.forward * 1.5f + Vector3.up * 1f;
-
-                        heldObject.transform.position = Vector3.Lerp(
-                            heldObject.transform.position,
-                            targetPos,
-                            Time.deltaTime * 20f
-                        );
+                        heldObject.MovePosition(targetPos);
                     }
+
                 }
             }
-
-            //(元のバージョン)
-            // // 既に持っている場合は、位置を前方に維持
-            // if (heldObject != null && isBring)
-            // {
-            //     //通常時
-            //     if (!playerCnt.OnUnder_OverGimic)
-            //     {
-            //         Vector3 targetPos = transform.position + transform.forward * 1.5f + Vector3.up * 1f;
-            //         heldObject.MovePosition(targetPos);
-            //     }
-            //     //上下ギミック時
-            //     else if (playerCnt.OnUnder_OverGimic)
-            //     {
-            //         //天井の場合,少し下で運ぶ
-            //         if (bringObj.top)
-            //         {
-            //             Vector3 targetPos = transform.position + transform.forward * 1.5f + Vector3.down * 1f;
-            //             heldObject.MovePosition(targetPos);
-            //         }
-            //         //地面の場合,少し上で運ぶ
-            //         else if (bringObj.bottom)
-            //         {
-            //             Vector3 targetPos = transform.position + transform.forward * 1.5f + Vector3.up * 1f;
-            //             heldObject.MovePosition(targetPos);
-            //         }
-
-            //     }
-            // }
         }
         else if (!isBring)
         {
