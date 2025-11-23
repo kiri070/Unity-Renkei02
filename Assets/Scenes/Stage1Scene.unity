@@ -7013,6 +7013,10 @@ MonoBehaviour:
   mover1: {fileID: 1259394431}
   mover2: {fileID: 618619255}
   treasure: {fileID: 2026886228}
+  grabDis: 3.5
+  player1_isBoxArea: 0
+  player2_isBoxArea: 0
+  isDualCarrying: 0
   player1BulletArea: {fileID: 0}
   player2BulletArea: {fileID: 0}
   player1Bullet: {fileID: 2203308906420047698, guid: f2f8ed0d8cf0c474086487c8a9e8a640, type: 3}
