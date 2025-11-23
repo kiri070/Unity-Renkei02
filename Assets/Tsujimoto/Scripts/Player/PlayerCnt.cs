@@ -19,6 +19,8 @@ public class PlayerCnt : MonoBehaviour
     [Header("お宝を格納")]
     public GameObject treasure;
     BringObj bringObj;
+    bool canGrab_player1 = true;
+    bool canGrab_player2 = true;
     [Tooltip("同時運搬の最大距離")][SerializeField] float grabDis = 3.5f;
     [HideInInspector] public bool player1_isBoxArea = false; //プレイヤー1が宝箱を持っているか
     [HideInInspector] public bool player2_isBoxArea = false; //プレイヤー2が宝箱を持っているか
@@ -208,13 +210,20 @@ public class PlayerCnt : MonoBehaviour
         controls.Player.Bring1.started += ctx =>
         {
             if (GameManager.state != GameManager.GameState.Playing) return;
+
+            if (!canGrab_player1) return;
+
             if (player1_isBoxArea && !isPlayer1BringObj)
             {
                 isPlayer1BringObj = true;
+                canGrab_player1 = false;
+                StartCoroutine(GrabCooltime_player1());
             }
             else if (isPlayer1BringObj)
             {
                 isPlayer1BringObj = false;
+                canGrab_player1 = false;
+                StartCoroutine(GrabCooltime_player1());
             }
         };
         //controls.Player.Bring1.canceled += ctx =>
@@ -226,13 +235,20 @@ public class PlayerCnt : MonoBehaviour
         controls.Player.Bring2.started += ctx =>
         {
             if (GameManager.state != GameManager.GameState.Playing) return;
+
+            if (!canGrab_player2) return;
+
             if (player2_isBoxArea && !isPlayer2BringObj)
             {
                 isPlayer2BringObj = true;
+                canGrab_player2 = false;
+                StartCoroutine(GrabCooltime_player2());
             }
             else if (isPlayer2BringObj)
             {
                 isPlayer2BringObj = false;
+                canGrab_player2 = false;
+                StartCoroutine(GrabCooltime_player2());
             }
         };
         //controls.Player.Bring2.canceled += ctx =>
@@ -254,14 +270,21 @@ public class PlayerCnt : MonoBehaviour
         controls1.Player1.Bring.started += ctx =>
         {
             if (GameManager.state != GameManager.GameState.Playing) return;
+            if (!canGrab_player1) return;
+
             if (player1_isBoxArea && !isPlayer1BringObj)
             {
                 isPlayer1BringObj = true;
+                canGrab_player1 = false;
+                StartCoroutine(GrabCooltime_player1());
             }
             else if (isPlayer1BringObj)
             {
                 isPlayer1BringObj = false;
+                canGrab_player1 = false;
+                StartCoroutine(GrabCooltime_player1());
             }
+
         };
         //controls1.Player1.Bring.canceled += ctx =>
         //{
@@ -275,10 +298,14 @@ public class PlayerCnt : MonoBehaviour
             if (player1_isBoxArea && !isPlayer1BringObj)
             {
                 isPlayer1BringObj = true;
+                canGrab_player1 = false;
+                StartCoroutine(GrabCooltime_player1());
             }
             else if (isPlayer1BringObj)
             {
                 isPlayer1BringObj = false;
+                canGrab_player1 = false;
+                StartCoroutine(GrabCooltime_player1());
             }
         };
         //controls1.Player1.Bring2.canceled += ctx =>
@@ -294,10 +321,18 @@ public class PlayerCnt : MonoBehaviour
             if (player2_isBoxArea && !isPlayer2BringObj)
             {
                 isPlayer2BringObj = true;
+                canGrab_player2 = false;
+
+                StartCoroutine(GrabCooltime_player2());
+
             }
             else if (isPlayer2BringObj)
             {
                 isPlayer2BringObj = false;
+                canGrab_player2 = false;
+
+                StartCoroutine(GrabCooltime_player2());
+
             }
         };
         //controls2.Player2.Bring.canceled += ctx =>
@@ -312,10 +347,16 @@ public class PlayerCnt : MonoBehaviour
             if (player2_isBoxArea && !isPlayer2BringObj)
             {
                 isPlayer2BringObj = true;
+                canGrab_player2 = false;
+
+                StartCoroutine(GrabCooltime_player2());
             }
             else if (isPlayer2BringObj)
             {
                 isPlayer2BringObj = false;
+                canGrab_player2 = false;
+
+                StartCoroutine(GrabCooltime_player2());
             }
         };
         //controls2.Player2.Bring2.canceled += ctx =>
@@ -746,6 +787,19 @@ public class PlayerCnt : MonoBehaviour
         //プレイヤーの運搬オブジェクトを空にする
         topPlayer.GetComponent<PlayerMover>().heldObject = null;
         bottomPlayer.GetComponent<PlayerMover>().heldObject = null;
+    }
+
+    //宝箱運搬のクールタイム計測_プレイヤー１
+    IEnumerator GrabCooltime_player1()
+    {
+        yield return new WaitForSeconds(0.15f);
+        canGrab_player1 = true;
+    }
+    //宝箱運搬のクールタイム計測_プレイヤー１
+    IEnumerator GrabCooltime_player2()
+    {
+        yield return new WaitForSeconds(0.15f);
+        canGrab_player2 = true;
     }
 
     /// <summary>
