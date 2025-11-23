@@ -90,25 +90,43 @@ public class BringObj : MonoBehaviour
     //Updateが終わった後に呼ばれる
     void LateUpdate()
     {
-        // 上下ギミック中は協力運搬モードを使わない
         if (playerCnt.OnUnder_OverGimic) return;
-
-        // 両方が持っている状態じゃなければ何もしない
         if (!playerCnt.isPlayer1BringObj || !playerCnt.isPlayer2BringObj) return;
 
-        // プレイヤーの位置を取得
+        // プレイヤー位置
         Vector3 p1 = playerCnt.mover1.transform.position;
         Vector3 p2 = playerCnt.mover2.transform.position;
 
-        // プレイヤー同士の中心
-        center = (p1 + p2) / 2f;
+        // 中央位置（少し上）
+        center = (p1 + p2) * 0.5f + Vector3.up * 1f;
 
-        // 通常：少し上に位置する
-        center += Vector3.up * 1f;
-
-        // なめらかに宝箱を中央に寄せる
-        transform.position = Vector3.Lerp(transform.position, center, 0.2f);
+        // ★ 中央に一瞬で吸い付く（MovePosition + 高速補正）
+        Vector3 next = Vector3.Lerp(transform.position, center, 0.55f);
+        rb.MovePosition(next);
     }
+
+    //旧バージョン)
+    // void LateUpdate()
+    // {
+    //     // 上下ギミック中は協力運搬モードを使わない
+    //     if (playerCnt.OnUnder_OverGimic) return;
+
+    //     // 両方が持っている状態じゃなければ何もしない
+    //     if (!playerCnt.isPlayer1BringObj || !playerCnt.isPlayer2BringObj) return;
+
+    //     // プレイヤーの位置を取得
+    //     Vector3 p1 = playerCnt.mover1.transform.position;
+    //     Vector3 p2 = playerCnt.mover2.transform.position;
+
+    //     // プレイヤー同士の中心
+    //     center = (p1 + p2) / 2f;
+
+    //     // 通常：少し上に位置する
+    //     center += Vector3.up * 1f;
+
+    //     // なめらかに宝箱を中央に寄せる
+    //     transform.position = Vector3.Lerp(transform.position, center, 0.2f);
+    // }
 
     //状態に応じてモデルの入れ替え
     void ChangeTreasureModel()
