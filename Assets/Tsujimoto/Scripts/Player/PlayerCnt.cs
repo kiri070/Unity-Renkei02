@@ -19,7 +19,7 @@ public class PlayerCnt : MonoBehaviour
     [Header("お宝を格納")]
     public GameObject treasure;
     BringObj bringObj;
-    [Tooltip("同時運搬の最大距離")][SerializeField] float grabDis = 3f;
+    [Tooltip("同時運搬の最大距離")][SerializeField] float grabDis = 3.5f;
     [HideInInspector] public bool player1_isBoxArea = false; //プレイヤー1が宝箱を持っているか
     [HideInInspector] public bool player2_isBoxArea = false; //プレイヤー2が宝箱を持っているか
     [HideInInspector] public bool isDualCarrying = false; //同時に運搬中かどうか
