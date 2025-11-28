@@ -119,12 +119,13 @@ public class PlayerMover : MonoBehaviour
         //移動入力があるかどうか
         if (move.magnitude > 0.01) moving = true;
         else moving = false;
-        
+
         //同時運搬中の処理
         if (playerCnt.isDualCarrying)
         {
             SpawnSpeedEffect(); //エフェクト
         }
+
         // OffScreen();
         // WallChecker();
     }
@@ -633,6 +634,16 @@ public class PlayerMover : MonoBehaviour
             touchDeathArea = false;
             Instantiate(jumpEffect, transform.position, Quaternion.identity);
         }
+        //宝箱に触れたら
+        if(other.gameObject.name == "TreasureGroup")
+        {
+            if (playerCnt.isDualCarrying) return; //同時運搬中ならスキップ
+            
+            canJump = true;
+            touchDeathArea = false;
+            Instantiate(jumpEffect, transform.position, Quaternion.identity);
+        }
+
         //トランポリン使用後に地面に触れたら
         if (other.gameObject.CompareTag("Floor") && useTrampoline) useTrampoline = false; //トランポリン使用中フラグをオフ
         //トランポリンに触れたら

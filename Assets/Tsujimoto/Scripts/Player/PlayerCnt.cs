@@ -476,6 +476,7 @@ public class PlayerCnt : MonoBehaviour
                     mover2.jumpForce = this.jumpForce;
                     mover2.jumping = true;
 
+
                     soundManager.OnPlaySE(soundsList.jumpSE);
                 }
                 //プレイヤー1がトランポリンを使用中なら

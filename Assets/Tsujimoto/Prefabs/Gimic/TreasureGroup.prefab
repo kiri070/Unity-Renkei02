@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 4842273281345988788}
   m_Layer: 8
   m_Name: TreasureGroup
-  m_TagString: Floor
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -186,6 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c2394601cc1943c8882c33c7f786fe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  center: {x: 0, y: 0, z: 0}
   player1_isBringing: 0
   player2_isBringing: 0
   top: 0
