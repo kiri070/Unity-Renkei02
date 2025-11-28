@@ -216,10 +216,10 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
-  ignoreCollisionTags:
-  - Floor
+  ignoreCollisionTags: []
   enableTransparency: 1
-  transparentOnTags: []
+  transparentOnTags:
+  - Untagged
   transparentAlpha: 0.3
   extraTransparentObjects: []
 --- !u!1 &52476566
@@ -6248,7 +6248,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   ignoreCollisionTags:
-  - Floor
+  - Untagged
   enableTransparency: 1
   transparentOnTags: []
   transparentAlpha: 0.3
