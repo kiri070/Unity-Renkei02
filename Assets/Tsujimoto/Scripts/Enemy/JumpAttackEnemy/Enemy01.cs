@@ -366,12 +366,21 @@ public class Enemy01 : MonoBehaviour
     }
 
     //同時踏み付けのエフェクト処理
-    public void SameTimeKillEffect(GameObject player)
+    public void SameTimeKillEffect(GameObject player, bool killByPlayer)
     {
-        //キルエフェクト再生
-        Instantiate(step, transform.position, step.transform.rotation); //踏み付けエフェクト再生
-        Instantiate(killed, transform.position, killed.transform.rotation);
-        player.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        player.gameObject.GetComponent<Rigidbody>().AddForce(0f, 50f, 0f, ForceMode.Impulse); //プレイヤーを跳ねさせる
+        if (killByPlayer)
+        {
+            //キルエフェクト再生
+            Instantiate(step, transform.position, step.transform.rotation); //踏み付けエフェクト再生
+            Instantiate(killed, transform.position, killed.transform.rotation);
+            player.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            player.gameObject.GetComponent<Rigidbody>().AddForce(0f, 50f, 0f, ForceMode.Impulse); //プレイヤーを跳ねさせる
+        }
+        else
+        {
+            //キルエフェクト再生
+            Instantiate(killed, transform.position, killed.transform.rotation);
+        }
+        
     }
 }

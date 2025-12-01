@@ -1,11 +1,11 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SameTimeEnemyJudge : MonoBehaviour
 {
-    [Header("“¯“¥‚İ‘Š•ûi•¡”‰Âj")]
-    public SameTimeEnemyJudge[] partners;
+    [Header("åŒæ™‚è¸ã¿ç›¸æ–¹ï¼ˆè¤‡æ•°å¯ï¼‰")]
+    [Tooltip("åŒæ™‚è¸ã¿ä»˜ã‘å‡¦ç†ã®ã‚‚ã†ä¸€æ–¹ã®æ•µã‚’æ ¼ç´")] public SameTimeEnemyJudge[] partners;
 
     [HideInInspector] public bool isStepped = false;
     Enemy01 enemy;
@@ -23,13 +23,13 @@ public class SameTimeEnemyJudge : MonoBehaviour
 
         isStepped = true;
 
-        // “¥‚ñ‚¾ƒvƒŒƒCƒ„[‚ğ’Ç‰Ái1‰ñ‚¾‚¯‚É‚È‚éj
+        // è¸ã‚“ã ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¿½åŠ ï¼ˆ1å›ã ã‘ã«ãªã‚‹ï¼‰
         if (!playerObj.Contains(player))
         {
             playerObj.Add(player);
         }
 
-        // ‘Sƒp[ƒgƒi[‚ª“¥‚Ü‚ê‚Ä‚¢‚éH
+        // å…¨ãƒ‘ãƒ¼ãƒˆãƒŠãƒ¼ãŒè¸ã¾ã‚Œã¦ã„ã‚‹ï¼Ÿ
         bool allStepped = true;
         foreach (var p in partners)
         {
@@ -40,7 +40,7 @@ public class SameTimeEnemyJudge : MonoBehaviour
             }
         }
 
-        // ğŒ’B¬ ¨ ‘Sˆõ“¯‚É Kill
+        // æ¡ä»¶é”æˆ â†’ å…¨å“¡åŒæ™‚ã« Kill
         if (allStepped)
         {
             KillAll();
@@ -53,15 +53,15 @@ public class SameTimeEnemyJudge : MonoBehaviour
             playerObj.Remove(player);
 
         if (playerObj.Count == 0)
-            isStepped = false;   // “¥‚ñ‚Å‚È‚¢ó‘Ô‚É–ß‚·
+            isStepped = false;   // è¸ã‚“ã§ãªã„çŠ¶æ…‹ã«æˆ»ã™
     }
 
     void KillAll()
     {
-        // ©•ª
+        // è‡ªåˆ†
         Kill();
 
-        // ‘Sƒp[ƒgƒi[
+        // å…¨ãƒ‘ãƒ¼ãƒˆãƒŠãƒ¼
         foreach (var p in partners)
         {
             if (p != null)
@@ -76,7 +76,7 @@ public class SameTimeEnemyJudge : MonoBehaviour
         var scripts = GetComponent<Enemy01>();
         foreach (var player in playerObj)
         {
-            scripts.SameTimeKillEffect(player);
+            scripts.SameTimeKillEffect(player, true);
         }
         Destroy(gameObject);
     }
@@ -89,6 +89,11 @@ public class SameTimeEnemyJudge : MonoBehaviour
             {
                 if (p != null)
                 {
+                    var scripts = GetComponent<Enemy01>();
+                    foreach (var player in playerObj)
+                    {
+                        scripts.SameTimeKillEffect(player, false);
+                    }
                     Destroy(p.gameObject);
                 }
             }
