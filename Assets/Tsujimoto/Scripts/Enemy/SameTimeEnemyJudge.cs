@@ -11,10 +11,22 @@ public class SameTimeEnemyJudge : MonoBehaviour
     Enemy01 enemy;
 
     [HideInInspector] public List<GameObject> playerObj;
+
+    //エフェクト
+    //敵同士をつなぐエフェクト
+    public Transform enemy01, enemy02;
+    LineRenderer lr;
     void Start()
     {
         enemy = GetComponent<Enemy01>();
         playerObj = new List<GameObject>();
+        lr = GetComponent<LineRenderer>();
+    }
+
+    void Update()
+    {
+        lr.SetPosition(0, enemy01.position);
+        lr.SetPosition(1, enemy02.position);
     }
 
     public void OnStepped(GameObject player)
