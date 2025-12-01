@@ -208,14 +208,46 @@ public class Enemy01 : MonoBehaviour
             PlayerMover pm = FindObjectOfType<PlayerMover>();
             pm.OnStepEnemy(); //音をプレイヤー側で鳴らす
             soundManager.OnPlaySE(soundsList.stepOnPlayer);
-            Instantiate(step, transform.position, step.transform.rotation); //エフェクト再生
-            //キルエフェクト再生
-            Instantiate(killed, transform.position, killed.transform.rotation);
-            hits[0].gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            hits[0].gameObject.GetComponent<Rigidbody>().AddForce(0f, 50f, 0f, ForceMode.Impulse); //プレイヤーを跳ねさせる
-            Destroy(gameObject);
+            //Instantiate(step, transform.position, step.transform.rotation); //エフェクト再生
+
+            //==同時踏み専用の敵処理==
+            //同時に踏まれているか確認
+            var judge = GetComponent<SameTimeEnemyJudge>();
+            if (judge != null)
+            {
+                judge.OnStepped(hits[0].gameObject);
+                return; // 同時踏み専用の敵は通常の Kill 処理をしない
+            }
+            //普通の敵なら
+            else if (judge == null)
+            {
+                //キルエフェクト再生
+                Instantiate(step, transform.position, step.transform.rotation); //踏み付けエフェクト再生
+                Instantiate(killed, transform.position, killed.transform.rotation);
+                hits[0].gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                hits[0].gameObject.GetComponent<Rigidbody>().AddForce(0f, 50f, 0f, ForceMode.Impulse); //プレイヤーを跳ねさせる
+                Destroy(gameObject);
+            }
+            
         }
-        
+        //同時踏み付け処理のリセット
+        else
+        {
+            var judge = GetComponent<SameTimeEnemyJudge>();
+            if (judge != null)
+            {
+                // hits は 0 なので、前回踏んだプレイヤーを使う
+                if (judge.playerObj.Count > 0)
+                {
+                    judge.OnReleased(judge.playerObj[0]);
+                }
+                else
+                {
+                    // 踏んでいたプレイヤーが不明な場合は player なしでリリース
+                    judge.OnReleased(null);
+                }
+            }
+        }
     }
     void OnDrawGizmosSelected()
     {
@@ -331,5 +363,15 @@ public class Enemy01 : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         ToEnemyMove();
+    }
+
+    //同時踏み付けのエフェクト処理
+    public void SameTimeKillEffect(GameObject player)
+    {
+        //キルエフェクト再生
+        Instantiate(step, transform.position, step.transform.rotation); //踏み付けエフェクト再生
+        Instantiate(killed, transform.position, killed.transform.rotation);
+        player.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        player.gameObject.GetComponent<Rigidbody>().AddForce(0f, 50f, 0f, ForceMode.Impulse); //プレイヤーを跳ねさせる
     }
 }
