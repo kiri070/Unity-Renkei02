@@ -187,8 +187,7 @@ public class Tutorial : MonoBehaviour
         if (!isColor) return;
         epText.text = "<color=yellow>[カラーギミック]</color>\n" +
                       "<color=blue>青</color>は<color=blue>青色</color>、<color=red>赤</color>は<color=red>赤色</color>とそれぞれに\n" +
-                      "対応した色のみ通過できる\n" +
-                      "×ボタンを押して進む";
+                      "対応した色のみ通過できる\n";
 
         if (wall4 != null) wall4.SetActive(false);
 
@@ -313,8 +312,7 @@ public class Tutorial : MonoBehaviour
 
         epText.text = "<color=yellow>[カラーギミック]</color>\n" +
                       "<color=blue>青</color>は<color=blue>青色</color>、<color=red>赤</color>は<color=red>赤色</color>とそれぞれに\n" +
-                      "対応した色のみ通過できる\n" +
-                      "×ボタンを押して進む";
+                      "対応した色のみ通過できる\n";
 
         if (wall4 != null) wall4.SetActive(false);
 
