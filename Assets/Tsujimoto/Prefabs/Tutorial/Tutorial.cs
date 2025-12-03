@@ -134,8 +134,8 @@ public class Tutorial : MonoBehaviour
             if (movePos2 != null) movePos2.SetActive(true);
             epText.text = "<color=yellow>[宝箱を運ぶ]</color>\n" +
                          "宝箱の前で\n" +
-                         "<color=red>赤</color>のキャラはL2長押し\n" +
-                         "<color=blue>青</color>のキャラはR2長押し";
+                         "<color=red>赤</color>のキャラはL2を押す\n" +
+                         "<color=blue>青</color>のキャラはR2を押す";
 
             BringObj bringObj = FindObjectOfType<BringObj>();
             if (bringObj != null && (bringObj.player1_isBringing || bringObj.player2_isBringing))
@@ -192,12 +192,9 @@ public class Tutorial : MonoBehaviour
 
         if (wall4 != null) wall4.SetActive(false);
 
-        // 元の挙動どおり時間停止して入力待ち
-        Time.timeScale = 0f;
         if (gamepad.buttonSouth.wasPressedThisFrame)
         {
             isColor = false;
-            Time.timeScale = 1f;
             StartCoroutine(DeleteTutorial(3f));
         }
     }
@@ -262,7 +259,7 @@ public class Tutorial : MonoBehaviour
             if (movePos2 != null) movePos2.SetActive(true);
             epText.text = "<color=yellow>[宝箱を運ぶ]</color>\n" +
                          "宝箱の前で\n" +
-                         "R2 または L2を長押し";
+                         "R2 または L2を押す";
 
             BringObj bringObj = FindObjectOfType<BringObj>();
             if (bringObj != null && (bringObj.player1_isBringing || bringObj.player2_isBringing))
@@ -321,12 +318,9 @@ public class Tutorial : MonoBehaviour
 
         if (wall4 != null) wall4.SetActive(false);
 
-        // 元の挙動どおり時間停止して入力待ち
-        Time.timeScale = 0f;
         if (Pad1.buttonSouth.wasPressedThisFrame || Pad2.buttonSouth.wasPressedThisFrame)
         {
             isColor = false;
-            Time.timeScale = 1f;
             StartCoroutine(DeleteTutorial(3f));
         }
     }
