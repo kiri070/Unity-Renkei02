@@ -35,9 +35,13 @@ public class CircleArranger : MonoBehaviour
     [Header("ローディング画面に表示するヒント")]
     [Tooltip("ヒントの内容を入力してください")] public string[] tips;
 
+
     SoundManager soundManager;
     SoundsList soundsList;
 
+    [Header("ゲームモードUI")]
+    [Tooltip("シングルプレイボタン")] public GameObject singlePlayObj; // ← SinglePlay button の GameObject
+    [Tooltip("マルチプレイボタン")] public GameObject multiPlayObj;  // ← MultiPlay button の GameObject
 
     //------------------------------------------------------------
     //  読み込むシーン名を変換するDictionary（ここに追加するだけで拡張できる）
@@ -84,7 +88,6 @@ public class CircleArranger : MonoBehaviour
 
     void Update()
     {
-
         //設定画面, ゲームモード選択時はreturn
         if ((configUI != null && configUI.activeSelf) || gameModeButton.activeSelf)
             return;
@@ -156,8 +159,17 @@ public class CircleArranger : MonoBehaviour
     {
         GameObject current = EventSystem.current.currentSelectedGameObject;
 
-        //=== BackButton が選択中なら閉じる ===
-        if (current != null && current.name == "backButton")
+        //設定画面の戻るボタン
+        if (current != null && configUI.activeSelf && current.name == "BackButton")
+        {
+            // ステージ選択へフォーカス復帰
+            EventSystem.current.SetSelectedGameObject(stages[index].gameObject);
+            UpdateStageScales();
+            return;
+        }
+
+        //=== backButton が選択中なら閉じる ===
+        else if (current != null && !configUI.activeSelf && current.name == "backButton")
         {
             BackButton(); // UI閉じる処理
             //ステージ選択にフォーカスを戻す
@@ -241,54 +253,51 @@ public class CircleArranger : MonoBehaviour
     //=================== ゲームモード制御 ===================
     void SelectGameMode()
     {
-        //ボタンを取得
-        GameObject single = GameObject.Find("SinglePlay");
-        GameObject multi = GameObject.Find("MultiPlay");
 
-        //ステージの名前を取得
+        // ステージ名取得
         string name = stages[index].name;
 
-        //===== シングル専用 =====
+        // === シングル専用 ===
         if (name == "EXstage_Solo")
         {
-            single.SetActive(true);
-            multi.SetActive(false);
+            singlePlayObj.SetActive(true);
+            multiPlayObj.SetActive(false);
 
-            single.GetComponent<Button>().onClick.RemoveAllListeners(); //前のイベント処理を削除
-            single.GetComponent<Button>().onClick.AddListener(() => LoadSinglePlay()); //シーン変遷
-            SetSelectObject(single);
+            var btn = singlePlayObj.GetComponent<Button>();
+            btn.onClick.RemoveAllListeners();
+            btn.onClick.AddListener(() => LoadSinglePlay());
+            SetSelectObject(singlePlayObj);
         }
-        //===== マルチ専用 =====
+        // === マルチ専用 ===
         else if (name == "OnlyMultiStage")
         {
-            single.SetActive(false);
-            multi.SetActive(true);
+            singlePlayObj.SetActive(false);
+            multiPlayObj.SetActive(true);
 
-            multi.GetComponent<Button>().onClick.RemoveAllListeners(); //前のイベント処理を削除
-            multi.GetComponent<Button>().onClick.AddListener(() => LoadMultiPlay()); //シーン変遷
-            SetSelectObject(multi);
+            var btn = multiPlayObj.GetComponent<Button>();
+            btn.onClick.RemoveAllListeners();
+            btn.onClick.AddListener(() => LoadMultiPlay());
+            SetSelectObject(multiPlayObj);
         }
-        //===== Tutorialとその他のステージ =====
-        //sceneMap辞書にnameが含まれているか
+        // === その他のステージ ===
         else if (sceneMap.ContainsKey(name))
         {
-
-            single.SetActive(true);
-            multi.SetActive(true);
+            singlePlayObj.SetActive(true);
+            multiPlayObj.SetActive(true);
 
             string scene = sceneMap[name];
 
-            single.GetComponent<Button>().onClick.RemoveAllListeners(); //前のイベント処理を削除
-            multi.GetComponent<Button>().onClick.RemoveAllListeners();
+            var btnSingle = singlePlayObj.GetComponent<Button>();
+            var btnMulti = multiPlayObj.GetComponent<Button>();
 
-            //シーン変遷
-            single.GetComponent<Button>().onClick.AddListener(() => StartCoroutine(SceneLoading(scene, false)));
-            multi.GetComponent<Button>().onClick.AddListener(() => StartCoroutine(SceneLoading(scene, true)));
+            btnSingle.onClick.RemoveAllListeners();
+            btnMulti.onClick.RemoveAllListeners();
 
-            SetSelectObject(single);
+            btnSingle.onClick.AddListener(() => StartCoroutine(SceneLoading(scene, false)));
+            btnMulti.onClick.AddListener(() => StartCoroutine(SceneLoading(scene, true)));
+
+            SetSelectObject(singlePlayObj);
         }
-        
-        
     }
 
 
@@ -317,6 +326,7 @@ public class CircleArranger : MonoBehaviour
         gameModeButton.SetActive(false);
     }
 
+
     //=================== ロードコルーチン ===================
     //フォーカスする関数
     void SetSelectObject(GameObject obj)
@@ -330,7 +340,6 @@ public class CircleArranger : MonoBehaviour
         int rnd = Random.Range(0, tips.Length);
         tipsText.text = "Tips:" + "<color=yellow>" + tips[rnd] + "</color>";
     }
-
     IEnumerator SceneLoading(string sceneName, bool isMulti)
     {
         if (isMulti) { soundManager.OnPlaySE(soundsList.clickStage); GameManager.gameMode = GameManager.GameMode.MultiPlayer; }

@@ -25,6 +25,7 @@ public class Pad_UICnt : MonoBehaviour
 
     bool isControllerInputActive = false; //コントローラーが使われているか
     SettingManager settingManager;
+
     private void Start()
     {
         //最初にフォーカスするUIを設定

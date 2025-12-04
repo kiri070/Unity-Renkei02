@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using DG.Tweening;
+using UnityEngine.EventSystems;
 
 public class SettingManager : MonoBehaviour
 {
@@ -183,7 +184,24 @@ public class SettingManager : MonoBehaviour
             {
                 settingUI.SetActive(false); //設定画面を非表示
                 padUICnt.CloseSetting();    //他のUIの操作を可能に
-                                            //ゲームシーン以外なら
+
+
+                //ステージセレクトでゲームモードUIが開いていたら
+                CircleArranger ca = FindObjectOfType<CircleArranger>();
+                if (ca != null && SceneManager.GetActiveScene().name == "StageSelect" && ca.gameModeButton.activeSelf)
+                {
+                    // ステージ選択へフォーカス復帰
+                    if (ca.singlePlayButton.gameObject.activeSelf) //シングルプレイボタンがオンなら
+                    {
+                        EventSystem.current.SetSelectedGameObject(ca.singlePlayObj);
+                    }
+                    else
+                    {
+                        EventSystem.current.SetSelectedGameObject(ca.multiPlayObj);
+                    }
+                }
+
+                //ゲームシーン以外なら
                 if (SceneManager.GetActiveScene().name != "Title" && SceneManager.GetActiveScene().name != "StageSelect"
                     && SceneManager.GetActiveScene().name != "ClearScene" && SceneManager.GetActiveScene().name != "GameOverScene")
                 {
