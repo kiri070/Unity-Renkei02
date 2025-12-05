@@ -84,6 +84,7 @@ public class Pad_UICnt : MonoBehaviour
     void Change_FocusButtonScale()
     {
         var selectedObj = EventSystem.current.currentSelectedGameObject; //フォーカスされているオブジェクトを格納
+
         if (selectedObj == previousSelected)
             return; //同じオブジェクトならスキップ
 

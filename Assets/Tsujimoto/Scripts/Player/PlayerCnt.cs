@@ -295,6 +295,9 @@ public class PlayerCnt : MonoBehaviour
         controls1.Player1.Bring2.started += ctx =>
         {
             if (GameManager.state != GameManager.GameState.Playing) return;
+
+            if (!canGrab_player1) return;
+
             if (player1_isBoxArea && !isPlayer1BringObj)
             {
                 isPlayer1BringObj = true;
@@ -318,6 +321,8 @@ public class PlayerCnt : MonoBehaviour
         controls2.Player2.Bring.started += ctx =>
         {
             if (GameManager.state != GameManager.GameState.Playing) return;
+            if (!canGrab_player2) return;
+
             if (player2_isBoxArea && !isPlayer2BringObj)
             {
                 isPlayer2BringObj = true;
@@ -344,6 +349,7 @@ public class PlayerCnt : MonoBehaviour
         controls2.Player2.Bring2.started += ctx =>
         {
             if (GameManager.state != GameManager.GameState.Playing) return;
+            if (!canGrab_player2) return;
             if (player2_isBoxArea && !isPlayer2BringObj)
             {
                 isPlayer2BringObj = true;
