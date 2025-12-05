@@ -8,6 +8,7 @@ public class Enemy01 : MonoBehaviour
 {
     [HideInInspector] public EnemyState enemyState; //敵の状態を管理する変数
     [HideInInspector] public GameObject player; //どのプレイヤーが範囲内に入ったか
+    public int jumppower = 30; //踏まれた時にノックバックする値
 
     //踏みつけ判定
     [Header("踏みつけ判定")][SerializeField] Vector3 boxSize = new Vector3(1f, 0.2f, 1f);
@@ -225,10 +226,10 @@ public class Enemy01 : MonoBehaviour
                 Instantiate(step, transform.position, step.transform.rotation); //踏み付けエフェクト再生
                 Instantiate(killed, transform.position, killed.transform.rotation);
                 hits[0].gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                hits[0].gameObject.GetComponent<Rigidbody>().AddForce(0f, 50f, 0f, ForceMode.Impulse); //プレイヤーを跳ねさせる
+                hits[0].gameObject.GetComponent<Rigidbody>().AddForce(0f, jumppower, 0f, ForceMode.Impulse); //プレイヤーを跳ねさせる
                 Destroy(gameObject);
             }
-            
+
         }
         //同時踏み付け処理のリセット
         else
@@ -381,6 +382,6 @@ public class Enemy01 : MonoBehaviour
             //キルエフェクト再生
             Instantiate(killed, transform.position, killed.transform.rotation);
         }
-        
+
     }
 }

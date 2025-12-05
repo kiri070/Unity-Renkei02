@@ -790,6 +790,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 918597161}
     m_Modifications:
+    - target: {fileID: 2168095869656620304, guid: f9b028f3ff7904001a7129ad306ad9e0, type: 3}
+      propertyPath: jumppower
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 6011252985108069301, guid: f9b028f3ff7904001a7129ad306ad9e0, type: 3}
       propertyPath: m_Name
       value: mummy (1)
@@ -4287,6 +4291,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 918597161}
     m_Modifications:
+    - target: {fileID: 2168095869656620304, guid: f9b028f3ff7904001a7129ad306ad9e0, type: 3}
+      propertyPath: jumppower
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 6011252985108069301, guid: f9b028f3ff7904001a7129ad306ad9e0, type: 3}
       propertyPath: m_Name
       value: mummy (2)
@@ -18633,6 +18641,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 918597161}
     m_Modifications:
+    - target: {fileID: 2168095869656620304, guid: f9b028f3ff7904001a7129ad306ad9e0, type: 3}
+      propertyPath: jumppower
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 6011252985108069301, guid: f9b028f3ff7904001a7129ad306ad9e0, type: 3}
       propertyPath: m_Name
       value: mummy
