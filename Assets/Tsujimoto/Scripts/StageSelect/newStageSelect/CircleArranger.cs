@@ -43,6 +43,10 @@ public class CircleArranger : MonoBehaviour
     [Tooltip("シングルプレイボタン")] public GameObject singlePlayObj; // ← SinglePlay button の GameObject
     [Tooltip("マルチプレイボタン")] public GameObject multiPlayObj;  // ← MultiPlay button の GameObject
 
+    [Tooltip("ソロ,デュオの人のアイコン")] public RectTransform soloIcon, duoIcon;
+    Vector2 soloIcon_Pos, duoIcon_Pos; //アイコンの初期位置
+    GameObject previous;
+
     //------------------------------------------------------------
     //  読み込むシーン名を変換するDictionary（ここに追加するだけで拡張できる）
     //------------------------------------------------------------
@@ -83,11 +87,17 @@ public class CircleArranger : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(stages[0].gameObject);
             UpdateStageScales();
         }
+
+        //アイコンの初期位置を取得
+        soloIcon_Pos = soloIcon.anchoredPosition;
+        duoIcon_Pos = duoIcon.anchoredPosition;
     }
 
 
     void Update()
     {
+        MoveIcon();
+
         //設定画面, ゲームモード選択時はreturn
         if ((configUI != null && configUI.activeSelf) || gameModeButton.activeSelf)
             return;
@@ -98,6 +108,72 @@ public class CircleArranger : MonoBehaviour
         ReadGamepadInput();
         RotateSelectedStage();
         ShowStageName();
+    }
+
+    //シングル,マルチプレイのアイコンを移動させる関数
+    void MoveIcon()
+    {
+        //ゲームモード選択以外はreturn
+        if(!gameModeButton.activeSelf) return;
+
+        //現在アクティブのボタンを取得
+        GameObject current = EventSystem.current.currentSelectedGameObject;
+
+        soloIcon.gameObject.SetActive(true);
+        duoIcon.gameObject.SetActive(true);
+
+        //ステージがソロかマルチ限定の場合、アイコンの片方をオフ
+        if (stages[index].name == "EXstage_Solo")
+        {
+            duoIcon.gameObject.SetActive(false);
+        }
+        else if(stages[index].name == "OnlyMultiStage")
+        {
+            soloIcon.gameObject.SetActive(false);
+        }
+
+        //違うボタンを選択中なら
+        if (current != previous)
+        {
+            //一度アニメをkill
+            soloIcon.DOKill();
+            duoIcon.DOKill();
+
+            //=== シングルが選択 ===
+            if (current != null && current.name == "SinglePlay" && singlePlayObj.gameObject.activeSelf)
+            {
+                soloIcon.DOAnchorPos(new Vector2(soloIcon_Pos.x - 50f, soloIcon_Pos.y), 0.7f).SetEase(Ease.OutExpo);
+                duoIcon.DOAnchorPos(duoIcon_Pos, 0.7f).SetEase(Ease.OutExpo);
+            }
+
+            //=== マルチが選択 ===
+            else if (current != null && current.name == "MultiPlay" && multiPlayObj.gameObject.activeSelf)
+            {
+                duoIcon.DOAnchorPos(new Vector2(duoIcon_Pos.x - 80f, duoIcon_Pos.y), 0.7f).SetEase(Ease.OutExpo);
+                soloIcon.DOAnchorPos(soloIcon_Pos, 0.7f).SetEase(Ease.OutExpo);
+            }
+
+            //=== どれも選択されていない ===
+            else
+            {
+                // ステージ制限を踏まえてON/OFFを決める
+                bool canSolo = stages[index].name != "OnlyMultiStage";
+                bool canMulti = stages[index].name != "EXstage_Solo";
+
+                soloIcon.gameObject.SetActive(canSolo);
+                duoIcon.gameObject.SetActive(canMulti);
+
+                if (canSolo)
+                    soloIcon.DOAnchorPos(soloIcon_Pos, 0.7f).SetEase(Ease.OutExpo);
+
+                if (canMulti)
+                    duoIcon.DOAnchorPos(duoIcon_Pos, 0.7f).SetEase(Ease.OutExpo);
+            }
+        }
+
+        //今回のボタンを保存
+        previous = current;
+
     }
 
 
