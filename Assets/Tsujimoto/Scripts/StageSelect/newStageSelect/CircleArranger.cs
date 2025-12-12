@@ -67,6 +67,12 @@ public class CircleArranger : MonoBehaviour
         loadingPanel.SetActive(false);
         loadingSlider.value = 0f;
 
+        //== 前回のステージ番号を取得してそのステージにフォーカスを合わせる ==
+        index = PlayerPrefs.GetInt("StageIndex", 0);
+        index = Mathf.Clamp(index, 0, stages.Length - 1);                    //範囲外対策(最小を0、最大をステージの配列最後)
+        RotateToSelected();                                                  //保存されたindexに回転
+        EventSystem.current.SetSelectedGameObject(stages[index].gameObject); //フォーカスを保存ステージへ
+
         soundManager = FindObjectOfType<SoundManager>();
         soundsList = FindObjectOfType<SoundsList>();
         soundManager.OnPlayBGM(soundsList.stageSelectBGM);
@@ -81,12 +87,19 @@ public class CircleArranger : MonoBehaviour
         //ステージを並べる
         ArrangeCircle();
 
-        //フォーカス
-        if (stages.Length > 0)
-        {
-            EventSystem.current.SetSelectedGameObject(stages[0].gameObject);
-            UpdateStageScales();
-        }
+        // //保存されたindexに回転
+        // RotateToSelected();
+        // //フォーカスを保存ステージへ
+        // EventSystem.current.SetSelectedGameObject(stages[index].gameObject);
+
+        UpdateStageScales();
+
+        // //フォーカス
+        // if (stages.Length > 0)
+        // {
+        //     EventSystem.current.SetSelectedGameObject(stages[0].gameObject);
+        //     UpdateStageScales();
+        // }
 
         //アイコンの初期位置を取得
         soloIcon_Pos = soloIcon.anchoredPosition;
@@ -332,6 +345,9 @@ public class CircleArranger : MonoBehaviour
 
         // ステージ名取得
         string name = stages[index].name;
+
+        //== 現在のステージ番号を保存 ==
+        PlayerPrefs.SetInt("StageIndex", index);
 
         // === シングル専用 ===
         if (name == "EXstage_Solo")
