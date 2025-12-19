@@ -13,6 +13,11 @@ public class CameraCnt : MonoBehaviour
     [Range(0.1f, 0.5f)]
     public float distanceFactor = 0.2f;
 
+    [Header("トップカメラの回転値と位置")]
+    public Vector3 topCameraEuler = new Vector3(75f, 0f, 0f);
+    Quaternion topCameraRotation;
+    public Vector3 topCameraPos = new Vector3(0f, 15f, 20f);
+
     float fixedCenterY;
 
     PlayerMover mover1, mover2;
@@ -39,6 +44,8 @@ public class CameraCnt : MonoBehaviour
     List<GameObject> prevHitObjectsP1 = new List<GameObject>();
     List<GameObject> prevHitObjectsP2 = new List<GameObject>();
 
+    [HideInInspector] public bool isTopCamera; //トップカメラかどうか
+
     void Start()
     {
         // プレイヤー取得
@@ -47,6 +54,8 @@ public class CameraCnt : MonoBehaviour
 
         mover1 = player1.GetComponent<PlayerMover>();
         mover2 = player2.GetComponent<PlayerMover>();
+
+        topCameraRotation = Quaternion.Euler(topCameraEuler); //トップカメラの回転値を変換
 
         // 初期オフセット計算
         Vector3 center = (player1.transform.position + player2.transform.position) / 2f;
@@ -171,14 +180,44 @@ public class CameraCnt : MonoBehaviour
         // ===== カメラの移動・回転 =====
         if (!isShaking)
         {
-            transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * 5f);
-            transform.rotation = Quaternion.Lerp(transform.rotation, baseRotation, Time.deltaTime * 5f);
+            //トップカメラの場合
+            if (isTopCamera)
+            {
+                transform.position = Vector3.Lerp(transform.position, targetPos + topCameraPos, Time.deltaTime * 5f);
+                transform.rotation = Quaternion.Lerp(
+                    transform.rotation,
+                    topCameraRotation,
+                    Time.deltaTime * 5f
+                );
+            }
+            // 通常カメラの場合
+            else
+            {
+                transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * 5f);
+                transform.rotation = Quaternion.Lerp(
+                    transform.rotation,
+                    baseRotation,
+                    Time.deltaTime * 5f
+                );
+            }
         }
         else
         {
             transform.position = targetPos;
-            transform.rotation = baseRotation;
+            transform.rotation = isTopCamera ? topCameraRotation : baseRotation;
         }
+
+        //旧バージョン(topカメラなし)
+        // if (!isShaking)
+        // {
+        //     transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * 5f);
+        //     transform.rotation = Quaternion.Lerp(transform.rotation, baseRotation, Time.deltaTime * 5f);
+        // }
+        // else
+        // {
+        //     transform.position = targetPos;
+        //     transform.rotation = baseRotation;
+        // }
 
         // ===== 壁透過処理 =====
         HandleWallTransparency(player1, prevHitObjectsP1);
@@ -239,7 +278,6 @@ public class CameraCnt : MonoBehaviour
         prevHits.AddRange(currentHits);
     }
 
-
     /// <summary>
     /// カメラを揺らす処理
     /// </summary>
@@ -248,13 +286,49 @@ public class CameraCnt : MonoBehaviour
         isShaking = true;
         float elapsed = 0f;
 
+        //揺れの基準位置を保存
+        Vector3 originalPos = transform.position;
+
         while (elapsed < duration)
         {
-            transform.position = transform.position + Random.insideUnitSphere * magnitude;
+            Vector3 shake = Random.insideUnitSphere * magnitude;
+
+            if (isTopCamera)
+            {
+                //トップカメラ時：上下(Y)を揺らさない
+                shake.y = 0f;
+            }
+
+            //基準位置 + 揺れ
+            transform.position = originalPos + shake;
+
             elapsed += Time.deltaTime;
             yield return null;
         }
 
+        //最後に元位置へ戻す
+        transform.position = originalPos;
+
         isShaking = false;
     }
+
+
+    //旧バージョン
+    // /// <summary>
+    // /// カメラを揺らす処理
+    // /// </summary>
+    // public IEnumerator ShakeCamera(float duration, float magnitude)
+    // {
+    //     isShaking = true;
+    //     float elapsed = 0f;
+
+    //     while (elapsed < duration)
+    //     {
+    //         transform.position = transform.position + Random.insideUnitSphere * magnitude;
+    //         elapsed += Time.deltaTime;
+    //         yield return null;
+    //     }
+
+    //     isShaking = false;
+    // }
 }

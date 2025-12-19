@@ -940,6 +940,13 @@ public class PlayerMover : MonoBehaviour
         //        frozenEffectTime = 0f;
         //    }
         //}
+
+        //トップカメラに切り替え
+        if (other.gameObject.name == "TopCamera_Judge")
+        {
+            Debug.Log("トップカメラ");
+            cameraCnt.isTopCamera = true;
+        }
     }
 
     //OnTriggerExit
@@ -952,7 +959,7 @@ public class PlayerMover : MonoBehaviour
             slideVelocity = Vector3.zero; //滑りをリセット
         }
         //カメラのズームアウトエリアから出たら
-        if(other.CompareTag("ZoomOutPos"))
+        if (other.CompareTag("ZoomOutPos"))
         {
             isZoomOutPos = false;
         }
@@ -972,6 +979,12 @@ public class PlayerMover : MonoBehaviour
                 }
                 isZoomOutPos = false;
             }
+        }
+        //トップカメラに切り替え
+        if (other.gameObject.name == "TopCamera_Judge")
+        {
+            Debug.Log("トップカメラ");
+            cameraCnt.isTopCamera = false;
         }
     }
 
