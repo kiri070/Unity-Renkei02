@@ -7255,7 +7255,7 @@ GameObject:
   - component: {fileID: 1342753893}
   m_Layer: 0
   m_Name: TopCamera_Judge
-  m_TagString: Untagged
+  m_TagString: TopCameraPos
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7339,12 +7339,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1342753892}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 82.7206, y: 7.8, z: -56.7368}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6.7794037, y: -1.5999994, z: -197.5368}
   m_LocalScale: {x: 70.815025, y: 16.34627, z: 73.50248}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1756444914}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1356505893
 PrefabInstance:
@@ -9073,7 +9073,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceFactor: 0.15
-  topCameraRotation: {x: 0.6087614, y: 0, z: 0, w: 0.7933533}
+  topCameraEuler: {x: 75, y: 0, z: 0}
   topCameraPos: {x: 0, y: 17, z: 6}
   trampolineZoomout: 4
   zoomOutArea_Zoomout: 12
@@ -9808,6 +9808,7 @@ Transform:
   m_Children:
   - {fileID: 66260014}
   - {fileID: 635566138}
+  - {fileID: 1342753896}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1757131739
@@ -16619,4 +16620,3 @@ SceneRoots:
   - {fileID: 1945893652192107482}
   - {fileID: 1756444914}
   - {fileID: 1757131740}
-  - {fileID: 1342753896}

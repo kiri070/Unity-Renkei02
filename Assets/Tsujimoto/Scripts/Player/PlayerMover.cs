@@ -942,7 +942,7 @@ public class PlayerMover : MonoBehaviour
         //}
 
         //トップカメラに切り替え
-        if (other.gameObject.name == "TopCamera_Judge")
+        if (other.gameObject.CompareTag("TopCameraPos"))
         {
             Debug.Log("トップカメラ");
             cameraCnt.isTopCamera = true;
@@ -980,8 +980,8 @@ public class PlayerMover : MonoBehaviour
                 isZoomOutPos = false;
             }
         }
-        //トップカメラに切り替え
-        if (other.gameObject.name == "TopCamera_Judge")
+        //トップカメラから出たら
+        if (other.gameObject.CompareTag("TopCameraPos"))
         {
             Debug.Log("トップカメラ");
             cameraCnt.isTopCamera = false;

@@ -31,6 +31,7 @@ TagManager:
   - HighCameraArea
   - Blink
   - ZoomOutObj
+  - TopCameraPos
   layers:
   - Default
   - TransparentFX
