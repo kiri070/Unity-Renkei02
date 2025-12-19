@@ -9,6 +9,7 @@ public class Enemy01 : MonoBehaviour
     [HideInInspector] public EnemyState enemyState; //敵の状態を管理する変数
     [HideInInspector] public GameObject player; //どのプレイヤーが範囲内に入ったか
     public int jumppower = 30; //踏まれた時にノックバックする値
+    bool isGround = false; //地面にいるかどうか
 
     //踏みつけ判定
     [Header("踏みつけ判定")][SerializeField] Vector3 boxSize = new Vector3(1f, 0.2f, 1f);
@@ -126,7 +127,8 @@ public class Enemy01 : MonoBehaviour
                 JumpAttack();
                 break;
             case EnemyState.pushAttack:
-                PushAttack();
+                if(isGround)
+                    PushAttack();
                 break;
         }
     }
@@ -182,6 +184,7 @@ public class Enemy01 : MonoBehaviour
             {
                 rb.AddForce(Vector3.down * 7f, ForceMode.Acceleration);
             }
+            isGround = false;
             //クールタイム処理
             StartCoroutine(EndJumpAttack());
         }
@@ -286,6 +289,8 @@ public class Enemy01 : MonoBehaviour
             Instantiate(smork, transform.position, Quaternion.identity);
 
             jumpAttackToFloor = false;
+
+            isGround = true;
         }
     }
 
